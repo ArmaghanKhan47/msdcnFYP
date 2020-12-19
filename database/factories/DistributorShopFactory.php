@@ -26,7 +26,7 @@ class DistributorShopFactory extends Factory
             'email' => $this->faker->unique()->email,
             'password' => $this->faker->password(),
             'DistributorShopName' => $this->faker->name,
-            'LiscenceNo' => (String) $this->faker->randomNumber(),
+            'LiscenceNo' => (String) $this->faker->unique()->randomNumber(),
             'CnicCardNumber' => (String) $this->faker->unique()->randomNumber(),
             'ContactNumber' => (String) $this->faker->phoneNumber,
             'CnicFrontPic' => $this->faker->image,

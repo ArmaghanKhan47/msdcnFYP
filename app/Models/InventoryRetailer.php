@@ -11,13 +11,8 @@ class InventoryRetailer extends Model
 
     protected $primaryKey = 'InventoryId';
 
-    public function retailer()
+    public function medicine()
     {
-        return $this->belongsTo(RetailerShop::class, 'foreign_key', 'local_key');
-    }
-
-    public function medicines()
-    {
-        return $this->hasMany(Medicine::class, 'MedicineId');
+        return $this->belongsTo(Medicine::class, 'MedicineId');
     }
 }

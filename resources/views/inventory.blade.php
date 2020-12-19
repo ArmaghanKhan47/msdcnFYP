@@ -9,26 +9,28 @@
     <body>
         <div>
             <h4>Retailer Info</h4>
-        <p>Retailer Name: {{$data[0]->RetailerName}}</p>
-        <p>Shop Name: {{$data[0]->RetailerShopName}}</p>
-        <p>Contact Number: {{$data[0]->ContactNumber}}</p>
-        <p>Region: {{$data[0]->Region}}</p>
-        <p>Account Status: {{$data[0]->AccountStatus}}</p>
+            <p>Retailer Name: {{$retailerInfo->RetailerName}}</p>
+            <p>Shop Name: {{$retailerInfo->RetailerShopName}}</p>
+            <p>Contact Number: {{$retailerInfo->ContactNumber}}</p>
+            <p>Region: {{$retailerInfo->Region}}</p>
+            <p>Account Status: {{$retailerInfo->AccountStatus}}</p>
         </div>
         <table>
             <tr>
                 <td>Medicine Name</td>
                 <td>Medicine Formula</td>
                 <td>Medicine Company</td>
+                <td>Medicine Type</td>
                 <td>Quantity</td>
                 <td>Unit Price</td>
             </tr>
-            @if (count($data[1]) > 0)
-                @foreach ($data[1] as $row)
+            @if (true)
+                @foreach ($retailerInfo->inventories as $row)
                     <tr>
-                    <td>{{$row->MedicineName}}</td>
-                    <td>{{$row->MedicineFormula}}</td>
-                    <td>{{$row->MedicineCompany}}</td>
+                    <td>{{$row->medicine->MedicineName}}</td>
+                    <td>{{$row->medicine->MedicineFormula}}</td>
+                    <td>{{$row->medicine->MedicineCompany}}</td>
+                    <td>{{$row->medicine->MedicineType}}</td>
                     <td>{{$row->Quantity}}</td>
                     <td>{{$row->UnitPrice}}</td>
                     </tr>

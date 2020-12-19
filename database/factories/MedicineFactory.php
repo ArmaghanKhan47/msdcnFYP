@@ -24,6 +24,8 @@ class MedicineFactory extends Factory
             "MedicineName" => $this->faker->name,
             "MedicineFormula" => json_encode([$this->faker->name, $this->faker->name]),
             "MedicineCompany" => $this->faker->name,
+            "MedicineType" => $this->faker->randomElement(["Tablets", "Drips", "Syrup", "Vial"]),
+            "MedicinePic" => $this->faker->image
         ];
     }
 }
