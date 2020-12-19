@@ -19,6 +19,7 @@ class CreateMedicinesTable extends Migration
             $table->string('MedicineName');
             $table->json('MedicineFormula');
             $table->string('MedicineCompany');
+            $table->string('MedicineType');
             $table->timestamps();
         });
     }

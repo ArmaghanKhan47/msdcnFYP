@@ -23,9 +23,9 @@ class CreateDistributorShopsTable extends Migration
             $table->string('LiscenceNo')->unique();
             $table->string('CnicCardNumber')->unique();
             $table->string('ContactNumber')->unique();
-            $table->binary('CnicFrontPic');
-            $table->binary('CnicBackPic');
-            $table->binary('LiscenceFrontPic');
+            $table->string('CnicFrontPic');
+            $table->string('CnicBackPic');
+            $table->string('LiscenceFrontPic');
             $table->integer('CreditCardDetail');
             $table->string('AccountStatus');
             $table->string('Region');

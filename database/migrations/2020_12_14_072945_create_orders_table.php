@@ -20,6 +20,10 @@ class CreateOrdersTable extends Migration
             $table->integer('RetailerId');
             $table->integer('DistributorId');
             $table->string('OrderStatus');
+            $table->integer('OrderId');
+            $table->string('PaymentMethod');
+            $table->double('PayableAmount');
+            $table->date('PayedDate');
             $table->date('OrderPlacingDate');
             $table->date('OrderCompletionDate');
 
