@@ -21,22 +21,19 @@ class DistributorShopFactory extends Factory
      */
     public function definition()
     {
+        $data = \App\Models\User::select('id')->get()->toArray();
+        $users = array();
+        foreach($data as $item)
+        {
+            array_push($users, array_values($item)[0]);
+        }
         return [
-            'DistributorName' => $this->faker->name,
-            'email' => $this->faker->unique()->email,
-            'password' => $this->faker->password(),
             'DistributorShopName' => $this->faker->name,
             'LiscenceNo' => (String) $this->faker->unique()->randomNumber(),
-            'CnicCardNumber' => (String) $this->faker->unique()->randomNumber(),
             'ContactNumber' => (String) $this->faker->phoneNumber,
-            'CnicFrontPic' => $this->faker->image,
-            'CnicBackPic' => $this->faker->image,
             'LiscenceFrontPic' => $this->faker->image,
-            'AccountStatus' => 'ACTIVE',
             'Region' => 'Hazara',
-            'CreditCardDetail' => function(){
-                return \App\Models\CreditCard::factory()->create()->id;
-            }
+            'UserId' => $this->faker->unique()->randomElement($users)
         ];
     }
 }

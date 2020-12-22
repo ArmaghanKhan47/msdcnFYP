@@ -16,23 +16,15 @@ class CreateDistributorShopsTable extends Migration
     {
         Schema::create('distributor_shops', function (Blueprint $table) {
             $table->integer('DistributorShopId')->autoIncrement();
-            $table->string('DistributorName');
-            $table->string('email')->unique();
-            $table->string('password');
             $table->string('DistributorShopName');
             $table->string('LiscenceNo')->unique();
-            $table->string('CnicCardNumber')->unique();
-            $table->string('ContactNumber')->unique();
-            $table->string('CnicFrontPic');
-            $table->string('CnicBackPic');
+            $table->string('ContactNumber');
             $table->string('LiscenceFrontPic');
-            $table->integer('CreditCardDetail');
-            $table->string('AccountStatus');
             $table->string('Region');
+            $table->bigInteger('UserId')->unsigned();
             $table->timestamps();
 
-
-            $table->foreign('CreditCardDetail')->references('rowId')->on('credit_cards');
+            $table->foreign('UserId')->references('id')->on('users');
         });
     }
 

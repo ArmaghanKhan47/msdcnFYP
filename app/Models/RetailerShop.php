@@ -11,13 +11,14 @@ class RetailerShop extends Model
 
     protected $primaryKey = 'RetailerShopId';
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function inventories(){
             return $this->hasMany(InventoryRetailer::class, 'RetailerShopId');
     }
 
-    // public function inventory()
-    // {
-    //     // return $this->hasMany(InventoryRetailer::class, 'RetailerShopId');
-    //     return InventoryRetailer::select(['Quantity', 'UnitPrice', 'MedicineName', 'MedicineFormula', 'MedicineCompany', 'MedicineType'])->join('medicines', 'medicines.medicineId','inventory_retailers.medicineId')->where('RetailerShopId', $this->RetailerShopId)->get();
-    // }
+    public function subscriptions()
+    {
+        return $this->hasMany(SubscriptionHistoryRetailer::class, 'RetailerId');
+    }
 }

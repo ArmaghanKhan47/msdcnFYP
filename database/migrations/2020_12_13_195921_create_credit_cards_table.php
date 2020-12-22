@@ -16,6 +16,7 @@ class CreateCreditCardsTable extends Migration
     {
         Schema::create('credit_cards', function (Blueprint $table) {
             $table->integer('rowId')->autoIncrement();
+            $table->string('CardHolderName');
             $table->bigInteger('CardNumber');
             $table->integer('ExpiryMonth');
             $table->integer('ExpiryYear');

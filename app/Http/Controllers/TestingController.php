@@ -2,24 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DistributorShop;
+use App\Models\InventoryDistributor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TestingController extends Controller
 {
     public function index()
     {
-        $d = function(){
-            //$data = \App\Models\RetailerShop::select('RetailerShopID')->get()->toArray();
-        $data = \App\Models\SubscriptionPackage::select('PackageId')->get()->toArray();
-        $new = array();
-        foreach($data as $item)
-        {
-            array_push($new, array_values($item)[0]);
-        }
-        //return view('testingViews.testing')->with('data', $new);
-        return $new;
-        };
-
-        return ;
+        // $data = DistributorShop::with('inventories.medicine')->select('DistributorShopId' ,'DistributorShopName')->get();
+        $data = InventoryDistributor::with('distributor', 'medicine')->get();
+        // return $data;
+        return view('testingViews.order')->with('data', $data);
     }
 }

@@ -23,6 +23,7 @@ class CreditCardFactory extends Factory
     {
         return [
             "CardNumber" => $this->faker->creditCardNumber,
+            "CardHolderName" => $this->faker->name,
             "ExpiryMonth" => $this->faker->randomDigit(),
             "ExpiryYear" => $this->faker->randomDigit(),
             "cvv" => $this->faker->randomNumber()

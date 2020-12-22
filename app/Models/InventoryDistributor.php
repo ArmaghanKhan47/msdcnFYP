@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class InventoryDistributor extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = 'InventoryId';
+
+    protected $hidden = ['created_at', 'updated_at'];
+
+    public function medicine()
+    {
+        return $this->belongsTo(Medicine::class, 'MedicineId');
+    }
+
+    public function distributor()
+    {
+        return $this->belongsTo(DistributorShop::class, 'DistributorShopId');
+    }
 }

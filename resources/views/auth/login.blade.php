@@ -2,12 +2,16 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
-                <div class="card-body">
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="jumbotron" style="height: 100%">
+                <span class="h1">About</span>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore repudiandae, nesciunt tenetur provident unde deleniti ut obcaecati quis distinctio rem accusamus atque. Commodi delectus omnis quia ipsum! Et, dicta possimus?Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore repudiandae, nesciunt tenetur provident unde deleniti ut obcaecati quis distinctio rem accusamus atque. Commodi delectus omnis quia ipsum! Et, dicta possimus?</p>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="jumbotron" style="height: 100%">
+                <span class="h1">{{ __('Login') }}</span>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
@@ -65,9 +69,11 @@
                             </div>
                         </div>
                     </form>
-                </div>
             </div>
         </div>
     </div>
 </div>
+<footer>
+    <span class="h1">Copyright</span>
+</footer>
 @endsection

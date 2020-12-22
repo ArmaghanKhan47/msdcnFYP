@@ -12,6 +12,8 @@ class Medicine extends Model
 
     protected $primaryKey = 'MedicineId';
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function inventory(){
         $this->hasOne(InventoryRetailer::class,'InventoryId');
     }

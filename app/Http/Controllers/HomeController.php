@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $userData = \App\Models\User::with('retailershop', 'retailershop.subscriptions', 'retailershop.subscriptions.package')->find(Auth::id());
+        if ($userData->retailerShop == null)
+        {
+            Auth::logout();
+            return 'Not Retailer';
+        }
+
+        // return $userData;
+        return view('home')->with('data', $userData);
     }
 }

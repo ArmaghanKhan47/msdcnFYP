@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class SubscriptionPackage extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = 'PackageId';
 }

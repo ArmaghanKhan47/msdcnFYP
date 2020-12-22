@@ -19,11 +19,11 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body style="overflow: hidden">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm sticky-top">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ route('home') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -45,7 +45,7 @@
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
-                            
+
                             @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
@@ -75,9 +75,25 @@
             </div>
         </nav>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+        <div class="row g-0 justifiy-content-center">
+              @if (url()->current() != url('/login'))
+              <div class="bg-light border-right col-xl-2">
+                <div class="list-group list-group-flush">
+                  <a href="/home" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+                  <a href="/retailer/inventory" class="list-group-item list-group-item-action bg-light">Inventory</a>
+                  <a href="#" class="list-group-item list-group-item-action bg-light disabled">Sales</a>
+                  <a href="/onlineorder" class="list-group-item list-group-item-action bg-light">Online Order</a>
+                  <a href="#" class="list-group-item list-group-item-action bg-light disabled">Reports</a>
+                  <a href="#" class="list-group-item list-group-item-action bg-light disabled">Transactions</a>
+                </div>
+              </div>
+              @endif
+            <div class="col-xl-10">
+                <div class="container mt-xl-2 overflow-auto" style="height: 42em">
+                    @yield('content')
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

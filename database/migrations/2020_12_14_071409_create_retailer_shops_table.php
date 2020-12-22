@@ -16,22 +16,15 @@ class CreateRetailerShopsTable extends Migration
     {
         Schema::create('retailer_shops', function (Blueprint $table) {
             $table->integer('RetailerShopId')->autoIncrement();
-            $table->string('RetailerName');
-            $table->string('email')->unique();
-            $table->string('password');
             $table->string('RetailerShopName');
             $table->string('LiscenceNo')->unique();
-            $table->string('CnicCardNumber')->unique();
-            $table->string('ContactNumber')->unique();
-            $table->string('CnicFrontPic');
-            $table->string('CnicBackPic');
             $table->string('LiscenceFrontPic');
-            $table->integer('CreditCardDetail');
-            $table->string('AccountStatus');
             $table->string('Region');
+            $table->bigInteger('UserId')->unsigned();
+            $table->string('ContactNumber');
             $table->timestamps();
 
-            $table->foreign('CreditCardDetail')->references('rowId')->on('credit_cards');
+            $table->foreign('UserId')->references('id')->on('users');
         });
     }
 

@@ -21,6 +21,7 @@ class CreateMedicinesTable extends Migration
             $table->string('MedicineCompany');
             $table->string('MedicineType');
             $table->string('MedicinePic');
+            $table->longText('MedicineDiscription');
             $table->timestamps();
         });
     }

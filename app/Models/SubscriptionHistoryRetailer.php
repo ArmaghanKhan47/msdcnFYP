@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class SubscriptionHistoryRetailer extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = 'HistoryId';
+
+    public function package()
+    {
+        return $this->belongsTo(SubscriptionPackage::class, 'SubscriptionPackageId');
+    }
 }

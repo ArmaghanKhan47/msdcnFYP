@@ -28,6 +28,14 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
+            'CreditCardId' => function(){
+                return \App\Models\CreditCard::factory()->create()->id;
+            },
+            'AccountStatus' => 'ACTIVE',
+            'CnicFrontPic' => $this->faker->image,
+            'CnicBackPic' => $this->faker->image,
+            'CnicCardNumber' => (String) $this->faker->unique()->randomNumber(),
+            'UserType' => $this->faker->randomElement(['Retailer', 'Distributor'])
         ];
     }
 }
