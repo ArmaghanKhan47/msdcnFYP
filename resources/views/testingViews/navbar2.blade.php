@@ -13,8 +13,14 @@
           </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search">
-        <button class="btn btn-success my-2 my-sm-0" type="button">Search</button>
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" id="searchquery">
+        <button class="btn btn-success my-2 my-sm-0" id="searchbtn" type="button">Search</button>
       </form>
     </div>
   </nav>
+  <script>
+      document.getElementById('searchbtn').addEventListener('click', function(){
+          var q = document.getElementById('searchquery').value;
+          alert(q);
+      });
+  </script>

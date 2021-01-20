@@ -14,7 +14,7 @@ class Medicine extends Model
 
     protected $hidden = ['created_at', 'updated_at'];
 
-    public function inventory(){
-        $this->hasOne(InventoryRetailer::class,'InventoryId');
+    public function inventorydistributor(){
+        return $this->hasOne(InventoryDistributor::class,'MedicineId');
     }
 }

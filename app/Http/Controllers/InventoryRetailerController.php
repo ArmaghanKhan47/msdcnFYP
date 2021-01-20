@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Medicine;
+use App\Models\RetailerShop;
+use Illuminate\Support\Facades\Auth;
 
-class MedicineController extends Controller
+class InventoryRetailerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,9 @@ class MedicineController extends Controller
      */
     public function index()
     {
-        //
+        $retailerInfo = RetailerShop::with('inventories','inventories.medicine')->where('UserId', Auth::id())->first();
+        // return $retailerInfo;
+        return view('inventory',compact('retailerInfo'));
     }
 
     /**
@@ -44,14 +47,9 @@ class MedicineController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $distributorid)
+    public function show($id)
     {
-        ////$id = Medicine Id
-        $data = Medicine::with(['inventorydistributor' => function($query) use ($distributorid)
-        {
-            $query->where('DistributorShopId', $distributorid);
-        }, 'inventorydistributor.distributor:DistributorShopId,DistributorShopName'])->find($id);
-        return view('testingViews.medicinedetail')->with('data', $data);
+
     }
 
     /**
