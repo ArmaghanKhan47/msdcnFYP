@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    @include('testingViews.navbar2')
+    @include('navbars.navbar2')
     {{-- @foreach ($data as $distributor)
         <div class="container">
             <p class="h3">{{$distributor->DistributorShopName}}</p>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    @include('testingViews.navbar2')
+    @include('navbars.navbar2')
     <div class="container">
         <div class="row">
             <div class="col-xl-6">

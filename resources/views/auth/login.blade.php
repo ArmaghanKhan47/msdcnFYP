@@ -1,7 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.app2')
 
 @section('content')
-<div class="container">
     <div class="row">
         <div class="col-xl-6">
             <div class="jumbotron" style="height: 100%">
@@ -72,7 +71,7 @@
             </div>
         </div>
     </div>
-    <div class="row mt-xl-1">
+    <div class="row mt-xl-3">
         <div class="col-xl-12">
             <div class="jumbotron p-4">
                 <span class="h1">Copyright</span>
@@ -80,8 +79,4 @@
             </div>
         </div>
     </div>
-</div>
-{{-- <footer class="mt-xl-1">
-
-</footer> --}}
 @endsection
