@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
+    <div class="row p-0">
         <div class="col-xl-6">
             <div class="jumbotron" style="height: 100%">
                 <span class="h1">About</span>
@@ -73,7 +73,9 @@
         </div>
     </div>
 </div>
-<footer>
-    <span class="h1">Copyright</span>
+<footer class="mt-xl-1">
+    <div class="jumbotron">
+        <span class="h1">Copyright</span>
+    </div>
 </footer>
 @endsection

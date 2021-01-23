@@ -76,7 +76,10 @@
         </nav>
 
         <div class="row g-0 justifiy-content-center">
-              @if (url()->current() != url('/login'))
+            @php
+                $links = array(url('/login'), url('/register'))
+            @endphp
+              @if (!in_array(url()->current(), $links))
               <div class="bg-light border-right col-xl-2">
                 <div class="list-group list-group-flush">
                   <a href="/home" class="list-group-item list-group-item-action bg-light">Dashboard</a>
