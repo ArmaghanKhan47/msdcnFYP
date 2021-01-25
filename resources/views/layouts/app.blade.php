@@ -32,10 +32,12 @@
                   <a href="/onlineorder" class="list-group-item list-group-item-action bg-light">Online Order</a>
                   <a href="#" class="list-group-item list-group-item-action bg-light disabled">Reports</a>
                   <a href="#" class="list-group-item list-group-item-action bg-light disabled">Transactions</a>
+                  <a href="#" class="list-group-item list-group-item-action bg-light disabled">Settings</a>
                 </div>
               </div>
             <div class="col-xl-10">
                 <div class="container mt-xl-3 overflow-auto" style="height: 42em">
+                    @include('inc.message')
                     @yield('content')
                 </div>
             </div>

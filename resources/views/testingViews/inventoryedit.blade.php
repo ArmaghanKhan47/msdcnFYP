@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+<form action="/inventory/{{$data->inventories[0]->InventoryId}}" method="POST">
+    @method('PUT')
+    @csrf
     <div class="container">
         <div class="row">
             <div class="col-xl-6">
@@ -22,14 +25,14 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text">Quantity</span>
                         </div>
-                        <input id="quantity" type="number" class="form-control" min="1" value="{{$data->inventories[0]->Quantity}}" max="1000">
+                        <input name="quantity" id="quantity" type="number" class="form-control" min="1" value="{{$data->inventories[0]->Quantity}}" max="1000">
                       </div>
 
                       <div class="input-group mb-3">
                           <div class="input-group-prepend">
                               <span class="input-group-text">Unit Price</span>
                           </div>
-                          <input id="totalprice" type="number" class="form-control" value="{{$data->inventories[0]->UnitPrice}}" min="0" max="10000">
+                          <input name="unitprice" id="totalprice" type="number" class="form-control" value="{{$data->inventories[0]->UnitPrice}}" min="0" max="10000">
                       </div>
                 </div>
             </div>
@@ -44,9 +47,12 @@
         </div>
         <div class="row">
             <div class="col-xl-12">
-                <a class="btn btn-success">Save Changes</a>
+
+                    <button class="btn btn-success" type="submit">Save Changes</button>
+
                 <a class="btn btn-danger float-right" href="{{url()->previous()}}">Discard</a>
             </div>
         </div>
     </div>
+</form>
 @endsection

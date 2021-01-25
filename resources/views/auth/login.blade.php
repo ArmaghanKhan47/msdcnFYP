@@ -5,7 +5,9 @@
         <div class="col-xl-6">
             <div class="jumbotron" style="height: 100%">
                 <span class="h1">About</span>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore repudiandae, nesciunt tenetur provident unde deleniti ut obcaecati quis distinctio rem accusamus atque. Commodi delectus omnis quia ipsum! Et, dicta possimus?Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore repudiandae, nesciunt tenetur provident unde deleniti ut obcaecati quis distinctio rem accusamus atque. Commodi delectus omnis quia ipsum! Et, dicta possimus?</p>
+                <p>
+                    The Medical Store Distributor Consumer Network (MSDCN) is a website which allows the user to maintain their inventory and to sell their stock, which will be used by Medical store and Pharmaceutical Distributors. This website will store details of medicine purchase and selling w.r.t Retailer and Distributor. The website will also consist of Billing generation, Reporting module, Transection and Medicine shortage notification module
+                </p>
             </div>
         </div>
         <div class="col-xl-6">
@@ -75,7 +77,9 @@
         <div class="col-xl-12">
             <div class="jumbotron p-4">
                 <span class="h1">Copyright</span>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore repudiandae, nesciunt tenetur provident unde deleniti ut obcaecati quis distinctio rem accusamus atque. Commodi delectus omnis quia ipsum! Et, dicta possimus?Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore repudiandae, nesciunt tenetur provident unde deleniti ut obcaecati quis distinctio rem accusamus atque. Commodi delectus omnis quia ipsum! Et, dicta possimus?</p>
+                <p>Armaghan Hasan (FA17-BSE-045)</p>
+                <p>Abdullah Iqbal (FA17-BSE-030)</p>
+                <p>Majid Durrani (FA17-BSE-021)</p>
             </div>
         </div>
     </div>

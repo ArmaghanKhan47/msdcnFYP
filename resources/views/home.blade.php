@@ -10,7 +10,13 @@
             <ul class="list-group">
                 <li class="list-group-item">Name: {{$data->name}}</li>
                 <li class="list-group-item">Email: {{$data->email}}</li>
-                <li class="list-group-item">Account Status: {{$data->AccountStatus}}</li>
+                <li class="list-group-item">Account Status:
+                    @if ($data->AccountStatus == "ACTIVE")
+                        <span class="btn btn-success disabled">{{$data->AccountStatus}}</span>
+                    @elseif ($data->AccountStatus == "DEACTIVE")
+                    <span class="btn btn-danger disabled">{{$data->AccountStatus}}</span>
+                    @endif
+                </li>
                 <li class="list-group-item">Shop Name: {{$data->retailershop->RetailerShopName}}</li>
                 <li class="list-group-item">Liscence No: {{$data->retailershop->LiscenceNo}}</li>
                 <li class="list-group-item">Region: {{$data->retailershop->Region}}</li>
