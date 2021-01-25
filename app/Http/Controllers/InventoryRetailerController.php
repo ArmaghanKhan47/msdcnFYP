@@ -60,7 +60,11 @@ class InventoryRetailerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = RetailerShop::select('RetailerShopId')->with(['inventories' => function($query) use ($id){
+            $query->where('MedicineId', $id);
+        },'inventories.medicine'])->where('UserId', Auth::id())->first();
+        return view('testingViews.inventoryedit')->with('data', $data);
+        return $data;
     }
 
     /**
