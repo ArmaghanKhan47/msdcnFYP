@@ -32,7 +32,7 @@
                           <div class="input-group-prepend">
                               <span class="input-group-text">Unit Price</span>
                           </div>
-                          <input name="unitprice" id="totalprice" type="number" class="form-control" value="{{$data->inventories[0]->UnitPrice}}" min="0" max="10000">
+                          <input name="unitprice" id="unitprice" type="number" step="any" class="form-control" value="{{$data->inventories[0]->UnitPrice}}" min="0" max="10000">
                       </div>
                 </div>
             </div>

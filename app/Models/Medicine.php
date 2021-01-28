@@ -17,4 +17,8 @@ class Medicine extends Model
     public function inventorydistributor(){
         return $this->hasOne(InventoryDistributor::class,'MedicineId');
     }
+
+    public function inventorydistributors(){
+        return $this->hasMany(InventoryDistributor::class,'MedicineId');
+    }
 }

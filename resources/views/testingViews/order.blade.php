@@ -33,7 +33,10 @@
         </div>
     @endforeach --}}
 
-    <div class="container">
+    <div class="container" id="orderDisplay">
+        <div class="container">
+            <span class="h5">Records Found: {{count($data)}}</span>
+        </div>
         @foreach ($data->chunk(4) as $row)
             <div class="row mt-5">
             @foreach ($row as $item)

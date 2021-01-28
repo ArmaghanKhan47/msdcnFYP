@@ -22,23 +22,26 @@
             </div>
             <div class="col-xl-6">
                 <div class="jumbotron p-5">
+                    <form>
+                        @csrf
                     <div class="form-group">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text">Quantity</span>
                             </div>
-                            <input id="quantity" type="number" class="form-control" min="1" max="{{$data->inventorydistributor->Quantity}}" value="1">
+                            <input id="quantity" name="quantity" type="number" class="form-control" min="1" max="{{$data->inventorydistributor->Quantity}}" value="1">
                           </div>
 
                           <div class="input-group mb-3">
                               <div class="input-group-prepend">
                                   <span class="input-group-text">Total Price</span>
                               </div>
-                              <input id="totalprice" type="number" class="form-control" readonly value="{{$data->inventorydistributor->UnitPrice}}">
+                              <input id="totalprice" name="totalprice" type="number" class="form-control" readonly value="{{$data->inventorydistributor->UnitPrice}}">
                           </div>
 
                           <input id="btnaddtocart" type="button" value="Add to Cart" class="form-control btn btn-success">
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -58,7 +61,9 @@
             });
 
             document.getElementById('btnaddtocart').addEventListener('click', function(){
-                alert('Functionality To Be Added');
+                var quantity = document.getElementById('quantity').value;
+                var totalprice = document.getElementById('totalprice').value;
+                alert('Order Details: Quantity->' + quantity + ' Total Price->' + totalprice);
             });
         </script>
     </div>

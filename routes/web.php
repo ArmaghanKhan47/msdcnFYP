@@ -3,6 +3,7 @@
 use App\Http\Controllers\InventoryRetailerController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\RetailerInventorysController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TestingController;
 use App\Models\InventoryRetailer;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,8 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/onlineorder', [TestingController::class, 'index']);
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('medicine/{id}/detail/{distributorid}', [MedicineController::class, 'show'])->whereNumber(['id', 'distributorid']);
+    Route::get('/medicine/{id}/detail/{distributorid}', [MedicineController::class, 'show'])->whereNumber(['id', 'distributorid']);
     Route::resource('/inventory', InventoryRetailerController::class);
+
+    Route::post('/search/{option}/{query}', [SearchController::class, 'search'])->whereNumber('option')->whereAlphaNumeric('query');
 });
