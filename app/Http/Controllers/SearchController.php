@@ -28,7 +28,7 @@ class SearchController extends Controller
         }
     }
 
-    public function searchByMedicine($query)
+    public static function searchByMedicine($query)
     {
         $result = Medicine::with(['inventorydistributors', 'inventorydistributors.distributor'])->where('MedicineName', 'LIKE', '%' . $query . '%')->first();
         return view('search.bymedicine')->with('data', $result);
@@ -42,7 +42,8 @@ class SearchController extends Controller
 
     public function searchByFormula($query)
     {
-        return 'Search By Formula Worked with query ' . $query;
+        $result = Medicine::with(['inventorydistributors', 'inventorydistributors.distributor'])->where('MedicineFormula', 'LIKE', '%' . $query . '%')->first();
+        return view('search.bymedicine')->with('data', $result);
     }
 
     public function searchByCompany($query)

@@ -6,7 +6,7 @@
         @foreach ($row as $item)
             <div class="col-xl-3">
                 <ul class="list-group">
-                    <li class="list-group-item active">Medicine Name: {{$item->medicine->MedicineName}}</li>
+                    <li class="list-group-item text-white bg-dark">Medicine Name: {{$item->medicine->MedicineName}}</li>
                     <li class="list-group-item">Company Name: {{$item->medicine->MedicineCompany}}</li>
                     <li class="list-group-item">Distributor Name: {{$data->DistributorShopName}}</li>
                     <li class="list-group-item">Formula:
