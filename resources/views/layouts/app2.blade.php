@@ -25,7 +25,7 @@
 
         <div class="row justifiy-content-center">
             <div class="col-xl-12">
-                <div class="container mt-xl-3 overflow-hidden" style="height: 42em">
+                <div class="container mt-xl-3" style="height: 42em">
                     @include('inc.message')
                     @yield('content')
                 </div>

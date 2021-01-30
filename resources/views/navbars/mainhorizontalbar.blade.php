@@ -9,8 +9,16 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
-            <ul class="navbar-nav mr-auto">
-
+            <ul class="navbar-nav mr-auto d-block d-md-none">
+                <div class="list-group list-group-flush border">
+                    <a href="/home" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+                    <a href="/inventory" class="list-group-item list-group-item-action bg-light">Inventory</a>
+                    <a href="#" class="list-group-item list-group-item-action bg-light disabled">Sales</a>
+                    <a href="/onlineorder" class="list-group-item list-group-item-action bg-light">Online Order</a>
+                    <a href="#" class="list-group-item list-group-item-action bg-light disabled">Reports</a>
+                    <a href="#" class="list-group-item list-group-item-action bg-light disabled">Transactions</a>
+                    <a href="#" class="list-group-item list-group-item-action bg-light disabled">Settings</a>
+                  </div>
             </ul>
 
             <!-- Right Side Of Navbar -->

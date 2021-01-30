@@ -5,7 +5,25 @@
         <div class="row">
             <div class="col-xl-6">
                 <div class="jumbotron p-1">
-                    <ul class="list-group bg-light list-group-flush">
+                    <div class="card">
+                        <img src="/storage/img/default.jpg">
+                        <div class="card-body">
+                            <span class="h5 d-block">{{$data->MedicineName}} - {{$data->MedicineType}}</span>
+                            <span class="h6 d-block text-muted">By {{$data->MedicineCompany}}</span>
+                            <span class="h6 d-block text-muted">{{$data->inventorydistributor->distributor->DistributorShopName}}</span>
+                            <span class="h6 d-block text-muted">
+                                Contains
+                                @foreach (json_decode($data->MedicineFormula) as $item)
+                                    {{$item}},
+                                @endforeach
+                            </span>
+                            <div>
+                                <span><span id="unitprice">{{$data->inventorydistributor->UnitPrice}}</span>{{' PKR'}}</span>
+                                <span class="float-right">In Stock {{$data->inventorydistributor->Quantity}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- <ul class="list-group bg-light list-group-flush">
                         <li class="list-group-item">Medicine Name: {{$data->MedicineName}}</li>
                         <li class="list-group-item">Company Name: {{$data->MedicineCompany}}</li>
                         <li class="list-group-item">Distributor Name: {{$data->inventorydistributor->distributor->DistributorShopName}}</li>
@@ -17,11 +35,11 @@
                         <li class="list-group-item">Medicine Type: {{$data->MedicineType}}</li>
                         <li class="list-group-item">Unit Price: <span id="unitprice">{{$data->inventorydistributor->UnitPrice}}</span>{{' PKR'}}</li>
                         <li class="list-group-item">Available Stock: {{$data->inventorydistributor->Quantity}}</li>
-                    </ul>
+                    </ul> --}}
                 </div>
             </div>
             <div class="col-xl-6">
-                <div class="jumbotron p-5">
+                <div class="jumbotron p-4">
                     <form>
                         @csrf
                     <div class="form-group">
@@ -43,10 +61,6 @@
                     </div>
                     </form>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xl-12">
                 <div class="jumbotron p-4">
                     <span class="h1">Discription</span>
                     <p>{{$data->MedicineDiscription}}</p>

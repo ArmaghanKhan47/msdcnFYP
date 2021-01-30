@@ -25,8 +25,6 @@ Route::get('/', function () {
     return redirect('/home');
 });
 
-Route::get('/test', [TestingController::class, 'index']);
-
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
