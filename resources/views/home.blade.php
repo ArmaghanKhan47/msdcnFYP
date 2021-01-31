@@ -4,7 +4,7 @@
 <div class="container">
     <div class="card mt-xl-2">
         <div class="card-header">
-            <p class="display-4">Retailer Info</p>
+            <p class="display-4">{{$data->UserType}} Info</p>
         </div>
         <div class="card-body">
             <ul class="list-group">
@@ -33,22 +33,21 @@
         <td>Package Price</td>
         <td>Package Duration</td>
         <td>Start Date</td>
-        <td>Created At</td>
-        <td>Updated At</td>
+        <td>End Date</td>
     </tr>
     @if (count($data->retailershop->subscriptions) > 0)
         @foreach ($data->retailershop->subscriptions as $row)
             <tr>
                 <td>{{$row->package->PackageName}}</td>
                 <td>{{$row->package->PackagePrice}}</td>
-                <td>{{$row->package->PackageDuration}}</td>
+                <td>{{$row->package->PackageDuration}} Months</td>
                 <td>{{$row->startDate}}</td>
-                <td>{{$row->created_at}}</td>
-                <td>{{$row->updated_at}}</td>
+                <td>{{date('Y-m-d', strtotime($row->startDate . "+".(string)$row->package->PackageDuration." months"))}}</td>
             </tr>
         @endforeach
     @else
         <p>No Record Found</p>
+        <p>Click <a class="btn btn-success" href="{{route('subscription.index')}}">Here</a> to view offers and subscribe</p>
     @endif
 </table>
 </div>

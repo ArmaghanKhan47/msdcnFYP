@@ -11,6 +11,12 @@ class SubscriptionHistoryRetailer extends Model
 
     protected $primaryKey = 'HistoryId';
 
+    protected $fillable = [
+        'SubscriptionPackageId',
+        'RetailerId',
+        'startDate'
+    ];
+
     public function package()
     {
         return $this->belongsTo(SubscriptionPackage::class, 'SubscriptionPackageId');

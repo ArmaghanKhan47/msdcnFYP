@@ -13,6 +13,15 @@ class RetailerShop extends Model
 
     protected $hidden = ['created_at', 'updated_at'];
 
+    protected $fillable = [
+        'RetailerShopName',
+        'LiscenceNo',
+        'Region',
+        'UserId',
+        'ContactNumber',
+        'LiscenceFrontPic'
+    ];
+
     public function inventories(){
             return $this->hasMany(InventoryRetailer::class, 'RetailerShopId');
     }

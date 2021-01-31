@@ -13,7 +13,21 @@ class DistributorShop extends Model
 
     protected $hidden = ['created_at', 'updated_at'];
 
+    protected $fillable = [
+        'DistributorShopName',
+        'LiscenceNo',
+        'Region',
+        'UserId',
+        'ContactNumber',
+        'LiscenceFrontPic'
+    ];
+
     public function inventories(){
             return $this->hasMany(InventoryDistributor::class, 'DistributorShopId');
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(SubscriptionHistoryDistributor::class, 'DistributorId');
     }
 }

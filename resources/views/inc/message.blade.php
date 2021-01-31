@@ -14,6 +14,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
     </div>
+    {{Session::forget('success')}}
 @endif
 
 @if (session('error'))
@@ -22,4 +23,5 @@
             <span aria-hidden="true">&times;</span>
           </button>
     </div>
+    {{Session::forget('error')}}
 @endif

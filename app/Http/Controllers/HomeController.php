@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use function PHPUnit\Framework\assertEmpty;
+
 class HomeController extends Controller
 {
     /**
@@ -26,10 +28,23 @@ class HomeController extends Controller
     public function index()
     {
         $userData = \App\Models\User::with('retailershop', 'retailershop.subscriptions', 'retailershop.subscriptions.package')->find(Auth::id());
-        if ($userData->retailerShop == null)
+        if ($userData->UserType != 'Retailer')
         {
+            //User is not retailer
             Auth::logout();
-            return 'Not Retailer';
+            return redirect(route('login'))->with('error', 'Only Retailer Login');
+        }
+
+        if ($userData->retailershop == null)
+        {
+            //User hasn't completed registration process
+            return redirect(route('shopregistration.index'));
+        }
+
+        if ($userData->retailershop->subscriptions->count() == 0)
+        {
+            //Not subscribed any offer
+            session(['error' => 'You Haven\'t Subscribed yet!']);
         }
 
         // return $userData;

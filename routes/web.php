@@ -1,12 +1,14 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\InventoryRetailerController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RetailerInventorysController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\TestingController;
 use App\Models\InventoryRetailer;
+use App\Http\Controllers\ShopRegistrationController;
+use App\Http\Controllers\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,4 +36,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/inventory', InventoryRetailerController::class);
 
     Route::post('/search/{option}/{query}', [SearchController::class, 'search'])->whereNumber('option')->whereAlphaNumeric('query');
+
+    Route::resource('/shopregistration', ShopRegistrationController::class);
+
+    Route::resource('/subscription', SubscriptionController::class);
 });

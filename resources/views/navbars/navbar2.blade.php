@@ -26,7 +26,7 @@
                     <option value="4">By Company</option>
                     </select>
             </div>
-            <input id="searchquery" type="text" class="form-control" placeholder="Search">
+            <input id="searchquery" name="q" type="text" class="form-control" placeholder="Search">
             <div class="input-group-prepend">
 
                 <button class="btn btn-success" type="button" id="searchbtn">
