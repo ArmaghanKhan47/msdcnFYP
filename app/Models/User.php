@@ -52,7 +52,7 @@ class User extends Authenticatable
         return $this->hasOne(RetailerShop::class, 'UserId');
     }
 
-    public function distributorShop()
+    public function distributorshop()
     {
         return $this->hasOne(DistributorShop::class, 'UserId');
     }

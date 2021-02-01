@@ -29,10 +29,14 @@
                   <a href="/home" class="list-group-item list-group-item-action bg-light">Dashboard</a>
                   <a href="/inventory" class="list-group-item list-group-item-action bg-light">Inventory</a>
                   <a href="#" class="list-group-item list-group-item-action bg-light disabled">Sales</a>
-                  <a href="/onlineorder" class="list-group-item list-group-item-action bg-light">Online Order</a>
+                  @if (Auth::user()->UserType == 'Retailer')
+                        <a href="/onlineorder" class="list-group-item list-group-item-action bg-light">Online Order</a>
+                    @elseif(Auth::user()->UserType == 'Distributor')
+                    <a href="#" class="list-group-item list-group-item-action bg-light disabled">Orders</a>
+                    @endif
                   <a href="#" class="list-group-item list-group-item-action bg-light disabled">Reports</a>
                   <a href="#" class="list-group-item list-group-item-action bg-light disabled">Transactions</a>
-                  <a href="#" class="list-group-item list-group-item-action bg-light disabled">Subscription History</a>
+                  <a href="/subscriptionhistory" class="list-group-item list-group-item-action bg-light">Subscription History</a>
                   <a href="#" class="list-group-item list-group-item-action bg-light disabled">Settings</a>
                 </div>
             </div>

@@ -52,6 +52,7 @@ class MedicineController extends Controller
             $query->where('DistributorShopId', $distributorid);
         }, 'inventorydistributor.distributor:DistributorShopId,DistributorShopName'])->find($id);
         return view('testingViews.medicinedetail')->with('data', $data);
+        return $data;
     }
 
     /**

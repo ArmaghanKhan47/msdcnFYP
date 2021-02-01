@@ -9,5 +9,16 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $primaryKey = 'OrderId';
+
+    protected $fillable = [
+        'RetailerId',
+        'DistributorId',
+        'OrderStatus',
+        'PaymentMethod',
+        'PayableAmount',
+        'PayedDate',
+        'OrderPlacingDate',
+        'OrderCompletionDate'
+    ];
 }

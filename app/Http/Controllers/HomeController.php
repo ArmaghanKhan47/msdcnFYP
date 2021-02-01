@@ -27,27 +27,87 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $userData = \App\Models\User::with('retailershop', 'retailershop.subscriptions', 'retailershop.subscriptions.package')->find(Auth::id());
-        if ($userData->UserType != 'Retailer')
+        // $userData = User::with('retailershop')->find(Auth::id());
+        $userData = $this->getUserData();
+
+        $shop = $this->getUserShop($userData);
+        if($shop != null)
         {
-            //User is not retailer
-            Auth::logout();
-            return redirect(route('login'))->with('error', 'Only Retailer Login');
+            return $shop;
         }
 
-        if ($userData->retailershop == null)
-        {
-            //User hasn't completed registration process
-            return redirect(route('shopregistration.index'));
-        }
-
-        if ($userData->retailershop->subscriptions->count() == 0)
-        {
-            //Not subscribed any offer
-            session(['error' => 'You Haven\'t Subscribed yet!']);
-        }
+        $this->getSubscription($userData);
 
         // return $userData;
         return view('home')->with('data', $userData);
+    }
+
+    private function getUserData()
+    {
+        //Return User Data
+        switch(Auth::user()->UserType)
+        {
+            case 'Retailer':
+                $userData = User::with('retailershop', 'retailershop.subscriptions')->find(Auth::id());
+                return $userData;
+                break;
+
+            case 'Distributor':
+                $userData = User::with('distributorshop', 'distributorshop.subscriptions')->find(Auth::id());
+                return $userData;
+                break;
+
+            default:
+                return null;
+        }
+    }
+
+    private function getUserShop($userData)
+    {
+        //Check that shop exist or note
+        //Meaning Registration is incomplete
+        switch(Auth::user()->UserType)
+        {
+            case 'Retailer':
+                if ($userData->retailershop == null)
+                {
+                    return redirect(route('shopregistration.index'));
+                }
+                break;
+
+            case 'Distributor':
+                if ($userData->distributorshop == null)
+                {
+                    return redirect(route('shopregistration.index'));
+                }
+                break;
+
+            default:
+                return null;
+                break;
+        }
+    }
+
+    private function getSubscription($userData)
+    {
+        //Checks that user has 1st subscription or not
+        switch(Auth::user()->UserType)
+        {
+            case 'Retailer':
+                if ($userData->retailershop->subscriptions->count() == 0)
+                {
+                    //Not subscribed any offer
+                    session(['error' => 'You Haven\'t Subscribed yet!']);
+                }
+                break;
+
+            case 'Distributor':
+                if ($userData->distributorshop->subscriptions->count() == 0)
+                    {
+                        //Not subscribed any offer
+                        session(['error' => 'You Haven\'t Subscribed yet!']);
+                    }
+                break;
+        }
     }
 }

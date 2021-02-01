@@ -11,8 +11,8 @@
         <th>Unit Price</th>
         <th>Action</th>
     </tr>
-    @if (count($retailerInfo->inventories) > 0)
-        @foreach ($retailerInfo->inventories as $row)
+    @if (count($info->inventories) > 0)
+        @foreach ($info->inventories as $row)
             <tr>
                 <td>{{$row->medicine->MedicineName}}</td>
                 <td>

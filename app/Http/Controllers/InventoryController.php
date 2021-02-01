@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DistributorShop;
 use App\Models\InventoryRetailer;
 use Illuminate\Http\Request;
 use App\Models\RetailerShop;
 use Illuminate\Support\Facades\Auth;
 
-class InventoryRetailerController extends Controller
+class InventoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +17,18 @@ class InventoryRetailerController extends Controller
      */
     public function index()
     {
-        $retailerInfo = RetailerShop::with('inventories','inventories.medicine')->where('UserId', Auth::id())->first();
-        // return $retailerInfo;
-        return view('inventory',compact('retailerInfo'));
+        $info = null;
+        switch(Auth::user()->UserType)
+        {
+            case 'Retailer':
+                $info = RetailerShop::with('inventories','inventories.medicine')->select('RetailerShopId')->where('UserId', Auth::id())->first();
+                break;
+            case 'Distributor':
+                $info = DistributorShop::with('inventories', 'inventories.medicine')->select('DistributorShopId')->where('UserId', Auth::id())->first();
+                break;
+        }
+        // return $info;
+        return view('inventory',compact('info'));
     }
 
     /**
@@ -82,7 +92,7 @@ class InventoryRetailerController extends Controller
             'quantity' => 'required',
             'unitprice' => 'required'
         ]);
-        
+
         $record = InventoryRetailer::find($id);
         $record->quantity = $request->input('quantity');
         $record->unitprice = $request->input('unitprice');

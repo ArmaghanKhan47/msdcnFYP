@@ -17,6 +17,11 @@ class SubscriptionHistoryRetailer extends Model
         'startDate'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function package()
     {
         return $this->belongsTo(SubscriptionPackage::class, 'SubscriptionPackageId');

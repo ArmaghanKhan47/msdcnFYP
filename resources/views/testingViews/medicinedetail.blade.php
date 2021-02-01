@@ -40,24 +40,28 @@
             </div>
             <div class="col-xl-6">
                 <div class="jumbotron p-4">
-                    <form>
+                    <form method="POST" action="/cart">
                         @csrf
+                        @method('PUT')
+                        <input type="hidden" name="medicineid" value="{{$data->MedicineId}}">
+                        <input type="hidden" name="distributorid" value="{{$data->inventorydistributor->distributor->DistributorShopId}}">
+                        <input type="hidden" name="unitprice" value="{{$data->inventorydistributor->UnitPrice}}">
                     <div class="form-group">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text">Quantity</span>
                             </div>
-                            <input id="quantity" name="quantity" type="number" class="form-control" min="1" max="{{$data->inventorydistributor->Quantity}}" value="1">
+                            <input id="quantity" name="quantity" type="number" class="form-control" min="1" max="{{$data->inventorydistributor->Quantity}}" value="1" required>
                           </div>
 
                           <div class="input-group mb-3">
                               <div class="input-group-prepend">
                                   <span class="input-group-text">Total Price</span>
                               </div>
-                              <input id="totalprice" name="totalprice" type="number" class="form-control" readonly value="{{$data->inventorydistributor->UnitPrice}}">
+                              <input id="totalprice" name="totalprice" type="number" class="form-control" readonly value="{{$data->inventorydistributor->UnitPrice}}" required>
                           </div>
 
-                          <input id="btnaddtocart" type="button" value="Add to Cart" class="form-control btn btn-success">
+                          <input id="btnaddtocart" type="submit" value="Add to Cart" class="form-control btn btn-success">
                     </div>
                     </form>
                 </div>
@@ -74,11 +78,11 @@
                 document.getElementById('totalprice').value = (quantity * unitprice).toFixed(2);
             });
 
-            document.getElementById('btnaddtocart').addEventListener('click', function(){
-                var quantity = document.getElementById('quantity').value;
-                var totalprice = document.getElementById('totalprice').value;
-                alert('Order Details: Quantity->' + quantity + ' Total Price->' + totalprice);
-            });
+            // document.getElementById('btnaddtocart').addEventListener('click', function(){
+            //     var quantity = document.getElementById('quantity').value;
+            //     var totalprice = document.getElementById('totalprice').value;
+            //     alert('Order Details: Quantity->' + quantity + ' Total Price->' + totalprice);
+            // });
         </script>
     </div>
 @endsection

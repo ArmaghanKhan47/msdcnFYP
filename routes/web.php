@@ -1,14 +1,15 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\InventoryRetailerController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\RetailerInventorysController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\SearchController;
 use App\Models\InventoryRetailer;
 use App\Http\Controllers\ShopRegistrationController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\SubscriptionHistoryController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,11 +34,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/onlineorder', [OrderController::class, 'index']);
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/medicine/{id}/detail/{distributorid}', [MedicineController::class, 'show'])->whereNumber(['id', 'distributorid']);
-    Route::resource('/inventory', InventoryRetailerController::class);
+    Route::resource('/inventory', InventoryController::class);
 
     Route::post('/search/{option}/{query}', [SearchController::class, 'search'])->whereNumber('option')->whereAlphaNumeric('query');
 
     Route::resource('/shopregistration', ShopRegistrationController::class);
 
     Route::resource('/subscription', SubscriptionController::class);
+
+    Route::get('/subscriptionhistory', [SubscriptionHistoryController::class, 'index']);
+
+    Route::get('/cart', [CartController::class, 'index']);
+    Route::put('/cart', [CartController::class, 'store']);
 });

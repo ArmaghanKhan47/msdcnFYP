@@ -7,7 +7,20 @@
         <div class="row">
             <div class="col-xl-6">
                 <div class="jumbotron p-1">
-                    <ul class="list-group bg-light list-group-flush">
+                    <div class="card">
+                        <img src="/storage/img/default.jpg">
+                        <div class="card-body">
+                            <span class="h5 d-block">{{$data->inventories[0]->medicine->MedicineName}} - {{$data->inventories[0]->medicine->MedicineType}}</span>
+                            <span class="h6 d-block text-muted">By {{$data->inventories[0]->medicine->MedicineCompany}}</span>
+                            <span class="h6 d-block text-muted">
+                                Contains
+                                @foreach (json_decode($data->inventories[0]->medicine->MedicineFormula) as $item)
+                                    {{$item}},
+                                @endforeach
+                            </span>
+                        </div>
+                    </div>
+                    {{-- <ul class="list-group bg-light list-group-flush">
                         <li class="list-group-item">Medicine Name: {{$data->inventories[0]->medicine->MedicineName}}</li>
                         <li class="list-group-item">Company Name: {{$data->inventories[0]->medicine->MedicineCompany}}</li>
                         <li class="list-group-item">Formula:
@@ -16,7 +29,7 @@
                             @endforeach
                         </li>
                         <li class="list-group-item">Medicine Type: {{$data->inventories[0]->medicine->MedicineType}}</li>
-                    </ul>
+                    </ul> --}}
                 </div>
             </div>
             <div class="col-xl-6">
@@ -35,14 +48,12 @@
                           <input name="unitprice" id="unitprice" type="number" step="any" class="form-control" value="{{$data->inventories[0]->UnitPrice}}" min="0" max="10000">
                       </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xl-12">
+
                 <div class="jumbotron p-4">
-                    <span>Discription</span>
+                    <span class="h1">Discription</span>
                     <p>{{$data->inventories[0]->medicine->MedicineDiscription}}</p>
                 </div>
+
             </div>
         </div>
         <div class="row">
