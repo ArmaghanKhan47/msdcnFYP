@@ -10,4 +10,24 @@ class OrderItem extends Model
     use HasFactory;
 
     protected $primaryKey = 'ItemId';
+
+    protected $fillable = [
+        'OrderId',
+        'MedicineId',
+        'Quantity',
+        'Subtotal'
+    ];
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'OrderId');
+    }
+
+    public function medicine()
+    {
+        return $this->hasOne(Medicine::class, 'MedicineId');
+    }
+
 }
+
+?>

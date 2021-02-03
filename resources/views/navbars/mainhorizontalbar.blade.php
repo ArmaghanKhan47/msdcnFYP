@@ -21,7 +21,7 @@
                         <a href="#" class="list-group-item list-group-item-action bg-light disabled">Orders</a>
                     @endif
                     <a href="#" class="list-group-item list-group-item-action bg-light disabled">Reports</a>
-                    <a href="#" class="list-group-item list-group-item-action bg-light disabled">Transactions</a>
+                    <a href="/order/history" class="list-group-item list-group-item-action bg-light disabled">Order History</a>
                     <a href="/subscriptionhistory" class="list-group-item list-group-item-action bg-light">Subscription History</a>
                     <a href="#" class="list-group-item list-group-item-action bg-light disabled">Settings</a>
                   </div>

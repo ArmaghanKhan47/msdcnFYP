@@ -1,0 +1,87 @@
+@extends('layouts.app')
+@section('content')
+    @include('navbars.navbar2')
+    <div class="row">
+        <div class="col-md-6">
+            <div class="jumbotron p-3">
+                <span class="h5 d-block">Shipping Address</span>
+                <input id="shipping1" class="form-control" type="text" name="shippingAddress" value="@if($data[1]->shopAddress){{$data[1]->shopAddress}}@endif" required>
+            </div>
+            <div class="jumbotron p-3">
+                <span class="h5 d-block">Tips</span>
+                <ul>
+                    <li>If you change the address, It will also updated in the database</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="jumbotron p-1">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="h5">Credit Card Details</span>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/ordercheckout" id="form1">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="retailerid" value="{{$data[1]->RetailerShopId}}">
+                            <input id="shipping2" type="hidden" name="shippingAddress" value="">
+                            <label for="holdername">Card Holder Name</label>
+                            <input type="text" class="form-control" name="holdername" id="holdername" value="{{$data[2]->CardHolderName}}" required>
+
+                            @error('holdername')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+
+                            <label for="cardnumber" class="mt-2">Card Number</label>
+                            <input type="text" class="form-control" name="cardnumber" id="cardnumber" max="16" pattern="[0-9]{16}" required value="@if($data[2]){{$data[2]->CardNumber}}@endif">
+
+                            @error('cardnumber')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+
+                            <label class="mt-2" for="expirydate">Expiry Date</label>
+                            <div class="input-group" id="expirydate">
+                                <input class="form-control" type="text" name="expirymonth" id="expirymonth" placeholder="mm" max="2" pattern="[0-9]{2}" required value="@if($data[2]){{$data[2]->ExpiryMonth}}@endif">
+                                <input class="form-control" type="text" name="expiryyear" id="expiryyear" placeholder="yy" max="2" pattern="[0-9]{2}" required value="@if($data[2]){{$data[2]->ExpiryYear}}@endif">
+                            </div>
+
+                            @error(['expirymonth', 'expiryyear'])
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+
+                            <label class="mt-2" for="cvv">CVV Code</label>
+                            <input class="form-control" type="text" name="cvv" id="cvv" placeholder="0000" max="4" pattern="[0-9]{4}" required value="@if($data[2]){{$data[2]->cvv}}@endif">
+
+                            @error('cvv')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+
+                            <button type="button" class="btn btn-primary btn-block mt-2">
+                                <span class="float-left">Final Payment</span>
+                                <span class="float-right">{{$data[0]->sum('totalprice')}} PKR</span>
+                            </button>
+
+                            <button id="submitbtn" type="submit" class="btn btn-success btn-block mt-2">Pay</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var submitbtn = document.getElementById('submitbtn').addEventListener('click', function(event){
+            event.preventDefault();
+            document.getElementById('shipping2').value = document.getElementById('shipping1').value;
+            document.getElementById('form1').submit();
+        });
+    </script>
+@endsection

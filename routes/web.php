@@ -32,6 +32,10 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/onlineorder', [OrderController::class, 'index']);
+    Route::get('/ordercheckout', [OrderController::class, 'create']);
+    Route::put('/ordercheckout', [OrderController::class, 'store']);
+    Route::get('/order/history',[OrderController::class, 'show']);
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/medicine/{id}/detail/{distributorid}', [MedicineController::class, 'show'])->whereNumber(['id', 'distributorid']);
     Route::resource('/inventory', InventoryController::class);

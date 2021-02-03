@@ -19,6 +19,22 @@ class Order extends Model
         'PayableAmount',
         'PayedDate',
         'OrderPlacingDate',
-        'OrderCompletionDate'
+        'OrderCompletionDate',
+        'deliveryAddress'
     ];
+
+    public function orderitems()
+    {
+        return $this->hasMany(OrderItem::class, 'OrderId');
+    }
+
+    public function distributor()
+    {
+        return $this->belongsTo(DistributorShop::class, 'DistributorId');
+    }
+
+    public function retailer()
+    {
+        return $this->belongsTo(RetailerShop::class, 'RetailerId');
+    }
 }

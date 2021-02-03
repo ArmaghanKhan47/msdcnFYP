@@ -40,7 +40,7 @@
                 <span class="h5">Grand Total</span>
                 <span class="h5 float-right">{{$cart->sum('totalprice') . ' PKR'}}</span>
             </div>
-            <button class="btn btn-success btn-block align-bottom">Checkout</button>
+            <a class="btn btn-success btn-block align-bottom" href="/ordercheckout">Checkout</a>
         </div>
     </div>
 @endsection

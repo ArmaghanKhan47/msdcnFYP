@@ -22,9 +22,9 @@ class CreateOrdersTable extends Migration
             $table->string('OrderStatus');
             $table->string('PaymentMethod');
             $table->double('PayableAmount');
-            $table->date('PayedDate');
+            $table->date('PayedDate')->nullable();
             $table->date('OrderPlacingDate');
-            $table->date('OrderCompletionDate');
+            $table->date('OrderCompletionDate')->nullable();
 
             $table->foreign('RetailerId')->references('RetailerShopId')->on('retailer_shops');
             $table->foreign('DistributorId')->references('DistributorShopId')->on('distributor_shops');

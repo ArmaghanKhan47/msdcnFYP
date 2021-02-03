@@ -18,6 +18,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- Bootstrap Icon CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 </head>
 <body style="overflow: hidden">
     <div id="app">
@@ -35,7 +38,7 @@
                     <a href="#" class="list-group-item list-group-item-action bg-light disabled">Orders</a>
                     @endif
                   <a href="#" class="list-group-item list-group-item-action bg-light disabled">Reports</a>
-                  <a href="#" class="list-group-item list-group-item-action bg-light disabled">Transactions</a>
+                  <a href="/order/history" class="list-group-item list-group-item-action bg-light">Order History</a>
                   <a href="/subscriptionhistory" class="list-group-item list-group-item-action bg-light">Subscription History</a>
                   <a href="#" class="list-group-item list-group-item-action bg-light disabled">Settings</a>
                 </div>
