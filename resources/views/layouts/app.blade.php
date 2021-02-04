@@ -32,13 +32,15 @@
                   <a href="/home" class="list-group-item list-group-item-action bg-light">Dashboard</a>
                   <a href="/inventory" class="list-group-item list-group-item-action bg-light">Inventory</a>
                   <a href="#" class="list-group-item list-group-item-action bg-light disabled">Sales</a>
-                  @if (Auth::user()->UserType == 'Retailer')
+                  @user ('Retailer')
                         <a href="/onlineorder" class="list-group-item list-group-item-action bg-light">Online Order</a>
-                    @elseif(Auth::user()->UserType == 'Distributor')
-                    <a href="#" class="list-group-item list-group-item-action bg-light disabled">Orders</a>
-                    @endif
+                    @elseuser('Distributor')
+                    <a href="/order/history" class="list-group-item list-group-item-action bg-light">Orders</a>
+                    @enduser
                   <a href="#" class="list-group-item list-group-item-action bg-light disabled">Reports</a>
-                  <a href="/order/history" class="list-group-item list-group-item-action bg-light">Order History</a>
+                  @user ('Retailer')
+                    <a href="/order/history" class="list-group-item list-group-item-action bg-light">Order History</a>
+                  @enduser
                   <a href="/subscriptionhistory" class="list-group-item list-group-item-action bg-light">Subscription History</a>
                   <a href="#" class="list-group-item list-group-item-action bg-light disabled">Settings</a>
                 </div>

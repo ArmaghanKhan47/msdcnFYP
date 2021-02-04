@@ -17,19 +17,21 @@
                     <span class="btn btn-danger disabled">{{$data->AccountStatus}}</span>
                     @endif
                 </li>
-                @if ($data->UserType == 'Retailer')
+                @user ('Retailer')
+                    {{-- Show these if logged in user is Retailer --}}
                     <li class="list-group-item">Shop Name: {{$data->retailershop->RetailerShopName}}</li>
                     <li class="list-group-item">Liscence No: {{$data->retailershop->LiscenceNo}}</li>
                     <li class="list-group-item">Region: {{$data->retailershop->Region}}</li>
                     <li class="list-group-item">Contact Number: {{$data->retailershop->ContactNumber}}</li>
                     <li class="list-group-item">User Type: {{$data->UserType}}</li>
-                @elseif ($data->UserType == 'Distributor')
+                @elseuser ('Distributor')
+                    {{-- Show these if logged in user is Distributor --}}
                     <li class="list-group-item">Shop Name: {{$data->distributorshop->DistributorShopName}}</li>
                     <li class="list-group-item">Liscence No: {{$data->distributorshop->LiscenceNo}}</li>
                     <li class="list-group-item">Region: {{$data->distributorshop->Region}}</li>
                     <li class="list-group-item">Contact Number: {{$data->distributorshop->ContactNumber}}</li>
                     <li class="list-group-item">User Type: {{$data->UserType}}</li>
-                @endif
+                @enduser
             </ul>
         </div>
     </div>

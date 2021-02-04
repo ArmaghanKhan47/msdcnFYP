@@ -25,7 +25,7 @@ class OrderItem extends Model
 
     public function medicine()
     {
-        return $this->hasOne(Medicine::class, 'MedicineId');
+        return $this->belongsTo(Medicine::class, 'MedicineId');
     }
 
 }

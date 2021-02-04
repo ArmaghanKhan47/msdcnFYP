@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('content')
 <p class="display-4">Medicine Inventory</p>
+<div class="mb-1">
+    <button class="btn btn-success float-right mb-1">Add Item</button>
+</div>
 <table class="table table-striped">
     <tr>
         <th>Medicine Name</th>

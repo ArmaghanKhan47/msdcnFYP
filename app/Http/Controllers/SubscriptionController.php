@@ -35,7 +35,7 @@ class SubscriptionController extends Controller
      */
     public function create()
     {
-        //
+        //This is for admin to create new Subscription Packages
     }
 
     /**
@@ -46,7 +46,7 @@ class SubscriptionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //This is for admin
     }
 
     /**
@@ -148,6 +148,6 @@ class SubscriptionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //This is for Admin to Remove Subscription Packages from Database
     }
 }

@@ -62,7 +62,7 @@ class CreditCardController extends Controller
             'CardNumber' => $request->input('cardnumber'),
         ]);
 
-        return $card->id;
+        return $card->rowId;
     }
 
     /**

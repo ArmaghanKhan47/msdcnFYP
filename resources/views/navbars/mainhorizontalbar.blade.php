@@ -11,20 +11,20 @@
             <!-- Left Side Of Navbar -->
             @auth
             <ul class="navbar-nav mr-auto d-block d-md-none">
-                <div class="list-group list-group-flush border">
-                    <a href="/home" class="list-group-item list-group-item-action bg-light">Dashboard</a>
-                    <a href="/inventory" class="list-group-item list-group-item-action bg-light">Inventory</a>
-                    <a href="#" class="list-group-item list-group-item-action bg-light disabled">Sales</a>
-                    @if (Auth::user()->UserType == 'Retailer')
-                        <a href="/onlineorder" class="list-group-item list-group-item-action bg-light">Online Order</a>
-                    @elseif(Auth::user()->UserType == 'Distributor')
-                        <a href="#" class="list-group-item list-group-item-action bg-light disabled">Orders</a>
-                    @endif
-                    <a href="#" class="list-group-item list-group-item-action bg-light disabled">Reports</a>
-                    <a href="/order/history" class="list-group-item list-group-item-action bg-light disabled">Order History</a>
-                    <a href="/subscriptionhistory" class="list-group-item list-group-item-action bg-light">Subscription History</a>
-                    <a href="#" class="list-group-item list-group-item-action bg-light disabled">Settings</a>
-                  </div>
+                    <li class="nav-item"><a href="/home" class="nav-link">Dashboard</a></li>
+                    <li class="nav-item"><a href="/inventory" class="nav-link">Inventory</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link disabled">Sales</a></li>
+                    @user ('Retailer')
+                        <li class="nav-item"><a href="/onlineorder" class="nav-link">Online Order</a></li>
+                    @elseuser('Distributor')
+                        <li class="nav-item"><a href="/order/history" class="nav-link">Orders</a></li>
+                    @enduser
+                    <li class="nav-item"><a href="#" class="nav-link disabled">Reports</a></li>
+                    @user('Retailer')
+                        <li class="nav-item"><a href="/order/history" class="nav-link">Order History</a></li>
+                    @enduser
+                    <li class="nav-item"><a href="/subscriptionhistory" class="nav-link">Subscription History</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link disabled">Settings</a></li>
             </ul>
             @endauth
 
@@ -50,10 +50,10 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            @if (Auth::user()->UserType == 'Retailer')
+                            @user ('Retailer')
                                 <a class="dropdown-item" href="/cart">Cart <span class="badge badge-success">@if (session('cart')){{session('cart')->count()}}@endif</span></a>
                                 <hr class="dropdown-divider">
-                            @endif
+                            @enduser
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">

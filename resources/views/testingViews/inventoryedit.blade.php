@@ -20,16 +20,6 @@
                             </span>
                         </div>
                     </div>
-                    {{-- <ul class="list-group bg-light list-group-flush">
-                        <li class="list-group-item">Medicine Name: {{$data->inventories[0]->medicine->MedicineName}}</li>
-                        <li class="list-group-item">Company Name: {{$data->inventories[0]->medicine->MedicineCompany}}</li>
-                        <li class="list-group-item">Formula:
-                            @foreach (json_decode($data->inventories[0]->medicine->MedicineFormula) as $item)
-                                <button class="btn btn-info disabled">{{$item}}</button>
-                            @endforeach
-                        </li>
-                        <li class="list-group-item">Medicine Type: {{$data->inventories[0]->medicine->MedicineType}}</li>
-                    </ul> --}}
                 </div>
             </div>
             <div class="col-xl-6">

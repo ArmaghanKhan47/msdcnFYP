@@ -11,6 +11,7 @@
                 <span class="h5 d-block">Tips</span>
                 <ul>
                     <li>If you change the address, It will also updated in the database</li>
+                    <li>Cart is Session Based</li>
                 </ul>
             </div>
         </div>
@@ -27,7 +28,7 @@
                             <input type="hidden" name="retailerid" value="{{$data[1]->RetailerShopId}}">
                             <input id="shipping2" type="hidden" name="shippingAddress" value="">
                             <label for="holdername">Card Holder Name</label>
-                            <input type="text" class="form-control" name="holdername" id="holdername" value="{{$data[2]->CardHolderName}}" required>
+                            <input type="text" class="form-control" name="holdername" id="holdername" value="@if($data[2]){{$data[2]->CardHolderName}}@endif" required>
 
                             @error('holdername')
                                 <span class="invalid-feedback" role="alert">

@@ -23,19 +23,6 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <ul class="list-group bg-light list-group-flush">
-                        <li class="list-group-item">Medicine Name: {{$data->MedicineName}}</li>
-                        <li class="list-group-item">Company Name: {{$data->MedicineCompany}}</li>
-                        <li class="list-group-item">Distributor Name: {{$data->inventorydistributor->distributor->DistributorShopName}}</li>
-                        <li class="list-group-item">Formula:
-                            @foreach (json_decode($data->MedicineFormula) as $item)
-                                <button class="btn btn-info disabled">{{$item}}</button>
-                            @endforeach
-                        </li>
-                        <li class="list-group-item">Medicine Type: {{$data->MedicineType}}</li>
-                        <li class="list-group-item">Unit Price: <span id="unitprice">{{$data->inventorydistributor->UnitPrice}}</span>{{' PKR'}}</li>
-                        <li class="list-group-item">Available Stock: {{$data->inventorydistributor->Quantity}}</li>
-                    </ul> --}}
                 </div>
             </div>
             <div class="col-xl-6">
@@ -72,17 +59,12 @@
             </div>
         </div>
         <script>
+            //Custom JS to update total price as Quantity Increases or Decreases
             document.getElementById('quantity').addEventListener('change', function(){
                 var quantity = document.getElementById('quantity').value;
                 var unitprice = document.getElementById('unitprice').innerText;
                 document.getElementById('totalprice').value = (quantity * unitprice).toFixed(2);
             });
-
-            // document.getElementById('btnaddtocart').addEventListener('click', function(){
-            //     var quantity = document.getElementById('quantity').value;
-            //     var totalprice = document.getElementById('totalprice').value;
-            //     alert('Order Details: Quantity->' + quantity + ' Total Price->' + totalprice);
-            // });
         </script>
     </div>
 @endsection
