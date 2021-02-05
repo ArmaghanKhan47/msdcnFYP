@@ -6,6 +6,7 @@ use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SettingController;
 use App\Models\InventoryRetailer;
 use App\Http\Controllers\ShopRegistrationController;
 use App\Http\Controllers\SubscriptionController;
@@ -51,4 +52,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/cart', [CartController::class, 'index']);
     Route::put('/cart', [CartController::class, 'store']);
+
+    Route::get('/settings', SettingController::class);
 });

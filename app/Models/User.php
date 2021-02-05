@@ -22,7 +22,8 @@ class User extends Authenticatable
         'password',
         'UserType',
         'AccountStatus',
-        'CnicCardNumber'
+        'CnicCardNumber',
+        'api_token'
     ];
 
     /**

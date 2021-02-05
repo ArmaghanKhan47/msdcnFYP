@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PointOfSaleRetailerRecord;
+use App\Models\RetailerShop;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,18 +30,20 @@ class HomeController extends Controller
     public function index()
     {
         // $userData = User::with('retailershop')->find(Auth::id());
-        $userData = $this->getUserData();
+        $data = $this->getUserData();
 
-        $shop = $this->getUserShop($userData);
+        $shop = $this->getUserShop($data);
         if($shop != null)
         {
             return $shop;
         }
 
-        $this->getSubscription($userData);
+        $this->getSubscription($data);
 
-        // return $userData;
-        return view('home')->with('data', $userData);
+        $sales = PointOfSaleRetailerRecord::where('RetailerShopId','=',RetailerShop::where('UserId','=',Auth::id())->first()->RetailerShopId)->get();
+        
+        // return $sales;
+        return view('home', compact('data', 'sales'));
     }
 
     private function getUserData()

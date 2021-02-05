@@ -44,12 +44,12 @@ class OrderController extends Controller
         ]);
 
         //Check if Retailer has an address if not save given address
-        $retailerData = RetailerShop::select('RetailerShopId', 'shopAddress')->where('UserId','=', Auth::id())->first()->shopAddress;
-        if($retailerData == null)
+        $retailerData = RetailerShop::select('RetailerShopId', 'shopAddress')->where('UserId','=', Auth::id())->first();
+        if($retailerData->shopAddress == null)
         {
-            $retailer = RetailerShop::select('RetailerShopId', 'shopAddress')->where('UserId','=', Auth::id())->first();
-            $retailer->shopAddress = $request->input('shippingAddress');
-            $retailer->save();
+            // $retailer = RetailerShop::select('RetailerShopId', 'shopAddress')->where('UserId','=', Auth::id())->first();
+            $retailerData->shopAddress = $request->input('shippingAddress');
+            $retailerData->save();
         }
 
         //This will check if user has credit card
@@ -57,6 +57,8 @@ class OrderController extends Controller
         $cardid = $test->create($request);
         if ($cardid != null)
         {
+            //Means no credit card was found
+            //New Credit Card Record is created and now the reference is being stored in user
             $user = User::find(Auth::id());
             $user->CreditCardId = $cardid;
             $user->save();
@@ -94,6 +96,7 @@ class OrderController extends Controller
                 ]);
             }
         }
+        //Delete the cart as the order is placed
         $request->session()->forget('cart');
         return redirect('/home')->with('success', 'Your Order Has been Placed');
     }
@@ -131,25 +134,25 @@ class OrderController extends Controller
             case 'accepted':
                 $order->OrderStatus = str_replace('Pending', 'Preparing', $order->OrderStatus);
                 $order->save();
-                return redirect('/order/history')->with('success', 'Order Accepted');
+                return redirect('/order/history')->with('success', 'Order#' . $request->input('orderid') . ' Accepted');
                 break;
 
             case 'cancelled':
                 $order->OrderStatus = str_replace('Pending', 'Cancelled', $order->OrderStatus);
                 $order->save();
-                return redirect('/order/history')->with('error', 'Order Cancelled');
+                return redirect('/order/history')->with('error', 'Order#' . $request->input('orderid') . ' Cancelled');
                 break;
 
             case 'dispatched':
                 $order->OrderStatus = str_replace('Preparing', 'Dispatched', $order->OrderStatus);
                 $order->save();
-                return redirect('/order/history')->with('success', 'Order Marked as Dispatched');
+                return redirect('/order/history')->with('success', 'Order#' . $request->input('orderid') . ' Marked as Dispatched');
                 break;
 
             case 'completed':
                 $order->OrderStatus = str_replace('Dispatched', 'Completed', $order->OrderStatus);
                 $order->save();
-                return redirect('/order/history')->with('success', 'Order Marked as Completed');
+                return redirect('/order/history')->with('success', 'Order#' . $request->input('orderid') . ' Marked as Completed');
                 break;
         }
     }

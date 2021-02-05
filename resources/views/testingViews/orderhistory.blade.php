@@ -1,8 +1,10 @@
 @extends('layouts.app')
 @section('content')
-    <span class="h4 d-block">Order History</span>
+<div class="jumbotron p-3">
+    <span class="h1 d-block">Order History</span>
+</div>
     @foreach ($orders as $order)
-        <div class="jumbotron p-3">
+        <div class="jumbotron p-3 mb-2">
             <div class="row p-1">
                 <div class="col-md-1">
                     <span class="h5 d-block">{{$order->OrderId}}</span>

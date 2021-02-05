@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+<div class="jumbotron p-3">
+    <span class="h1 d-block">Update Medicine</span>
+</div>
 <form action="/inventory/{{$data->inventories[0]->InventoryId}}" method="POST">
     @method('PUT')
     @csrf

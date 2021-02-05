@@ -24,7 +24,7 @@
                         <li class="nav-item"><a href="/order/history" class="nav-link">Order History</a></li>
                     @enduser
                     <li class="nav-item"><a href="/subscriptionhistory" class="nav-link">Subscription History</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link disabled">Settings</a></li>
+                    <li class="nav-item"><a href="/settings" class="nav-link">Settings</a></li>
             </ul>
             @endauth
 

@@ -13,6 +13,13 @@ class InventoryRetailer extends Model
 
     protected $hidden = ['created_at', 'updated_at'];
 
+    protected $fillable = [
+        'RetailerShopId',
+        'MedicineId',
+        'Quantity',
+        'UnitPrice'
+    ];
+
     public function medicine()
     {
         return $this->belongsTo(Medicine::class, 'MedicineId');
