@@ -20,12 +20,22 @@ class SubscriptionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth:admin')->except(['show','update', 'index']);
+    }
     public function index()
     {
         //Pull Subscription Packages
         $data = SubscriptionPackage::get();
         //Display Subscription Page
         return view('registration.subscription')->with('data', $data);
+    }
+
+    public function adminindex()
+    {
+        $packages = SubscriptionPackage::get();
+        return view('admin.main.allsubscriptionpackages', compact('packages'));
     }
 
     /**
@@ -110,7 +120,7 @@ class SubscriptionController extends Controller
         {
             $user->CreditCardId = $cardid;
         }
-        $user->AccountStatus = 'ACTIVE';
+        $user->AccountStatus = 'PENDING';
         $user->save();
 
         //now check that user is a Retailer or Distributor and act accordingly
@@ -131,7 +141,7 @@ class SubscriptionController extends Controller
 
             SubscriptionHistoryDistributor::create([
                 'SubscriptionPackageId' => $id,
-                'RetailerId' => $distributor->DistributorShopId,
+                'DistributorId' => $distributor->DistributorShopId,
                 'startDate' => date("Y-m-d")
             ]);
         }

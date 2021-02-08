@@ -1,16 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminControllers;
 
 use App\Models\PointOfSaleRetailerRecord;
 use App\Models\RetailerShop;
 use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Models\DistributorShop;
+use App\Models\Medicine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use function PHPUnit\Framework\assertEmpty;
 
-class HomeController extends Controller
+class AdminDashboardController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -19,7 +22,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:admin');
     }
 
     /**
@@ -29,25 +32,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // $userData = User::with('retailershop')->find(Auth::id());
-        $data = $this->getUserData();
-
-        $shop = $this->getUserShop($data);
-        if($shop != null)
-        {
-            return $shop;
-        }
-
-        $this->getSubscription($data);
-
-        $sales = null;
-        if (Auth::user()->UserType == 'Retailer')
-        {
-            $sales = PointOfSaleRetailerRecord::where('RetailerShopId','=',RetailerShop::where('UserId','=',Auth::id())->first()->RetailerShopId)->get();
-        }
-
-        // return $sales;
-        return view('home', compact('data', 'sales'));
+        //Total Registered Retailers
+        $retailers = User::select('id', 'AccountStatus', 'UserType')->where('AccountStatus','Active')->where('UserType','Retailer')->get()->count();
+        //Total Registered Distributors
+        $distributors = User::select('id', 'AccountStatus', 'UserType')->where('AccountStatus','Active')->where('UserType','Distributor')->get()->count();
+        //Total Medicines
+        $medicines = Medicine::get()->count();
+        //Pending Request
+        $pendings = User::select('id', 'AccountStatus')->where('AccountStatus', 'Pending')->get()->count();
+        return view('admin.main.home', compact('retailers', 'distributors', 'medicines', 'pendings'));
     }
 
     private function getUserData()

@@ -68,6 +68,14 @@
                     <div class="mt-2">
                         @user('Retailer')
                             <button class="btn btn-info btn-block">Pending</button>
+                            <div class="d-block mt-2">
+                                <form class="d-block" method="POST" action="/order/status">
+                                    @csrf
+                                    <input type="hidden" name="orderid" value="{{$order->OrderId}}">
+                                    <input type="hidden" name="status" value="cancelled">
+                                    <button type="submit" class="btn btn-danger float-right">Cancel</button>
+                                </form>
+                            </div>
                         @enduser
 
                         @user('Distributor')

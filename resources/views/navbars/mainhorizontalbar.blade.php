@@ -11,20 +11,28 @@
             <!-- Left Side Of Navbar -->
             @auth
             <ul class="navbar-nav mr-auto d-block d-md-none">
-                    <li class="nav-item"><a href="/home" class="nav-link">Dashboard</a></li>
-                    <li class="nav-item"><a href="/inventory" class="nav-link">Inventory</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link disabled">Sales</a></li>
-                    @user ('Retailer')
-                        <li class="nav-item"><a href="/onlineorder" class="nav-link">Online Order</a></li>
-                    @elseuser('Distributor')
-                        <li class="nav-item"><a href="/order/history" class="nav-link">Orders</a></li>
-                    @enduser
-                    <li class="nav-item"><a href="#" class="nav-link disabled">Reports</a></li>
-                    @user('Retailer')
-                        <li class="nav-item"><a href="/order/history" class="nav-link">Order History</a></li>
-                    @enduser
-                    <li class="nav-item"><a href="/subscriptionhistory" class="nav-link">Subscription History</a></li>
-                    <li class="nav-item"><a href="/settings" class="nav-link">Settings</a></li>
+                    @auth('web')
+                        <li class="nav-item"><a href="/home" class="nav-link">Dashboard</a></li>
+                        <li class="nav-item"><a href="/inventory" class="nav-link">Inventory</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link disabled">Sales</a></li>
+                        @user ('Retailer')
+                            <li class="nav-item"><a href="/onlineorder" class="nav-link">Online Order</a></li>
+                        @elseuser('Distributor')
+                            <li class="nav-item"><a href="/order/history" class="nav-link">Orders</a></li>
+                        @enduser
+                        <li class="nav-item"><a href="#" class="nav-link disabled">Reports</a></li>
+                        @user('Retailer')
+                            <li class="nav-item"><a href="/order/history" class="nav-link">Order History</a></li>
+                        @enduser
+                        <li class="nav-item"><a href="/subscriptionhistory" class="nav-link">Subscription History</a></li>
+                        <li class="nav-item"><a href="/settings" class="nav-link">Settings</a></li>
+                    @endauth
+                    @auth('admin')
+                    <li class="nav-item"><a href="{{route('admin.dashboard')}}" class="nav-link disables">Dashboard</a></li>
+                        <li class="nav-item"><a href="{{route('admin.pending.index')}}" class="nav-link">Pending Requests</a></li>
+                        <li class="nav-item"><a href="{{route('admin.medicine.index')}}" class="nav-link">Medicine</a></li>
+                        <li class="nav-item"><a href="{{route('admin.subscription.index')}}" class="nav-link">Subscription Packages</a></li>
+                    @endauth
             </ul>
             @endauth
 

@@ -1,22 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminControllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Medicine;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
-class MedicineController extends Controller
+class RequestController extends Controller
 {
-
-    public function __construct()
-    {
-        //Appling default middleware to only Show
-        $this->middleware('auth')->only('show');
-        //Appling Admin Auth to function except Show
-        $this->middleware('auth:admin')->except('show');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -25,8 +16,8 @@ class MedicineController extends Controller
     public function index()
     {
         //
-        $medicines = Medicine::get();
-        return view('admin.main.allmedicines', compact('medicines'));
+        $pendings = User::select('id', 'name', 'email', 'AccountStatus', 'created_at')->where('AccountStatus', 'Pending')->get();
+        return view('admin.main.pendingrequest', compact('pendings'));
     }
 
     /**
@@ -36,8 +27,7 @@ class MedicineController extends Controller
      */
     public function create()
     {
-        //For Admin
-        return view('admin.main.addmedicine');
+        //
     }
 
     /**
@@ -57,15 +47,9 @@ class MedicineController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $distributorid)
+    public function show($id)
     {
-        ////$id = Medicine Id
-        $data = Medicine::with(['inventorydistributor' => function($query) use ($distributorid)
-        {
-            $query->where('DistributorShopId', $distributorid);
-        }, 'inventorydistributor.distributor:DistributorShopId,DistributorShopName'])->find($id);
-        return view('testingViews.medicinedetail')->with('data', $data);
-        return $data;
+        //
     }
 
     /**

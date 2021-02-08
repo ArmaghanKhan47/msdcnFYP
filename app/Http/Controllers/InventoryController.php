@@ -55,7 +55,7 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        //Store New 
+        //Store New
         $this->validate($request, [
             'medicineid' => 'numeric|required',
             'quantity' => 'numeric|required',
@@ -76,7 +76,7 @@ class InventoryController extends Controller
             case 'Distributor':
                 $distributorshopid = DistributorShop::select('DistributorShopId')->where('UserId', '=', Auth::id())->first()->DistributorShopId;
                 InventoryDistributor::create([
-                    'RetailerShopId' => $distributorshopid,
+                    'DistributorShopId' => $distributorshopid,
                     'MedicineId' => $request->input('medicineid'),
                     'Quantity' => $request->input('quantity'),
                     'UnitPrice' => $request->input('unitprice')

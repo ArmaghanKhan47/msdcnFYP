@@ -188,7 +188,9 @@
                     @if ($user->AccountStatus == "ACTIVE")
                         <span class="btn btn-success disabled">{{$user->AccountStatus}}</span>
                     @elseif ($user->AccountStatus == "DEACTIVE")
-                    <span class="btn btn-danger disabled">{{$user->AccountStatus}}</span>
+                        <span class="btn btn-danger disabled">{{$user->AccountStatus}}</span>
+                    @elseif($user->AccountStatus == 'PENDING')
+                        <span class="btn btn-warning disabled">{{$user->AccountStatus}}</span>
                     @endif
                 </div>
             </div>

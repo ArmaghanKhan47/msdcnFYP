@@ -1,5 +1,12 @@
 <?php
 
+use App\Http\Controllers\AdminAuth\ConfirmPasswordController;
+use App\Http\Controllers\AdminAuth\ForgotPasswordController;
+use App\Http\Controllers\AdminAuth\LoginController;
+use App\Http\Controllers\AdminAuth\RegisterController as AdminAuthRegisterController;
+use App\Http\Controllers\AdminAuth\ResetPasswordController;
+use App\Http\Controllers\AdminControllers\AdminDashboardController;
+use App\Http\Controllers\AdminControllers\RequestController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\MedicineController;
@@ -54,4 +61,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/cart', [CartController::class, 'store']);
 
     Route::get('/settings', SettingController::class);
+});
+
+//Defining Admin Routes
+
+Route::prefix('/admin')->name('admin.')->group(function () {
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
+
+    Route::middleware('auth:admin')->group(function(){
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/medicine/create', [MedicineController::class, 'create'])->name('medicine.create');
+        Route::get('/medicine', [MedicineController::class, 'index'])->name('medicine.index');
+        Route::get('/subscriptions', [SubscriptionController::class, 'adminindex'])->name('subscription.index');
+        Route::get('/pendingrequests', [RequestController::class, 'index'])->name('pending.index');
+    });
 });
