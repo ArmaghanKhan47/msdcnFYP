@@ -59,6 +59,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/cart', [CartController::class, 'index']);
     Route::put('/cart', [CartController::class, 'store']);
+    Route::delete('/cart/{itemid}', [CartController::class, 'destroy'])->whereNumber('itemid')->name('cart.remove');
 
     Route::get('/settings', SettingController::class);
 });
@@ -71,9 +72,19 @@ Route::prefix('/admin')->name('admin.')->group(function () {
 
     Route::middleware('auth:admin')->group(function(){
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
         Route::get('/medicine/create', [MedicineController::class, 'create'])->name('medicine.create');
+        Route::post('/medicine/create', [MedicineController::class, 'store']);
         Route::get('/medicine', [MedicineController::class, 'index'])->name('medicine.index');
+        Route::get('/medicine/edit/{id}', [MedicineController::class, 'edit'])->name('medicine.edit');
+        Route::put('/medicine/edit/{id}', [MedicineController::class, 'update']);
+        Route::delete('/medicine/delete/{id}', [MedicineController::class, 'destroy'])->name('medicine.delete');
+
         Route::get('/subscriptions', [SubscriptionController::class, 'adminindex'])->name('subscription.index');
+        Route::get('/subscriptions/create', [SubscriptionController::class, 'create'])->name('subscription.create');
+        Route::post('/subscriptions/create', [SubscriptionController::class, 'store']);
+
         Route::get('/pendingrequests', [RequestController::class, 'index'])->name('pending.index');
+        Route::put('/request/accepted/{userid}', [RequestController::class, 'update'])->name('request.accepte');
     });
 });

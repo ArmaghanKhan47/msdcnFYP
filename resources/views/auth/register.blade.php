@@ -1,7 +1,7 @@
 @extends('layouts.app2')
 
 @section('content')
-<div class="container">
+<div class="container overflow-show">
     <div class="row justify-content-center">
         <div class="col-xl-4">
             <div class="jumbotron p-4" style="height: 100%">
@@ -20,7 +20,7 @@
         <div class="col-xl-8">
             <div class="jumbotron p-4" style="height: 100%">
                 <span class="h1 d-block">{{ __('Register') }}</span>
-                <form method="POST" action="{{ route('register') }}">
+                <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                     @csrf
 
                     <div class="form-group row">
@@ -89,6 +89,24 @@
 
                         <div class="col-md-6">
                             <input type="text" id="cnicnumber" name="cnicnumber" class="form-control" required max="16" min="16">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="cnicfront" class="col-md-4 col-form-label text-md-right">{{ __('CNIC Front Pic') }}</label>
+
+                        <div class="col-md-6">
+                            <input type="file" id="cnicfront" name="cnicfrontpic" class="form-control @error('cnicfrontpic'){{'is-invalid'}}@enderror" required>
+                            <label class="text-muted">Max image size:1.9 MB | Supported formats: jpeg,jpg,png</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="cnicback" class="col-md-4 col-form-label text-md-right">{{ __('CNIC Back Pic') }}</label>
+
+                        <div class="col-md-6">
+                            <input type="file" id="cnicback" name="cnicbackpic" class="form-control @error('cnicfrontpic'){{'is-invalid'}}@enderror" required>
+                            <label class="text-muted">Max image size:1.9 MB | Supported formats: jpeg,jpg,png</label>
                         </div>
                     </div>
 

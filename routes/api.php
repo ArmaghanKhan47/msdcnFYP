@@ -16,5 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return Auth::user();
+    return json_encode($request->header('data'));
 });

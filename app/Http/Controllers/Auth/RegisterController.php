@@ -58,7 +58,9 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'usertype' => 'required|string',
-            'cnicnumber' => 'required|string|min:16|max:16'
+            'cnicnumber' => 'required|string|min:16|max:16',
+            'cnicfrontpic' => 'required|image|mimes:jpeg,png,jpg|max:1999',
+            'cnicbackpic' => 'required|image|mimes:jpeg,png,jpg|max:1999'
         ]);
     }
 
@@ -68,7 +70,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function create(array $data, array $picturesname)
     {
         return User::create([
             'name' => $data['name'],
@@ -77,7 +79,9 @@ class RegisterController extends Controller
             'UserType' => $data['usertype'],
             'AccountStatus' => 'DEACTIVE',
             'CnicCardNumber' => $data['cnicnumber'],
-            'api_token' => Str::random(60)
+            'api_token' => Str::random(60),
+            'CnicFrontPic' => $picturesname[0],
+            'CnicBackPic' => $picturesname[1],
         ]);
     }
 

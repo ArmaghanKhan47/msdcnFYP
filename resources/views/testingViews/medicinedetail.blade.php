@@ -6,7 +6,7 @@
             <div class="col-xl-6">
                 <div class="jumbotron p-1">
                     <div class="card">
-                        <img src="/storage/img/default.jpg">
+                        <img src="/storage/medicines/{{$data->MedicinePic}}">
                         <div class="card-body">
                             <span class="h5 d-block">{{$data->MedicineName}} - {{$data->MedicineType}}</span>
                             <span class="h6 d-block text-muted">By {{$data->MedicineCompany}}</span>

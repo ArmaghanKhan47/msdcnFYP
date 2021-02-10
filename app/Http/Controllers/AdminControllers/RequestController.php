@@ -16,7 +16,7 @@ class RequestController extends Controller
     public function index()
     {
         //
-        $pendings = User::select('id', 'name', 'email', 'AccountStatus', 'created_at')->where('AccountStatus', 'Pending')->get();
+        $pendings = User::where('AccountStatus', 'Pending')->get();
         return view('admin.main.pendingrequest', compact('pendings'));
     }
 
@@ -70,9 +70,13 @@ class RequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        //
+        //Admin Activating the user account
+        $user = User::find($id);
+        $user->AccountStatus = 'ACTIVE';
+        $user->save();
+        return redirect()->back()->with('success', 'User#' . $id . ' is ACTIVE');
     }
 
     /**
@@ -83,6 +87,10 @@ class RequestController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //Admin Deactivating the user account
+        $user = User::find($id);
+        $user->AccountStatus = 'DEACTIVE';
+        $user->save();
+        return redirect()->back()->with('error', 'User#' . $id . ' is DEACTIVE');
     }
 }

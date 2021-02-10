@@ -31,9 +31,19 @@ class Cart
         session(['cart' => $this->cart]);
     }
 
-    public function removeItem()
+    public function removeItem($id)
     {
         //removing item from cart
+        $this->cart = session('cart');
+        if ($this->cart->count() == 1)
+        {
+            session(['cart' => collect()]);
+        }
+        else
+        {
+            $this->cart->pull($id);
+            session(['cart' => $this->cart]);
+        }
     }
 
     public function checkout()

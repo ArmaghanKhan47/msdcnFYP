@@ -23,7 +23,9 @@ class User extends Authenticatable
         'UserType',
         'AccountStatus',
         'CnicCardNumber',
-        'api_token'
+        'api_token',
+        'CnicFrontPic',
+        'CnicBackPic'
     ];
 
     /**

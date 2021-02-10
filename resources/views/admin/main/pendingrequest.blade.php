@@ -30,19 +30,92 @@
                         <span class="h5 d-block">{{$pending->created_at}}</span>
                         <span class="h6 d-block text-muted">Account Created</span>
                     </div>
-                    {{-- <div class="col-md-3">
-                        <form class="d-inline" method="POST" action="#">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger float-right mt-2" href="#nolink"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                            </svg></button>
-                        </form>
-                        <a class="btn btn-primary float-right mr-2 mt-2" href="{{route('admin.medicine.create')}}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                        </svg></a>
-                </div> --}}
+                    <div class="col-md-1">
+                        <div class="row d-block d-md-none">
+                            {{-- It will display on small screens --}}
+                            <div class="col-sm-12">
+                                <form class="float-right" method="POST" action="#">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger" href="#nolink"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                        </svg></button>
+                                </form>
+                                <form method="POST" action="{{route('admin.request.accepte', [$pending->id])}}">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-primary" href="#nolink">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
+                                            <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row text-right d-none d-md-block">
+                            {{-- It will display on screens from md to xxl --}}
+                            <div class="col-md-12">
+                                <form class="d-inline" method="POST" action="#">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger" href="#nolink"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                        </svg></button>
+                                    </form>
+                            </div>
+                        </div>
+                        <div class="row text-right mt-1 d-none d-md-block">
+                            {{-- It will display on screens from md to xxl --}}
+                            <div class="col-md-12">
+                                <form class="d-inline" method="POST" action="{{route('admin.request.accepte', [$pending->id])}}">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-primary" href="#nolink">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
+                                            <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                                        </svg>
+                                    </button>
+                                    </form>
+                            </div>
+                        </div>
                 </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <button class="btn btn-secondary btn-block" id="detailbtn-{{$pending->id}}">Show Details</button>
+                    </div>
+                </div>
+                <div class="row mt-2 d-none" id="list-{{$pending->id}}">
+                    <div class="col-md-12">
+                        <div class="jumbotron p-2">
+                            <span class="h5">Cnic Front Pic</span>
+                            <img src="/storage/cnic/front/{{$pending->CnicFrontPic}}" alt="No Image Found">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="jumbotron p-2">
+                            <span class="h5">Cnic Back Pic</span>
+                            <img src="/storage/cnic/back/{{$pending->CnicBackPic}}" alt="No Image Found">
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    // Custom JS to hide or show Order Items
+                    document.getElementById("detailbtn-{{$pending->id}}").addEventListener('click', function(){
+                        var el = document.getElementById('list-{{$pending->id}}');
+                        var attri = el.getAttribute('class');
+                        if (attri == 'row mt-2 d-none')
+                        {
+                            el.setAttribute('class', 'row mt-2 d-block');
+                            // caret.setAttribute('class', 'bi bi-caret-up-fill');
+                        }
+                        else if (attri == 'row mt-2 d-block')
+                        {
+                            el.setAttribute('class', 'row mt-2 d-none');
+                            // caret.setAttribute('class', 'bi bi-caret-down-fill');
+                        }
+                    });
+                </script>
             </div>
         @endforeach
     @else

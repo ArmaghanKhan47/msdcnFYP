@@ -12,6 +12,15 @@ class Medicine extends Model
 
     protected $primaryKey = 'MedicineId';
 
+    protected $fillable = [
+        'MedicineName',
+        'MedicineFormula',
+        'MedicineCompany',
+        'MedicineType',
+        'MedicinePic',
+        'MedicineDiscription'
+    ];
+
     protected $hidden = ['created_at', 'updated_at'];
 
     public function inventorydistributor(){

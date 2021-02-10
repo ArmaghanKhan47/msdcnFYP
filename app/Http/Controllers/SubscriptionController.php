@@ -46,6 +46,7 @@ class SubscriptionController extends Controller
     public function create()
     {
         //This is for admin to create new Subscription Packages
+        return view('admin.main.addsubscriptionpackage');
     }
 
     /**
@@ -57,6 +58,19 @@ class SubscriptionController extends Controller
     public function store(Request $request)
     {
         //This is for admin
+        $this->validate($request, [
+            'pkgname' => 'string|required|max:255',
+            'pkgprice' => 'numeric|required',
+            'pkgduration' => 'numeric|required'
+        ]);
+
+        $id = SubscriptionPackage::create([
+            'PackageName' => $request->input('pkgname'),
+            'PackagePrice' => $request->input('pkgprice'),
+            'PackageDuration' => $request->input('pkgduration')
+        ])->PackageId;
+
+        return redirect(route('admin.subscription.index'))->with('success', 'Package is created with id ' . $id);
     }
 
     /**

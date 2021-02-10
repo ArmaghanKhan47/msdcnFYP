@@ -19,7 +19,7 @@
                 <span class="h1 d-block">
                     {{$type}} Shop Registration
                 </span>
-                <form method="POST" action="{{route('shopregistration.store')}}">
+                <form method="POST" action="{{route('shopregistration.store')}}" enctype="multipart/form-data">
                     @csrf
 
                     <div class="form-group row">
@@ -66,6 +66,20 @@
 
                         <div class="col-md-6">
                             <input type="tel" id="contactnumber" name="contactnumber" class="form-control @error('contactnumber') is-invalid @enderror" required max="11" min="11">
+                            @error('liscencno')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="lispic" class="col-md-4 col-form-label text-md-right">{{ __('Liscence Picture') }}</label>
+
+                        <div class="col-md-6">
+                            <input type="file" id="lispic" name="lispic" class="form-control @error('contactnumber') is-invalid @enderror" required>
+                            <label class="text-muted">Max image size:1.9 MB | Supported formats: jpeg,jpg,png</label>
                             @error('liscencno')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

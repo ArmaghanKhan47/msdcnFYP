@@ -8,7 +8,7 @@
 @user('Retailer')
 <div class="jumbotron p-3 mb-1">
     <span class="h2 d-block">Sales Graph</span>
-    @if($sales)
+    @if($sales and $sales->count() > 0)
     <canvas width="100" height="40px" id="salegraph">
         <p>No Record to show</p>
     </canvas>
@@ -22,7 +22,7 @@
         <div class="col-md-3 p-0 pr-1">
             <div class="jumbotron p-3">
                 <span class="h2 d-block text-center">Total Sale</span>
-                @if($sales)
+                @if($sales and $sales->count() > 0)
                     <span class="d-block text-center">{{$sales->sum('DailyRevenue')}} PKR</span>
                 @else
                     <span class="d-block text-center">N/A</span>
@@ -46,7 +46,7 @@
         <div class="col-md-3 p-0">
             <div class="jumbotron p-3">
                 <span class="h2 d-block text-center">Last Sale</span>
-                @if($sales)
+                @if($sales and $sales->count() > 0)
                     <span class="d-block text-center">{{$sales->last()->DailyRevenue}} PKR</span>
                 @else
                     <span class="d-block text-center">N/A</span>

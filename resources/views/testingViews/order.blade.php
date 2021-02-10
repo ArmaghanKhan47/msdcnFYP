@@ -16,7 +16,7 @@
                             <span class="h6 text-muted d-block">By {{$item->medicine->MedicineCompany}}</span>
                             <span class="h6 text-muted d-block">{{$item->distributor->DistributorShopName}}</span>
                         </div>
-                        <img src="/storage/img/default.jpg" alt="https://www.w3schools.com/bootstrap4/img_avatar1.png" class="card-img-top">
+                        <img src="/storage/medicines/{{$item->medicine->MedicinePic}}" alt="https://www.w3schools.com/bootstrap4/img_avatar1.png" class="card-img-top">
                         <div class="card-body">
                                 <span>
                                     <strong>{{$item->UnitPrice . ' PKR'}}</strong>

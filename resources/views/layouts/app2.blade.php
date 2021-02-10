@@ -22,13 +22,13 @@
     <!-- Bootstrap Icon CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 </head>
-<body style="overflow: hidden">
+<body>
     <div id="app">
         @include('navbars.mainhorizontalbar')
 
         <div class="row justifiy-content-center">
             <div class="col-xl-12">
-                <div class="container mt-xl-3" style="height: 42em">
+                <div class="container mt-md-3">
                     @include('inc.message')
                     @yield('content')
                 </div>

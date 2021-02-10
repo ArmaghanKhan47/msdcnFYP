@@ -11,6 +11,12 @@ class SubscriptionPackage extends Model
 
     protected $primaryKey = 'PackageId';
 
+    protected $fillable = [
+        'PackageName',
+        'PackagePrice',
+        'PackageDuration'
+    ];
+
     protected $hidden = [
         'created_at',
         'updated_at'

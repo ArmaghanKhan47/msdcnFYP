@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Medicine;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class MedicineController extends Controller
 {
@@ -48,7 +49,29 @@ class MedicineController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //for admin
+        $this->validate($request, [
+            'medname' => 'string|required',
+            'medcompany' => 'string|required',
+            'medtype' => 'string|required',
+            'medformula' => 'string|required',
+            'meddiscription' => 'string|required',
+            'coverimg' => 'image|required|max:1999|mimes:jpeg,jpg,png'
+        ]);
+
+        $filename = $request->input('medname') . $request->input('medcompany') . $request->input('medtype'). '_' . time() . '_' . $request->file('coverimg')->getClientOriginalExtension();
+        $request->file('coverimg')->storeAs('public/medicines', $filename);
+
+        $id = Medicine::create([
+            'MedicineName' => $request->input('medname'),
+            'MedicineCompany' => $request->input('medcompany'),
+            'MedicineDiscription' => $request->input('meddiscription'),
+            'MedicineType' => $request->input('medtype'),
+            'MedicinePic' => $filename,
+            'MedicineFormula' => json_encode(explode(',', $request->input('medformula')))
+        ])->MedicineId;
+
+        return redirect()->back()->with('success', 'Medicine created with id '. $id);
     }
 
     /**
@@ -76,7 +99,9 @@ class MedicineController extends Controller
      */
     public function edit($id)
     {
-        //
+        //for admin
+        $medicine = Medicine::find($id);
+        return view('admin.main.editmedicine', compact('medicine'));
     }
 
     /**
@@ -88,7 +113,34 @@ class MedicineController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //for admin
+        $this->validate($request, [
+            'medname' => 'string|required',
+            'medcompany' => 'string|required',
+            'medtype' => 'string|required',
+            'medformula' => 'string|required',
+            'meddiscription' => 'string|required',
+            'coverimg' => 'image|max:1999|mimes:jpeg,jpg,png'
+        ]);
+
+        $medicine = Medicine::find($id);
+
+        if($request->hasFile('coverimg'))
+        {
+            $filename = $request->input('medname') . $request->input('medcompany') . $request->input('medtype'). '_' . time() . '_' . $request->file('coverimg')->getClientOriginalExtension();
+            $request->file('coverimg')->storeAs('public/medicines', $filename);
+            Storage::delete('public/medicines/'.$medicine->MedicinePic);
+            $medicine->MedicinePic = $filename;
+        }
+
+        $medicine->MedicineName = $request->input('medname');
+        $medicine->MedicineCompany = $request->input('medcompany');
+        $medicine->MedicineType = $request->input('medtype');
+        $medicine->MedicineDiscription = $request->input('meddiscription');
+        $medicine->MedicineFormula = json_encode(explode(',', $request->input('medformula')));
+        $medicine->save();
+
+        return redirect(route('admin.medicine.index'))->with('success', 'Medicine#' . $id . ' changes saved');
     }
 
     /**
@@ -99,6 +151,8 @@ class MedicineController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //foradmin
+        Medicine::destroy($id);
+        return redirect(route('admin.medicine.index'))->with('success', 'Medicine#' . $id . ' is deleted');
     }
 }

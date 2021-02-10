@@ -117,5 +117,8 @@ class CartController extends Controller
     public function destroy($id)
     {
         //
+        $cart = new Cart();
+        $cart->removeItem($id);
+        return redirect()->back()->with('success', 'Item removed from cart');
     }
 }

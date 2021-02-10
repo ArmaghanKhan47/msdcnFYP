@@ -42,30 +42,35 @@ class ShopRegistrationController extends Controller
             'shopname' => 'required|string',
             'region' => 'required|string',
             'liscenceno' => 'required|string',
-            'contactnumber' => 'required|string|min:11|max:11'
+            'contactnumber' => 'required|string|min:11|max:11',
+            'lispic' => 'required|image|mimes:jpg,png,jpeg|max:1999'
         ]);
+
+        $filename = 'liscence_pic_' . $request->input('shopname') . '_' . Auth::user()->UserType . "_" . $request->input('region') . "_" . time() . $request->file('lispic')->getClientOriginalExtension();
 
         if (Auth::user()->UserType == 'Retailer')
         {
+            $request->file('lispic')->storeAs('public/retailer/liscence', $filename);
             //If user is Retailer
             RetailerShop::create([
                 'RetailerShopName' => $request->input('shopname'),
                 'LiscenceNo' => $request->input('liscenceno'),
                 'ContactNumber' => $request->input('contactnumber'),
                 'Region' => $request->input('region'),
-                'LiscenceFrontPic' => '/storage/img/default.jpg',
+                'LiscenceFrontPic' => $filename,
                 'UserId' => Auth::id()
             ]);
         }
         elseif(Auth::user()->UserType == 'Distributor')
         {
+            $request->file('lispic')->storeAs('public/distributor/liscence', $filename);
             //If user is Distributor
             DistributorShop::create([
                 'DistributorShopName' => $request->input('shopname'),
                 'LiscenceNo' => $request->input('liscenceno'),
                 'ContactNumber' => $request->input('contactnumber'),
                 'Region' => $request->input('region'),
-                'LiscenceFrontPic' => '/storage/img/default.jpg',
+                'LiscenceFrontPic' => $filename,
                 'UserId' => Auth::id()
             ]);
         }
