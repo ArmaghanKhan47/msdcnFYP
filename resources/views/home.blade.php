@@ -17,7 +17,7 @@
     @endif
 </div>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-3 p-0 pr-1">
             <div class="jumbotron p-3">
@@ -72,14 +72,14 @@
 
     var ctx = document.getElementById('salegraph');
 var myChart = new Chart(ctx, {
-    type: 'bar',
+    type: 'line',
     data: {
         labels: label,
         datasets: [{
             label: 'Sales',
             data: data,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(220, 53, 69, 0.4)',
+            borderColor: 'rgba(195, 34, 50, 1)',
             borderWidth: 2
         }]
     },

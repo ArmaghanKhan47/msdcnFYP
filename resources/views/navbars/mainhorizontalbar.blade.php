@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm sticky-top">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm sticky-top">
     <div class="container">
         <a class="navbar-brand" href="{{ route('home') }}">
             {{ config('app.name', 'Laravel') }}
@@ -57,12 +57,12 @@
                             {{ Auth::user()->name }}
                         </a>
 
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu dropdown-menu-right bg-dark" aria-labelledby="navbarDropdown">
                             @user ('Retailer')
-                                <a class="dropdown-item" href="/cart">Cart <span class="badge badge-success">@if (session('cart')){{session('cart')->count()}}@endif</span></a>
+                                <a class="dropdown-item bg-dark text-white" href="/cart">Cart <span class="badge badge-success">@if (session('cart')){{session('cart')->count()}}@endif</span></a>
                                 <hr class="dropdown-divider">
                             @enduser
-                            <a class="dropdown-item" href="{{ route('logout') }}"
+                            <a class="dropdown-item bg-dark text-white" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}

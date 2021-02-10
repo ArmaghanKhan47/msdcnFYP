@@ -59,8 +59,8 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'usertype' => 'required|string',
             'cnicnumber' => 'required|string|min:16|max:16',
-            'cnicfrontpic' => 'required|image|mimes:jpeg,png,jpg|max:1999',
-            'cnicbackpic' => 'required|image|mimes:jpeg,png,jpg|max:1999'
+            'cnicfrontpic' => 'required|image|mimes:jpeg,png,jpg|max:199',
+            'cnicbackpic' => 'required|image|mimes:jpeg,png,jpg|max:199'
         ]);
     }
 

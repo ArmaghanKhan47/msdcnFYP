@@ -29,37 +29,37 @@
     <div id="app">
         @include('navbars.mainhorizontalbar')
         <div class="row justifiy-content-center">
-              <div class="bg-light border-right col-xl-2">
+              <div class="bg-dark border-right col-xl-2">
                 <div class="list-group list-group-flush d-none d-md-block">
                     @auth('web')
                         {{-- If user is normal --}}
-                        <a href="/home" class="list-group-item list-group-item-action bg-light">Dashboard</a>
-                        <a href="/inventory" class="list-group-item list-group-item-action bg-light">Inventory</a>
-                        <a href="#" class="list-group-item list-group-item-action bg-light disabled">Sales</a>
+                        <a href="/home" class="list-group-item list-group-item-action bg-dark text-white">Dashboard</a>
+                        <a href="/inventory" class="list-group-item list-group-item-action bg-dark text-white">Inventory</a>
+                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white disabled">Sales</a>
                         @user ('Retailer')
-                            <a href="/onlineorder" class="list-group-item list-group-item-action bg-light">Online Order</a>
+                            <a href="/onlineorder" class="list-group-item list-group-item-action bg-dark text-white">Online Order</a>
                         @elseuser('Distributor')
-                        <a href="/order/history" class="list-group-item list-group-item-action bg-light">Orders</a>
+                        <a href="/order/history" class="list-group-item list-group-item-action bg-dark text-white">Orders</a>
                         @enduser
-                        <a href="#" class="list-group-item list-group-item-action bg-light disabled">Reports</a>
+                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white disabled">Reports</a>
                         @user ('Retailer')
-                        <a href="/order/history" class="list-group-item list-group-item-action bg-light">Order History</a>
+                        <a href="/order/history" class="list-group-item list-group-item-action bg-dark text-white">Order History</a>
                         @enduser
-                        <a href="/subscriptionhistory" class="list-group-item list-group-item-action bg-light">Subscription History</a>
-                        <a href="/settings" class="list-group-item list-group-item-action bg-light">Settings</a>
+                        <a href="/subscriptionhistory" class="list-group-item list-group-item-action bg-dark text-white">Subscription History</a>
+                        <a href="/settings" class="list-group-item list-group-item-action bg-dark text-white">Settings</a>
                     @endauth
                     @auth('admin')
                         {{-- If user is admin --}}
-                        <a href="{{route('admin.dashboard')}}" class="list-group-item list-group-item-action bg-light">Dashboard</a>
-                        <a href="{{route('admin.pending.index')}}" class="list-group-item list-group-item-action bg-light">Pending Requests</a>
-                        <a href="{{route('admin.medicine.index')}}" class="list-group-item list-group-item-action bg-light">Medicine</a>
-                        <a href="{{route('admin.subscription.index')}}" class="list-group-item list-group-item-action bg-light">Subscription Packages</a>
+                        <a href="{{route('admin.dashboard')}}" class="list-group-item list-group-item-action bg-dark text-white">Dashboard</a>
+                        <a href="{{route('admin.pending.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Pending Requests</a>
+                        <a href="{{route('admin.medicine.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Medicine</a>
+                        <a href="{{route('admin.subscription.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Subscription Packages</a>
                     @endauth
                   {{-- end --}}
                 </div>
             </div>
             <div class="col-xl-10">
-                <div class="container mt-xl-3 overflow-auto" style="height: 42em">
+                <div class="container-fluid mt-xl-3 overflow-auto" style="height: 46em;">
                     @include('inc.message')
                     @yield('content')
                 </div>
