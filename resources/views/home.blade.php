@@ -23,7 +23,7 @@
             <div class="jumbotron p-3">
                 <span class="h2 d-block text-center">Total Sale</span>
                 @if($sales and $sales->count() > 0)
-                    <span class="d-block text-center">{{$sales->sum('DailyRevenue')}} PKR</span>
+                    <span class="d-block text-center">{{$sales->sum('Payed')}} PKR</span>
                 @else
                     <span class="d-block text-center">N/A</span>
                 @endif
@@ -39,7 +39,7 @@
             <div class="jumbotron p-3">
                 <span class="h2 d-block text-center">Quick Sale</span>
                 <span class="d-block">
-                    <button class="btn btn-primary btn-block p-1">Make a Sale</button>
+                    <a class="btn btn-primary btn-block p-1" href="{{route('sales.newsale')}}">Make a Sale</a>
                 </span>
             </div>
         </div>
@@ -47,7 +47,7 @@
             <div class="jumbotron p-3">
                 <span class="h2 d-block text-center">Last Sale</span>
                 @if($sales and $sales->count() > 0)
-                    <span class="d-block text-center">{{$sales->last()->DailyRevenue}} PKR</span>
+                    <span class="d-block text-center">{{$sales->last()->Payed}} PKR</span>
                 @else
                     <span class="d-block text-center">N/A</span>
                 @endif
@@ -60,13 +60,13 @@
 
     var label = [
         @foreach($sales as $sale)
-            '{{explode(' ', $sale->created_at)[0]}}',
+            '{{$sale->SaleId}}',
         @endforeach
     ];
 
     var data = [
         @foreach($sales as $sale)
-            '{{$sale->DailyRevenue}}',
+            '{{$sale->Payed}}',
         @endforeach
     ];
 

@@ -5,7 +5,7 @@
     <span class="h1 d-block">Edit Medicine</span>
 </div>
 
-<div class="container p-3">
+<div class="container-fluid p-3 overflow-auto">
         <div class="row mb-2">
                 <div class="col-md-6 pl-0">
                     <img class="rounded" src="/storage/medicines/{{$medicine->MedicinePic}}" height="300px" width="400px">
@@ -45,7 +45,7 @@
             <div class="col-md-12 p-0">
                 <div class="jumbotron p-3">
                     <span class="h1 d-block">Discription</span>
-                    <textarea id="discription" class="form-control" rows="15">{{$medicine->MedicineDiscription}}</textarea>
+                    <textarea id="discription" class="form-control" rows="1">{{$medicine->MedicineDiscription}}</textarea>
                 </div>
             </div>
         </div>

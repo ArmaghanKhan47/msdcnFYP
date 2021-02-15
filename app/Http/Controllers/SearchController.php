@@ -9,6 +9,7 @@ use SebastianBergmann\Environment\Console;
 
 class SearchController extends Controller
 {
+
     public function search($option, $query)
     {
         switch($option)

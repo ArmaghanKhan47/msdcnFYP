@@ -29,13 +29,13 @@
     <div id="app">
         @include('navbars.mainhorizontalbar')
         <div class="row justifiy-content-center">
-              <div class="bg-dark border-right col-xl-2">
+              <div class="bg-dark border-right col-md-2">
                 <div class="list-group list-group-flush d-none d-md-block">
                     @auth('web')
                         {{-- If user is normal --}}
                         <a href="/home" class="list-group-item list-group-item-action bg-dark text-white">Dashboard</a>
                         <a href="/inventory" class="list-group-item list-group-item-action bg-dark text-white">Inventory</a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white disabled">Sales</a>
+                        <a href="{{route('sales.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Sales</a>
                         @user ('Retailer')
                             <a href="/onlineorder" class="list-group-item list-group-item-action bg-dark text-white">Online Order</a>
                         @elseuser('Distributor')
@@ -46,6 +46,7 @@
                         <a href="/order/history" class="list-group-item list-group-item-action bg-dark text-white">Order History</a>
                         @enduser
                         <a href="/subscriptionhistory" class="list-group-item list-group-item-action bg-dark text-white">Subscription History</a>
+                        <a href="{{route('notification.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Notifications @if(session('notificationscount') > 0)<span class="badge badge-success">{{session('notificationscount')}}</span>@endif</a>
                         <a href="/settings" class="list-group-item list-group-item-action bg-dark text-white">Settings</a>
                     @endauth
                     @auth('admin')
@@ -58,8 +59,8 @@
                   {{-- end --}}
                 </div>
             </div>
-            <div class="col-xl-10">
-                <div class="container-fluid mt-xl-3 overflow-auto" style="height: 46em;">
+            <div class="col-md-10">
+                <div class="container-fluid mt-xl-3 overflow-auto" style="height: 41em;">
                     @include('inc.message')
                     @yield('content')
                 </div>

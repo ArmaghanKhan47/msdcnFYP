@@ -12,6 +12,9 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\InventorySearchController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingController;
 use App\Models\InventoryRetailer;
@@ -33,6 +36,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
+    // return view('sales.index');
     return redirect('/home');
 });
 
@@ -62,6 +66,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/cart/{itemid}', [CartController::class, 'destroy'])->whereNumber('itemid')->name('cart.remove');
 
     Route::get('/settings', SettingController::class);
+
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notification.index');
+    Route::put('/notification/read/{id}', [NotificationController::class, 'update'])->name('notification.read');
+    Route::delete('/notification/delete/{id}', [NotificationController::class, 'destroy'])->name('notification.delete');
+
+    Route::post('/inventory/search/retailer', [InventorySearchController::class, 'retailerInventorySearch'])->name('inventory.search.retailer');
+
+
+    Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
+    Route::get('/sales/newsale', [SaleController::class, 'create'])->name('sales.newsale');
+    Route::post('/sales/newsale', [SaleController::class, 'store']);
 });
 
 //Defining Admin Routes
@@ -86,5 +101,6 @@ Route::prefix('/admin')->name('admin.')->group(function () {
 
         Route::get('/pendingrequests', [RequestController::class, 'index'])->name('pending.index');
         Route::put('/request/accepted/{userid}', [RequestController::class, 'update'])->name('request.accepte');
+        Route::delete('/request/rejected/{userid}', [RequestController::class, 'destroy'])->name('request.rejected');
     });
 });

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Medicine;
+use App\Models\User;
+use App\Notifications\MedicineNotification;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -70,6 +73,9 @@ class MedicineController extends Controller
             'MedicinePic' => $filename,
             'MedicineFormula' => json_encode(explode(',', $request->input('medformula')))
         ])->MedicineId;
+
+        $message = 'New Medicine is added(' . $request->input('medname') . ' by ' . $request->input('medcompany') . ')';
+        Notification::send(User::all(), new MedicineNotification($message));
 
         return redirect()->back()->with('success', 'Medicine created with id '. $id);
     }
@@ -139,6 +145,9 @@ class MedicineController extends Controller
         $medicine->MedicineDiscription = $request->input('meddiscription');
         $medicine->MedicineFormula = json_encode(explode(',', $request->input('medformula')));
         $medicine->save();
+
+        $message = $request->input('medname') . ' by ' . $request->input('medcompany') . ' details has been updated';
+        Notification::send(User::all(), new MedicineNotification($message));
 
         return redirect(route('admin.medicine.index'))->with('success', 'Medicine#' . $id . ' changes saved');
     }

@@ -10,8 +10,11 @@ use App\Models\SubscriptionHistoryDistributor;
 use App\Models\SubscriptionHistoryRetailer;
 use App\Models\SubscriptionPackage;
 use App\Models\User;
+use App\Notifications\SubscribedNotification;
+use App\Notifications\SubscriptionNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class SubscriptionController extends Controller
 {
@@ -69,6 +72,8 @@ class SubscriptionController extends Controller
             'PackagePrice' => $request->input('pkgprice'),
             'PackageDuration' => $request->input('pkgduration')
         ])->PackageId;
+
+        Notification::send(User::all(), new SubscriptionNotification('New Package is introduced with name ' . $request->input('pkgname')));
 
         return redirect(route('admin.subscription.index'))->with('success', 'Package is created with id ' . $id);
     }
@@ -148,6 +153,7 @@ class SubscriptionController extends Controller
                 'RetailerId' => $retailer->RetailerShopId,
                 'startDate' => date("Y-m-d")
             ]);
+
         }
         elseif(Auth::user()->UserType == 'Distributor')
         {
@@ -159,6 +165,8 @@ class SubscriptionController extends Controller
                 'startDate' => date("Y-m-d")
             ]);
         }
+
+        Notification::send(Auth::user(), new SubscribedNotification('You Have Subscribed our ' . SubscriptionPackage::find($id)->PackageName . ' Package'));
 
         return redirect(route('home'))->with('success', 'Hoorah! You Subscribed, Thank You!');
 

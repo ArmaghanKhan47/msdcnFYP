@@ -55,7 +55,7 @@
                         <div class="row text-right d-none d-md-block">
                             {{-- It will display on screens from md to xxl --}}
                             <div class="col-md-12">
-                                <form class="d-inline" method="POST" action="#">
+                                <form class="d-inline" method="POST" action="{{route('admin.request.rejected', [$pending->id])}}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger" href="#nolink"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">

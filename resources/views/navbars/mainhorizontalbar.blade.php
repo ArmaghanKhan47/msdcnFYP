@@ -14,7 +14,7 @@
                     @auth('web')
                         <li class="nav-item"><a href="/home" class="nav-link">Dashboard</a></li>
                         <li class="nav-item"><a href="/inventory" class="nav-link">Inventory</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link disabled">Sales</a></li>
+                        <li class="nav-item"><a href="{{route('sales.index')}}" class="nav-link">Sales</a></li>
                         @user ('Retailer')
                             <li class="nav-item"><a href="/onlineorder" class="nav-link">Online Order</a></li>
                         @elseuser('Distributor')
@@ -25,6 +25,7 @@
                             <li class="nav-item"><a href="/order/history" class="nav-link">Order History</a></li>
                         @enduser
                         <li class="nav-item"><a href="/subscriptionhistory" class="nav-link">Subscription History</a></li>
+                        <li class="nav-item"><a href="{{route('notification.index')}}" class="nav-link">Notifications @if(session('notificationscount') > 0)<span class="badge badge-success">{{session('notificationscount')}}</span>@endif</a></li>
                         <li class="nav-item"><a href="/settings" class="nav-link">Settings</a></li>
                     @endauth
                     @auth('admin')
@@ -59,7 +60,7 @@
 
                         <div class="dropdown-menu dropdown-menu-right bg-dark" aria-labelledby="navbarDropdown">
                             @user ('Retailer')
-                                <a class="dropdown-item bg-dark text-white" href="/cart">Cart <span class="badge badge-success">@if (session('cart')){{session('cart')->count()}}@endif</span></a>
+                                <a class="dropdown-item bg-dark text-white" href="/cart">Cart @if(session('cart'))<span class="badge badge-success">@if (session('cart')->count() > 0){{session('cart')->count()}}@endif</span>@endif</a>
                                 <hr class="dropdown-divider">
                             @enduser
                             <a class="dropdown-item bg-dark text-white" href="{{ route('logout') }}"

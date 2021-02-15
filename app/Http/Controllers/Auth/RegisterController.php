@@ -77,7 +77,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'UserType' => $data['usertype'],
-            'AccountStatus' => 'DEACTIVE',
+            'AccountStatus' => 'PENDING',
             'CnicCardNumber' => $data['cnicnumber'],
             'api_token' => Str::random(60),
             'CnicFrontPic' => $picturesname[0],

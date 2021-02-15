@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\PointOfSaleRetailerRecord;
 use App\Models\RetailerShop;
+use App\Models\Sale;
 use App\Models\User;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,16 +40,22 @@ class HomeController extends Controller
             return $shop;
         }
 
+        $notifications = User::find(Auth::id())->unreadNotifications->count();
+        session(['notificationscount' => $notifications]);
+
         $this->getSubscription($data);
 
         $sales = null;
         if (Auth::user()->UserType == 'Retailer')
         {
-            $sales = PointOfSaleRetailerRecord::where('RetailerShopId','=',RetailerShop::where('UserId','=',Auth::id())->first()->RetailerShopId)->get();
+            // $sales = PointOfSaleRetailerRecord::where('RetailerShopId','=',RetailerShop::where('UserId','=',Auth::id())->first()->RetailerShopId)->get();
+            $retailerId = RetailerShop::where('UserId','=',Auth::id())->first()->RetailerShopId;
+            $posid = PointOfSaleRetailerRecord::where('RetailerShopId', $retailerId)->where('created_at', 'LIKE', date('Y-m-d').'%')->first()->RecordId;
+            $sales = Sale::select('SaleId', 'Payed')->where('PointOfSaleId', $posid)->get();
         }
 
         // return $sales;
-        return view('home', compact('data', 'sales'));
+        return view('home', compact('data', 'sales', 'notifications'));
     }
 
     private function getUserData()
