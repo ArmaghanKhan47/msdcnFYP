@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DistributorShop;
 use App\Models\PointOfSaleRetailerRecord;
 use App\Models\RetailerShop;
 use App\Models\Sale;
 use App\Models\User;
-use Illuminate\Contracts\Session\Session;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use function PHPUnit\Framework\assertEmpty;
@@ -46,15 +45,23 @@ class HomeController extends Controller
         $this->getSubscription($data);
 
         $sales = null;
-        if (Auth::user()->UserType == 'Retailer')
+        switch(Auth::user()->UserType)
         {
-            // $sales = PointOfSaleRetailerRecord::where('RetailerShopId','=',RetailerShop::where('UserId','=',Auth::id())->first()->RetailerShopId)->get();
-            $retailerId = RetailerShop::where('UserId','=',Auth::id())->first()->RetailerShopId;
-            $posid = PointOfSaleRetailerRecord::where('RetailerShopId', $retailerId)->where('created_at', 'LIKE', date('Y-m-d').'%')->first()->RecordId;
-            $sales = Sale::select('SaleId', 'Payed')->where('PointOfSaleId', $posid)->get();
-        }
+            case 'Retailer':
+                //Get POS data of Retailer to display on Home
+                $sales = RetailerShop::with(['pointofsale' => function($query){
+                    $query->where('created_at', 'LIKE', date('Y-m-d').'%');
+                }, 'pointofsale.sales' => function($query){
+                    $query->orderBy('updated_at', 'asc');
+                }, 'pointofsale.sales.saleitems'])->where('UserId', Auth::id())->first()->pointofsale[0]->sales;
+                break;
 
-        // return $sales;
+            case 'Distributor':
+                $sales = DistributorShop::with(['orders' => function($query){
+                    $query->where('OrderStatus', 'LIKE', 'Completed%');
+                }])->where('UserId', Auth::id())->first()->orders;
+                break;
+        }
         return view('home', compact('data', 'sales', 'notifications'));
     }
 

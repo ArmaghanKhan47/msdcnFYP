@@ -22,7 +22,7 @@
             </div>
             <div class="col-md-4">
                 <div class="jumbotron p-2">
-                    <span class="h4 d-block">700</span>
+                    <span class="h4 d-block">{{$yesterday}}</span>
                     <span class="h5 text-muted">Yesterday's Total</span>
                 </div>
             </div>

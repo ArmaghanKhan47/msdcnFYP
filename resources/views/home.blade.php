@@ -4,8 +4,6 @@
 <div class="jumbotron p-3">
     <span class="h1 d-block">Dashboard</span>
 </div>
-
-@user('Retailer')
 <div class="jumbotron p-3 mb-1">
     <span class="h2 d-block">Sales Graph</span>
     @if($sales and $sales->count() > 0)
@@ -23,31 +21,37 @@
             <div class="jumbotron p-3">
                 <span class="h2 d-block text-center">Total Sale</span>
                 @if($sales and $sales->count() > 0)
-                    <span class="d-block text-center">{{$sales->sum('Payed')}} PKR</span>
+                    <span class="d-block text-center">@user('Retailer'){{$sales->sum('Payed')}}@elseuser('Distributor'){{$sales->sum('PayableAmount')}}@enduser PKR</span>
                 @else
                     <span class="d-block text-center">N/A</span>
                 @endif
             </div>
         </div>
-        <div class="col-md-3 p-0 pr-1">
-            <div class="jumbotron p-3">
-                <span class="h2 d-block text-center">Medicine Sold</span>
-                <span class="d-block text-center">50</span>
+        @user('Retailer')
+            <div class="col-md-3 p-0 pr-1">
+                <div class="jumbotron p-3">
+                    <span class="h2 d-block text-center">Medicine Sold</span>
+                    <span class="d-block text-center">{{$sales->sum(function($sale){
+                        return $sale->saleitems->sum(function($item){
+                            return $item->Quantity;
+                        });
+                    })}}</span>
+                </div>
             </div>
-        </div>
-        <div class="col-md-3 p-0 pr-1">
-            <div class="jumbotron p-3">
-                <span class="h2 d-block text-center">Quick Sale</span>
-                <span class="d-block">
-                    <a class="btn btn-primary btn-block p-1" href="{{route('sales.newsale')}}">Make a Sale</a>
-                </span>
+            <div class="col-md-3 p-0 pr-1">
+                <div class="jumbotron p-3">
+                    <span class="h2 d-block text-center">Quick Sale</span>
+                    <span class="d-block">
+                        <a class="btn btn-primary btn-block p-1" href="{{route('sales.newsale')}}">Make a Sale</a>
+                    </span>
+                </div>
             </div>
-        </div>
+        @enduser
         <div class="col-md-3 p-0">
             <div class="jumbotron p-3">
                 <span class="h2 d-block text-center">Last Sale</span>
                 @if($sales and $sales->count() > 0)
-                    <span class="d-block text-center">{{$sales->last()->Payed}} PKR</span>
+                    <span class="d-block text-center">@user('Retailer'){{$sales->last()->Payed}}@elseuser('Distributor'){{$sales->last()->PayableAmount}}@enduser PKR</span>
                 @else
                     <span class="d-block text-center">N/A</span>
                 @endif
@@ -60,13 +64,21 @@
 
     var label = [
         @foreach($sales as $sale)
-            '{{$sale->SaleId}}',
+            @user('Retailer')
+                '{{$sale->SaleId}}',
+            @elseuser('Distributor')
+                '{{$sale->OrderId}}',
+            @enduser
         @endforeach
     ];
 
     var data = [
         @foreach($sales as $sale)
-            '{{$sale->Payed}}',
+            @user('Retailer')
+                '{{$sale->Payed}}',
+            @elseuser('Distributor')
+                '{{$sale->PayableAmount}}',
+            @enduser
         @endforeach
     ];
 
@@ -96,5 +108,4 @@ var myChart = new Chart(ctx, {
 });
 </script>
 @endif
-@enduser
 @endsection

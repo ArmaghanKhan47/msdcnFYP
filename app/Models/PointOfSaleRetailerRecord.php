@@ -20,4 +20,9 @@ class PointOfSaleRetailerRecord extends Model
     {
         return $this->belongsTo(RetailerShop::class, 'RetailerShopId');
     }
+
+    public function sales()
+    {
+        return $this->hasMany(Sale::class, 'PointOfSaleId');
+    }
 }

@@ -30,4 +30,9 @@ class RetailerShop extends Model
     {
         return $this->hasMany(SubscriptionHistoryRetailer::class, 'RetailerId');
     }
+
+    public function pointofsale()
+    {
+        return $this->hasMany(PointOfSaleRetailerRecord::class, 'RetailerShopId');
+    }
 }

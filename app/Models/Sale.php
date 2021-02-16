@@ -23,4 +23,9 @@ class Sale extends Model
         'updated_at',
         'PointOfSaleId'
     ];
+
+    public function saleitems()
+    {
+        return $this->hasMany(SaleItem::class, 'SaleId');
+    }
 }

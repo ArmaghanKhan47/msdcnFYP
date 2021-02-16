@@ -11,7 +11,7 @@
                     <li>Enter your <strong>Valid Email Address</strong></li>
                     <li>Enter <strong>Strong Password</strong></li>
                     <li>Select your type <strong>Retailer</strong> or <strong>Distributor</strong></li>
-                    <li>Enter your <strong>CNIC Number</strong> (16-digit number)</li>
+                    <li>Enter your <strong>CNIC Number</strong> (13-digit number)</li>
                     <li>Click <strong>Register</strong> Button</li>
                     <li>By clicking <strong>Register</strong> Button you will be redirect to next page, where you enter your shop details</li>
                 </ul>
@@ -87,7 +87,7 @@
                         <label for="cnicnumber" class="col-md-4 col-form-label text-md-right">{{ __('CNIC Number') }}</label>
 
                         <div class="col-md-6">
-                            <input type="text" id="cnicnumber" name="cnicnumber" class="form-control" required max="16" min="16">
+                            <input type="text" id="cnicnumber" name="cnicnumber" class="form-control" required max="13" min="13">
                         </div>
                     </div>
 

@@ -20,10 +20,18 @@ class SaleController extends Controller
      */
     public function index()
     {
-        $retailerId = RetailerShop::where('UserId','=',Auth::id())->first()->RetailerShopId;
-        $posid = PointOfSaleRetailerRecord::where('RetailerShopId', $retailerId)->where('created_at', 'LIKE', date('Y-m-d').'%')->first()->RecordId;
-        $sales = Sale::where('PointOfSaleId', $posid)->orderBy('updated_at', 'desc')->get();
-        return view('sales.index', compact('sales'));
+        $sales = RetailerShop::with(['pointofsale' => function($query){
+            $query->where('created_at', 'LIKE', date('Y-m-d').'%');
+        }, 'pointofsale.sales' => function($query){
+            $query->orderBy('updated_at', 'desc');
+        }])->where('UserId', Auth::id())->first()->pointofsale[0]->sales;
+
+        $yesterday = RetailerShop::with(['pointofsale' => function($query){
+            $query->where('created_at', 'LIKE', date('Y-m-d', strtotime('yesterday')).'%');
+        }, 'pointofsale.sales' => function($query){
+            $query->orderBy('updated_at', 'desc');
+        }])->where('UserId', Auth::id())->first()->pointofsale[0]->sales->sum('Payed');
+        return view('sales.index', compact('sales', 'yesterday'));
     }
 
     /**

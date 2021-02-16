@@ -30,4 +30,9 @@ class DistributorShop extends Model
     {
         return $this->hasMany(SubscriptionHistoryDistributor::class, 'DistributorId');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'DistributorId');
+    }
 }
