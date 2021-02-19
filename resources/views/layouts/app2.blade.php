@@ -26,8 +26,8 @@
     <div id="app">
         @include('navbars.mainhorizontalbar')
 
-        <div class="row justifiy-content-center">
-            <div class="col-xl-12">
+        <div class="row justifiy-content-center m-0">
+            <div class="col-md-12 m-0">
                 <div class="container mt-md-3">
                     @include('inc.message')
                     @yield('content')

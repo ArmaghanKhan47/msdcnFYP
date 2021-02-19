@@ -14,8 +14,8 @@
                     @auth('web')
                         <li class="nav-item"><a href="/home" class="nav-link">Dashboard</a></li>
                         <li class="nav-item"><a href="/inventory" class="nav-link">Inventory</a></li>
-                        <li class="nav-item"><a href="{{route('sales.index')}}" class="nav-link">Sales</a></li>
                         @user ('Retailer')
+                            <li class="nav-item"><a href="{{route('sales.index')}}" class="nav-link">Sales</a></li>
                             <li class="nav-item"><a href="/onlineorder" class="nav-link">Online Order</a></li>
                         @elseuser('Distributor')
                             <li class="nav-item"><a href="/order/history" class="nav-link">Orders</a></li>

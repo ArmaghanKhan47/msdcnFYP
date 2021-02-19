@@ -24,7 +24,11 @@ class SaleController extends Controller
             $query->where('created_at', 'LIKE', date('Y-m-d').'%');
         }, 'pointofsale.sales' => function($query){
             $query->orderBy('updated_at', 'desc');
-        }])->where('UserId', Auth::id())->first()->pointofsale[0]->sales;
+        }])->where('UserId', Auth::id())->first()->pointofsale;
+        if ($sales->count() > 0)
+        {
+            $sales = $sales[0]->sales;
+        }
 
         $yesterday = RetailerShop::with(['pointofsale' => function($query){
             $query->where('created_at', 'LIKE', date('Y-m-d', strtotime('yesterday')).'%');

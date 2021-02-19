@@ -10,13 +10,13 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="jumbotron p-2">
-                    <span class="h4 d-block">{{$sales->sum('Payed')}}</span>
+                    <span class="h4 d-block">@if($sales->count() > 0){{$sales->sum('Payed')}}@else{{'0'}}@endif</span>
                     <span class="h5 text-muted">Today's Total</span>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="jumbotron p-2">
-                    <span class="h4 d-block">{{$sales->first()->Payed}}</span>
+                    <span class="h4 d-block">@if($sales->count() > 0){{$sales->first()->Payed}}@else{{'0'}}@endif</span>
                     <span class="h5 text-muted">Today's Last</span>
                 </div>
             </div>

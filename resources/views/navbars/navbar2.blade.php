@@ -61,7 +61,7 @@
               }
           };
 
-          httpobj.open("POST", "/search/" + o + "/" + q.trim().replace(/\s+/g, '').toLowerCase(), true);
+          httpobj.open("POST", "/search/" + o + "/" + q.trim().toLowerCase(), true);
           httpobj.setRequestHeader("X-CSRF-TOKEN",  "{{ csrf_token() }}");
           httpobj.send();
       });

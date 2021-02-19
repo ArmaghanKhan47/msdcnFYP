@@ -53,7 +53,11 @@ class HomeController extends Controller
                     $query->where('created_at', 'LIKE', date('Y-m-d').'%');
                 }, 'pointofsale.sales' => function($query){
                     $query->orderBy('updated_at', 'asc');
-                }, 'pointofsale.sales.saleitems'])->where('UserId', Auth::id())->first()->pointofsale[0]->sales;
+                }, 'pointofsale.sales.saleitems'])->where('UserId', Auth::id())->first()->pointofsale;
+                if($sales->count() > 0)
+                {
+                    $sales = $sales[0]->sales;
+                }
                 break;
 
             case 'Distributor':

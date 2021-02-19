@@ -35,8 +35,8 @@
                         {{-- If user is normal --}}
                         <a href="/home" class="list-group-item list-group-item-action bg-dark text-white">Dashboard</a>
                         <a href="/inventory" class="list-group-item list-group-item-action bg-dark text-white">Inventory</a>
-                        <a href="{{route('sales.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Sales</a>
                         @user ('Retailer')
+                            <a href="{{route('sales.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Sales</a>
                             <a href="/onlineorder" class="list-group-item list-group-item-action bg-dark text-white">Online Order</a>
                         @elseuser('Distributor')
                         <a href="/order/history" class="list-group-item list-group-item-action bg-dark text-white">Orders</a>
