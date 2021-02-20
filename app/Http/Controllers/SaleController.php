@@ -34,7 +34,11 @@ class SaleController extends Controller
             $query->where('created_at', 'LIKE', date('Y-m-d', strtotime('yesterday')).'%');
         }, 'pointofsale.sales' => function($query){
             $query->orderBy('updated_at', 'desc');
-        }])->where('UserId', Auth::id())->first()->pointofsale[0]->sales->sum('Payed');
+        }])->where('UserId', Auth::id())->first()->pointofsale;
+        if ($yesterday->count() > 0)
+        {
+            $yesterday = $yesterday[0]->sales->sum('Payed');
+        }
         return view('sales.index', compact('sales', 'yesterday'));
     }
 
