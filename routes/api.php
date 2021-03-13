@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\UserApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use Illuminate\Http\Client\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +18,10 @@ use App\Models\User;
 |
 */
 
+Route::post('/login', [UserApiController::class, 'login']);
+
 Route::middleware('auth:api')->group(function(){
     Route::get('/user', function(Request $request){
         return Auth::user();
-    });
-
-    Route::get('/user/inventory', function(Request $request){
     });
 });

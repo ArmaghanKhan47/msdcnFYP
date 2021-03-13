@@ -11,12 +11,7 @@
                             <span class="h5 d-block">{{$data->MedicineName}} - {{$data->MedicineType}}</span>
                             <span class="h6 d-block text-muted">By {{$data->MedicineCompany}}</span>
                             <span class="h6 d-block text-muted">{{$data->inventorydistributor->distributor->DistributorShopName}}</span>
-                            <span class="h6 d-block text-muted">
-                                Contains
-                                @foreach (json_decode($data->MedicineFormula) as $item)
-                                    {{$item}},
-                                @endforeach
-                            </span>
+                            <span class="h6 d-block text-muted">Contains {{implode(',', json_decode($data->MedicineFormula))}}</span>
                             <div>
                                 <span><span id="unitprice">{{$data->inventorydistributor->UnitPrice}}</span>{{' PKR'}}</span>
                                 <span class="float-right">In Stock {{$data->inventorydistributor->Quantity}}</span>

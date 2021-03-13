@@ -42,7 +42,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'subcheck']], function () {
     Route::get('/onlineorder', [OrderController::class, 'index']);
     Route::get('/ordercheckout', [OrderController::class, 'create']);
     Route::put('/ordercheckout', [OrderController::class, 'store']);
@@ -57,7 +57,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('/shopregistration', ShopRegistrationController::class);
 
-    Route::resource('/subscription', SubscriptionController::class);
+    Route::resource('/subscription', SubscriptionController::class)->withoutMiddleware('subcheck')->middleware('subselect');
 
     Route::get('/subscriptionhistory', [SubscriptionHistoryController::class, 'index']);
 
@@ -65,7 +65,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/cart', [CartController::class, 'store']);
     Route::delete('/cart/{itemid}', [CartController::class, 'destroy'])->whereNumber('itemid')->name('cart.remove');
 
-    Route::get('/settings', SettingController::class);
+    Route::get('/settings', [SettingController::class, 'index'])->withoutMiddleware('subcheck');
+    Route::post('/settings/api/token/regenerate', [SettingController::class, 'regenerateApiToken'])->name('api.token.regenerate');
+    Route::post('/settings/reapplied', [SettingController::class, 'reapply'])->withoutMiddleware('subcheck')->name('settings.reapply');
 
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notification.index');
     Route::put('/notification/read/{id}', [NotificationController::class, 'update'])->name('notification.read');
@@ -77,6 +79,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
     Route::get('/sales/newsale', [SaleController::class, 'create'])->name('sales.newsale');
     Route::post('/sales/newsale', [SaleController::class, 'store']);
+
+    Route::get('/test', function(){
+        return view('test');
+    });
 });
 
 //Defining Admin Routes

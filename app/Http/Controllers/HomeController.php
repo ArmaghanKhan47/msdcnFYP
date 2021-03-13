@@ -8,6 +8,7 @@ use App\Models\RetailerShop;
 use App\Models\Sale;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 use function PHPUnit\Framework\assertEmpty;
 
@@ -66,6 +67,7 @@ class HomeController extends Controller
                 }])->where('UserId', Auth::id())->first()->orders;
                 break;
         }
+        session(['region' => RetailerShop::select('Region')->where('UserId', Auth::id())->first()->Region]);
         return view('home', compact('data', 'sales', 'notifications'));
     }
 
@@ -124,7 +126,9 @@ class HomeController extends Controller
                 if ($userData->retailershop->subscriptions->count() == 0)
                 {
                     //Not subscribed any offer
-                    session(['error' => 'You Haven\'t Subscribed yet!']);
+                    // session(['error' => 'You Haven\'t Subscribed yet! <a href="/subscription" class="link-danger">Click Here</a>']);
+                    // Session::flash('error', 'You Haven\'t Subscribed yet! <a href="/subscription" class="link-danger">Click Here</a>');
+                    session()->now('error', 'You Haven\'t Subscribed yet! <a href="/subscription" class="link-danger">Click Here</a>');
                 }
                 break;
 
@@ -132,7 +136,9 @@ class HomeController extends Controller
                 if ($userData->distributorshop->subscriptions->count() == 0)
                     {
                         //Not subscribed any offer
-                        session(['error' => 'You Haven\'t Subscribed yet!']);
+                        // session(['error' => 'You Haven\'t Subscribed yet! <a href="/subscription" class="link-danger">Click Here</a>']);
+                        // Session::flash('error', 'You Haven\'t Subscribed yet! <a href="/subscription" class="link-danger">Click Here</a>');
+                        session()->now('error', 'You Haven\'t Subscribed yet! <a href="/subscription" class="link-danger">Click Here</a>');
                     }
                 break;
         }

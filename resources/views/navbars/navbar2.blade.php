@@ -9,7 +9,7 @@
     <div class="collapse navbar-collapse" id="navb">
       <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-              Region : HAZARA
+              Region : {{session('region')}}
           </li>
       </ul>
       @if (url()->current() == url('/onlineorder'))

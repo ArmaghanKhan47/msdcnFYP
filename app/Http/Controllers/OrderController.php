@@ -20,7 +20,15 @@ class OrderController extends Controller
     public function index()
     {
         //Show Medicine to Retailer, avalible to Buy
-        $result = InventoryDistributor::with('distributor', 'medicine')->get();
+        $result = InventoryDistributor::with(['distributor' => function($query){
+            $query->where('Region', session('region'));
+        }, 'medicine'])->get();
+        $result = $result->map(function($item, $key){
+            if ($item->distributor != null)
+            {
+                return $item;
+            }
+        });
         // $data = DistributorShop::with('inventories.medicine')->select('DistributorShopId' ,'DistributorShopName')->get();
         return view('testingViews.order')->with('data', $result);
     }

@@ -23,8 +23,8 @@
                             <input id="searchinput" type="text" class="form-control" list="searchresults" inventoryid='0'>
                             <div class="input-group-append">
                                 <button id="btnadd" class="btn btn-success">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                                       </svg>
                                 </button>
                             </div>
@@ -205,18 +205,24 @@
             });
 
             document.getElementById('btnadd').addEventListener('click', function(){
-                var val = $('option[value=\"' + searchtext.value + '\"]');
-                var company = val.attr('company');
-                var name = val.attr('value');
-                var unitprice = val.attr('unitprice');
-                var medicineid = val.attr('medicineid');
-                var inventoryid = val.attr('inventoryid');
+                if (searchtext.value.trim() != '')
+                {
+                    var val = $('option[value=\"' + searchtext.value + '\"]');
+                    var company = val.attr('company');
+                    var name = val.attr('value');
+                    var unitprice = val.attr('unitprice');
+                    var medicineid = val.attr('medicineid');
+                    var inventoryid = val.attr('inventoryid');
 
-                //getting item list
-                $('#item-list').append(createItem(name, company, unitprice, medicineid, inventoryid));
-                //Calculate Price
-                calculatePrice($('#item-list'));
-
+                    //getting item list
+                    $('#item-list').append(createItem(name, company, unitprice, medicineid, inventoryid));
+                    //Calculate Price
+                    calculatePrice($('#item-list'));
+                }
+                else
+                {
+                    alert('Please select medicine');
+                }
             });
 
            document.getElementById('checkout').addEventListener('click', function(event){
