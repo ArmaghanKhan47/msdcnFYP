@@ -60,7 +60,7 @@
                 </div>
             </div>
             <div class="col-md-10">
-                <div class="container-fluid mt-xl-3 overflow-auto" style="height: 41em;">
+                <div class="container-fluid mt-xl-3 overflow-auto" style="height: 38.5em;">
                     @include('inc.message')
                     @yield('content')
                 </div>

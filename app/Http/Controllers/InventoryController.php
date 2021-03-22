@@ -41,8 +41,8 @@ class InventoryController extends Controller
     public function create()
     {
         //
-        $medicines = Medicine::select('MedicineId', 'MedicineName', 'MedicineType', 'MedicineCompany')->orderBy('MedicineName', 'asc')->get()->mapToGroups(function($item, $key){
-            return [$item->MedicineName[0] => $item];
+        $medicines = Medicine::select('MedicineId', 'MedicineName', 'MedicineType', 'MedicineCompany', 'MedicineFormula')->orderBy('MedicineCompany', 'asc')->get()->mapToGroups(function($item, $key){
+            return [$item->MedicineCompany => $item];
         });
         return view('testingViews.inventoryadd')->with('medicines', $medicines);
     }
@@ -57,30 +57,60 @@ class InventoryController extends Controller
     {
         //Store New
         $this->validate($request, [
-            'medicineid' => 'numeric|required',
-            'quantity' => 'numeric|required',
-            'unitprice' => 'numeric|required'
+            'medicine_list' => 'string|required'
         ]);
+
+        $medicine_list = json_decode($request->input('medicine_list'));
 
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
                 $retailershopid = RetailerShop::select('RetailerShopId')->where('UserId', '=', Auth::id())->first()->RetailerShopId;
-                InventoryRetailer::create([
-                    'RetailerShopId' => $retailershopid,
-                    'MedicineId' => $request->input('medicineid'),
-                    'Quantity' => $request->input('quantity'),
-                    'UnitPrice' => $request->input('unitprice')
-                ]);
+                foreach($medicine_list as $key => $value)
+                {
+                    $record = InventoryRetailer::where('RetailerShopId', $retailershopid)->where('MedicineId', $key)->first();
+                    if ($record)
+                    {
+                        //Medicine exist in inventory
+                        $record->Quantity += $value[0];
+                        $record->UnitPrice = ($value[1] == 0) ? ($record->UnitPrice) : ($value[1]);
+                        $record->save();
+                    }
+                    else
+                    {
+                        //Medicine does not exist in inventory
+                        InventoryRetailer::create([
+                            'RetailerShopId' => $retailershopid,
+                            'MedicineId' => $key,
+                            'Quantity' => $value[0],
+                            'UnitPrice' => $value[1]
+                        ]);
+                    }
+                }
                 break;
             case 'Distributor':
                 $distributorshopid = DistributorShop::select('DistributorShopId')->where('UserId', '=', Auth::id())->first()->DistributorShopId;
-                InventoryDistributor::create([
-                    'DistributorShopId' => $distributorshopid,
-                    'MedicineId' => $request->input('medicineid'),
-                    'Quantity' => $request->input('quantity'),
-                    'UnitPrice' => $request->input('unitprice')
-                ]);
+                foreach($medicine_list as $key => $value)
+                {
+                    $record = InventoryDistributor::where('DistributorShopId', $distributorshopid)->where('MedicineId', $key)->first();
+                    if ($record)
+                    {
+                        //Medicine exist in inventory
+                        $record->Quantity += $value[0];
+                        $record->UnitPrice = ($value[1] == 0) ? ($record->UnitPrice) : ($value[1]);
+                        $record->save();
+                    }
+                    else
+                    {
+                        //Medicine does not exist in inventory
+                        InventoryDistributor::create([
+                            'DistributorShopId' => $distributorshopid,
+                            'MedicineId' => $key,
+                            'Quantity' => $value[0],
+                            'UnitPrice' => $value[1]
+                        ]);
+                    }
+                }
                 break;
         }
 

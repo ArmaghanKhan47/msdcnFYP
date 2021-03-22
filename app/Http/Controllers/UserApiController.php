@@ -31,12 +31,12 @@ class UserApiController extends Controller
                 }
                 else
                 {
-                    return response()->json(['error' => 'Invalid Password or Email']);
+                    return response()->json(['error' => 'Invalid Password or Email', 'error_code' => 404]);
                 }
             }
             else
             {
-                return response()->json(['error' => 'Invalid Password or Email']);
+                return response()->json(['error' => 'User Doest not Exist', 'error_code' => 404]);
             }
         }
     }

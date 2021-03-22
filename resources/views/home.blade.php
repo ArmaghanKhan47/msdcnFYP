@@ -61,7 +61,6 @@
 </div>
 @if($sales)
 <script>
-
     var label = [
         @foreach($sales as $sale)
             @user('Retailer')

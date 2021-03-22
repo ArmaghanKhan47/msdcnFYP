@@ -55,11 +55,13 @@
         </div>
         <script>
             //Custom JS to update total price as Quantity Increases or Decreases
-            document.getElementById('quantity').addEventListener('change', function(){
-                var quantity = document.getElementById('quantity').value;
-                var unitprice = document.getElementById('unitprice').innerText;
-                document.getElementById('totalprice').value = (quantity * unitprice).toFixed(2);
-            });
+            window.onload = function(){
+                $('#quantity').on('change', function(){
+                    var quantity = $('#quantity').val();
+                    var unitprice = $('#unitprice').text();
+                    $('#totalprice').val((quantity * unitprice).toFixed(2));
+                });
+            }
         </script>
     </div>
 @endsection

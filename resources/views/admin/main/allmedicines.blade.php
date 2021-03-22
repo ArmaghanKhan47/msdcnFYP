@@ -1,19 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="jumbotron p-3 mb-3">
-        <span class="h1 d-block">Medicines</span>
-    </div>
-
-    <div class="jumbotron p-2 mb-3">
-        {{-- Controlles --}}
-        <div class="row">
-            <div class="col-md-10"></div>
-            <div class="col-md-2 justify-content-end">
+<div class="jumbotron p-3">
+    <div class="row">
+        <div class="col-md-10">
+            <span class="h1 d-block">Medicines</span>
+        </div>
+        <div class="p-2 col-md-2 d-flex align-items-middle justify-content-end">
+            <span>
                 <a href="{{route('admin.medicine.create')}}" class="btn btn-success">Add New Medicine</a>
-            </div>
+            </span>
         </div>
     </div>
+</div>
     @foreach ($medicines as $medicine)
         <div class="jumbotron p-3 mb-1">
             <div class="row">

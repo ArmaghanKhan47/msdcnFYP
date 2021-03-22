@@ -10944,7 +10944,16 @@ a.text-dark:focus {
   }
 }
 
-.greenshade {
-  background-color: #ffff1a !important;
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #adb5bd;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #71808e;
 }
 
