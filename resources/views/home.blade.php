@@ -61,7 +61,9 @@
 </div>
 @if($sales)
 <script>
-    var label = [
+    window.onload = function()
+    {
+        var label = [
         @foreach($sales as $sale)
             @user('Retailer')
                 '{{$sale->SaleId}}',
@@ -105,6 +107,7 @@ var myChart = new Chart(ctx, {
         }
     }
 });
+    }
 </script>
 @endif
 @endsection

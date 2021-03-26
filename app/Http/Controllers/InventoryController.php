@@ -68,6 +68,13 @@ class InventoryController extends Controller
                 $retailershopid = RetailerShop::select('RetailerShopId')->where('UserId', '=', Auth::id())->first()->RetailerShopId;
                 foreach($medicine_list as $key => $value)
                 {
+                    //Check for ensuring the data type of variables
+                    if ((!is_numeric($value[0]) || (integer)$value[0] < 0) && (!is_numeric($value[1]) != 'double' || (double)$value[1] < 0))
+                    {
+                        // return '<h1>If Statment</h1><br><span>0 is_numeric: '. is_numeric($value[0]) .'</span><br><span>0 gettype: '. gettype($value[0]) .'</span><br><span>0 value: '. $value[0] .'</span><br><span>1 is_numeric: '. is_numeric($value[1]) .'</span><br><span>1 gettype: '. gettype($value[1]) .'</span><br><span>1 value: '. $value[1] .'</span>';
+                        return redirect()->back()->with('error', 'Invalid Values Entered');
+                    }
+
                     $record = InventoryRetailer::where('RetailerShopId', $retailershopid)->where('MedicineId', $key)->first();
                     if ($record)
                     {
@@ -92,6 +99,13 @@ class InventoryController extends Controller
                 $distributorshopid = DistributorShop::select('DistributorShopId')->where('UserId', '=', Auth::id())->first()->DistributorShopId;
                 foreach($medicine_list as $key => $value)
                 {
+                    //Check for ensuring the data type of variables
+                    if ((!is_numeric($value[0]) || (integer)$value[0] < 0) && (!is_numeric($value[1]) != 'double' || (double)$value[1] < 0))
+                    {
+                        // return '<h1>If Statment</h1><br><span>0 is_numeric: '. is_numeric($value[0]) .'</span><br><span>0 gettype: '. gettype($value[0]) .'</span><br><span>0 value: '. $value[0] .'</span><br><span>1 is_numeric: '. is_numeric($value[1]) .'</span><br><span>1 gettype: '. gettype($value[1]) .'</span><br><span>1 value: '. $value[1] .'</span>';
+                        return redirect()->back()->with('error', 'Invalid Values Entered');
+                    }
+                    
                     $record = InventoryDistributor::where('DistributorShopId', $distributorshopid)->where('MedicineId', $key)->first();
                     if ($record)
                     {

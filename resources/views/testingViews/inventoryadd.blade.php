@@ -38,11 +38,11 @@
                                     <span class="d-block h6 text-muted">{{$med->MedicineCompany}}</span>
                                 </div>
                                 <div class="col-md-3">
-                                    <input name="quantity" type="number" step="1" class="form-control d-block" placeholder="Quantity" value="0" pattern="[0-9]+" min="0">
+                                    <input name="quantity" type="number" step="1" class="form-control d-block" placeholder="Quantity" value="0" pattern="[0-9]" min="0">
                                     <span class="d-block h6 text-muted mt-1">Quantity</span>
                                 </div>
                                 <div class="col-md-3">
-                                    <input name="unitprice" type="number" step="0.5" class="form-control" placeholder="Unit Price" value="0" pattern="[0-9]+" min="0">
+                                    <input name="unitprice" type="number" step="0.5" class="form-control" placeholder="Unit Price" value="0" pattern="[0-9]" min="0">
                                     <span class="d-block h6 text-muted mt-1">Unit Price</span>
                                 </div>
                                 <div class="col-md-1 p-2">
@@ -101,9 +101,11 @@
             {
                 var parent2 = $(ref).parent().parent();
                 var key = parent2.find('input[name=id]').val();
+                var quantity = parent2.find('input[name=quantity]').val();
+                var unitprice = parent2.find('input[name=unitprice]').val();
                 var item = [
-                    parent2.find('input[name=quantity]').val(),
-                    parent2.find('input[name=unitprice]').val()
+                    quantity > 0 ? quantity : 0,
+                    unitprice > 0 ? unitprice : 0
                 ];
                 item_list[key] = item;
             }
@@ -136,7 +138,7 @@
                     count += 1;
                     $(parent).prev().find('span.num-text').text(count);
                     var num_body = $(parent).prev().find('span.num-body');
-                    if (num_body.hasClass('d-none'))
+                    if (num_body.hasClass('d-none') || count > 0)
                     {
                         num_body.removeClass('d-none').addClass('d-inline');
                     }
@@ -150,7 +152,7 @@
                     count -= 1;
                     $(parent).prev().find('span.num-text').text(count);
                     var num_body = $(parent).prev().find('span.num-body');
-                    if (count == 0)
+                    if (count <= 0)
                     {
                         num_body.removeClass('d-inline').addClass('d-none');
                     }

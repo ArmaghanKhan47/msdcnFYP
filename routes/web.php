@@ -14,6 +14,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventorySearchController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingController;
@@ -80,9 +81,11 @@ Route::group(['middleware' => ['auth', 'subcheck']], function () {
     Route::get('/sales/newsale', [SaleController::class, 'create'])->name('sales.newsale');
     Route::post('/sales/newsale', [SaleController::class, 'store']);
 
-    Route::get('/test', function(){
-        return view('test');
-    });
+    Route::get('/reports', [ReportController::class, 'index'])->name('report.index');
+    Route::post('/reports/daily', [ReportController::class, 'reportsByDaily'])->name('reports.daily');
+    Route::post('/reports/weekly', [ReportController::class, 'reportsByWeekly'])->name('reports.weekly');
+    Route::post('/reports/monthly', [ReportController::class, 'reportsByMonthly'])->name('reports.monthly');
+    Route::post('/reports/yearly', [ReportController::class, 'reportsByYearly'])->name('reports.yearly');
 });
 
 //Defining Admin Routes
@@ -104,6 +107,8 @@ Route::prefix('/admin')->name('admin.')->group(function () {
         Route::get('/subscriptions', [SubscriptionController::class, 'adminindex'])->name('subscription.index');
         Route::get('/subscriptions/create', [SubscriptionController::class, 'create'])->name('subscription.create');
         Route::post('/subscriptions/create', [SubscriptionController::class, 'store']);
+        Route::get('/subscriptions/edit/{id}', [SubscriptionController::class, 'edit'])->name('subscription.edit');
+        Route::post('/subscriptions/edit/{id}', [SubscriptionController::class, 'adminUpdate']);
 
         Route::get('/pendingrequests', [RequestController::class, 'index'])->name('pending.index');
         Route::put('/request/accepted/{userid}', [RequestController::class, 'update'])->name('request.accepte');

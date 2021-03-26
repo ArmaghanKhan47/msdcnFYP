@@ -103,6 +103,26 @@ class SubscriptionController extends Controller
     public function edit($id)
     {
         //
+        $data = SubscriptionPackage::find($id);
+        return view('admin.main.editsubscriptionpackage')->with('package', $data);
+    }
+
+    public function adminUpdate(Request $request, $id)
+    {
+        $this->validate($request, [
+            'pkgname' => 'string|required|max:255',
+            'pkgprice' => 'numeric|required',
+            'pkgduration' => 'numeric|required'
+        ]);
+
+        $package = SubscriptionPackage::find($id);
+        $package->PackageName = $request->input('pkgname');
+        $package->PackagePrice = $request->input('pkgprice');
+        $package->PackageDuration = $request->input('pkgduration');
+        $package->save();
+
+        return redirect(route('admin.subscription.index'))->with('success', 'Packaged Updated');
+
     }
 
     /**

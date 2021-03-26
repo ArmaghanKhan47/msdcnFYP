@@ -20,7 +20,7 @@
                         @elseuser('Distributor')
                             <li class="nav-item"><a href="/order/history" class="nav-link">Orders</a></li>
                         @enduser
-                        <li class="nav-item"><a href="#" class="nav-link disabled">Reports</a></li>
+                        <li class="nav-item"><a href="{{route('report.index')}}" class="nav-link">Reports</a></li>
                         @user('Retailer')
                             <li class="nav-item"><a href="/order/history" class="nav-link">Order History</a></li>
                         @enduser
