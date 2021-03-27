@@ -49,6 +49,10 @@ class SubscriptionCheck
                         session()->now('error', 'Your Subscription will end in ' . (string)$interval->days . ' days');
                     }
                 }
+                else
+                {
+                    return redirect(route('subscription.index'))->with('error', 'Please Subscribe');
+                }
 
         //Check Account Status
         switch(User::find(Auth::id())->AccountStatus)
