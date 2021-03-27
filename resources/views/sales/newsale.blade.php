@@ -87,6 +87,31 @@
         </form>
         <script>
 
+            function discountFunction(){
+                var value = parseInt($(this).text());
+                var input = document.createElement('input');
+                $(input).addClass('form-control').val(value);
+                $(this).html(input);
+                $(this).unbind('click');
+
+                $(input).change(function(){
+                    var value = $(this).val();
+                    $(this).remove();
+                    $('#discount').html(value).bind('click', discountFunction);
+
+                    var total2 = parseFloat($('#total2').html());
+                    $('#grandtotal').html(total2 - value);
+                });
+            }
+
+            window.onload = function(){
+                //Custom JQuery Start
+
+                $('#discount').click(discountFunction);
+
+                //Custom JQuery End
+            }
+
             function calculatePrice(item_list)
             {
                 var childs = $(item_list).find('span.h5.d-block');
@@ -97,7 +122,7 @@
                 }
                 var gst = (totalprice * (16/100)).toFixed(2);
                 var total2 = totalprice + parseFloat(gst);
-                var discount = 20;
+                var discount = 0;
                 var grandtotal = (total2 - discount).toFixed(2);
 
                 //put values in their places
