@@ -33,11 +33,7 @@
                     <span class="h6 d-block text-muted">Type</span>
                 </div>
                 <div class="col-md-2">
-                    <span class="h5 d-block">
-                        @foreach (json_decode($medicine->MedicineFormula) as $formula)
-                            {{$formula}},
-                        @endforeach
-                    </span>
+                    <span class="h5 d-block">{{implode(',', json_decode($medicine->MedicineFormula))}}</span>
                     <span class="h6 d-block text-muted">Formula/Contains</span>
                 </div>
                 <div class="col-md-2">

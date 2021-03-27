@@ -27,10 +27,13 @@
                         <span class="input-group-text">Medicine Type</span>
                     </div>
                     <select name="medtype" class="form-control custom-select @error('medtype'){{'is-invalid'}}@enderror" value="{{old('medtype')}}">
-                        <option value="Vial">Vial</option>
-                        <option value="Tablets">Tablets</option>
-                        <option value="Syrup">Syrup</option>
-                        <option value="Drips">Drips</option>
+                        <option value="0">Vial</option>
+                        <option value="1">Tablets</option>
+                        <option value="2">Syrup</option>
+                        <option value="3">Drips</option>
+                        <option value="4">Cream</option>
+                        <option value="5">Gel</option>
+                        <option value="6">Elixir</option>
                     </select>
                 </div>
 

@@ -17,7 +17,7 @@ class RequestController extends Controller
     public function index()
     {
         //
-        $pendings = User::where('AccountStatus', 'Pending')->get();
+        $pendings = User::where('AccountStatus', 'Pending')->with(['retailershop', 'distributorshop'])->get();
         return view('admin.main.pendingrequest', compact('pendings'));
     }
 

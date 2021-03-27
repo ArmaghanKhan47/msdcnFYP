@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class MedicineController extends Controller
 {
+    private $medtypes;
 
     public function __construct()
     {
@@ -19,6 +20,8 @@ class MedicineController extends Controller
         $this->middleware('auth')->only('show');
         //Appling Admin Auth to function except Show
         $this->middleware('auth:admin')->except('show');
+
+        $this->medtypes = ['Vial', 'Tablets', 'Syrup', 'Drips', 'Cream', 'Gel', 'Elixir'];
     }
 
     /**
@@ -56,7 +59,7 @@ class MedicineController extends Controller
         $this->validate($request, [
             'medname' => 'string|required',
             'medcompany' => 'string|required',
-            'medtype' => 'string|required',
+            'medtype' => 'numeric|required',
             'medformula' => 'string|required',
             'meddiscription' => 'string|required',
             'coverimg' => 'image|required|max:1999|mimes:jpeg,jpg,png'
@@ -69,7 +72,7 @@ class MedicineController extends Controller
             'MedicineName' => $request->input('medname'),
             'MedicineCompany' => $request->input('medcompany'),
             'MedicineDiscription' => $request->input('meddiscription'),
-            'MedicineType' => $request->input('medtype'),
+            'MedicineType' => $this->medtypes[$request->input('medtype')],
             'MedicinePic' => $filename,
             'MedicineFormula' => json_encode(explode(',', $request->input('medformula')))
         ])->MedicineId;
@@ -123,7 +126,7 @@ class MedicineController extends Controller
         $this->validate($request, [
             'medname' => 'string|required',
             'medcompany' => 'string|required',
-            'medtype' => 'string|required',
+            'medtype' => 'numeric|required',
             'medformula' => 'string|required',
             'meddiscription' => 'string|required',
             'coverimg' => 'image|max:1999|mimes:jpeg,jpg,png'
@@ -141,7 +144,7 @@ class MedicineController extends Controller
 
         $medicine->MedicineName = $request->input('medname');
         $medicine->MedicineCompany = $request->input('medcompany');
-        $medicine->MedicineType = $request->input('medtype');
+        $medicine->MedicineType = $this->medtypes[$request->input('medtype')];
         $medicine->MedicineDiscription = $request->input('meddiscription');
         $medicine->MedicineFormula = json_encode(explode(',', $request->input('medformula')));
         $medicine->save();

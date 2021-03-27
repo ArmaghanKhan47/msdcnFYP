@@ -60,7 +60,7 @@ Route::group(['middleware' => ['auth', 'subcheck']], function () {
 
     Route::resource('/subscription', SubscriptionController::class)->withoutMiddleware('subcheck')->middleware('subselect');
 
-    Route::get('/subscriptionhistory', [SubscriptionHistoryController::class, 'index']);
+    Route::get('/subscriptionhistory', [SubscriptionHistoryController::class, 'index'])->withoutMiddleware('subcheck');
 
     Route::get('/cart', [CartController::class, 'index']);
     Route::put('/cart', [CartController::class, 'store']);
