@@ -12,6 +12,7 @@
                     <ul>
                         <li>Your Credit Card info will be saved</li>
                         <li>Credit Card detail will automatically filled up if exist</li>
+                        <li>Enter 16 digit Credit Card Number</li>
                     </ul>
                 </div>
             </div>
