@@ -87,7 +87,7 @@
                         <label for="cnicnumber" class="col-md-4 col-form-label text-md-right">{{ __('CNIC Number') }}</label>
 
                         <div class="col-md-6">
-                            <input type="text" id="cnicnumber" name="cnicnumber" class="form-control" required max="13" min="13">
+                            <input type="text" pattern="[0-9]+" id="cnicnumber" name="cnicnumber" class="form-control" required maxlength="13" minlength="13" autocomplete="false">
                         </div>
                     </div>
 

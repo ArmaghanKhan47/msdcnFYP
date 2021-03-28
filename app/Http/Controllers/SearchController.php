@@ -10,8 +10,14 @@ use SebastianBergmann\Environment\Console;
 class SearchController extends Controller
 {
 
-    public function search($option, $query)
+    public function search(Request $request)
     {
+        $this->validate($request, [
+            'query' => 'string|required|alpha_num',
+            'option' => 'numeric|required'
+        ]);
+        $query = $request->input('query');
+        $option = $request->input('option');
         switch($option)
         {
             case 1:
@@ -21,9 +27,6 @@ class SearchController extends Controller
                 return $this->searchByDistributor($query);
                 break;
             case 3:
-                return $this->searchByFormula($query);
-                break;
-            case 4:
                 return $this->searchByCompany($query);
                 break;
         }
@@ -31,7 +34,7 @@ class SearchController extends Controller
 
     public function searchByMedicine($query)
     {
-        $result = Medicine::with(['inventorydistributors', 'inventorydistributors.distributor'])->where('MedicineName', 'LIKE', '%' . $query . '%')->first();
+        $result = Medicine::with(['inventorydistributor', 'inventorydistributor.distributor'])->where('MedicineName', 'LIKE', '%' . $query . '%')->get();
         return view('search.bymedicine')->with('data', $result);
     }
 
@@ -41,15 +44,9 @@ class SearchController extends Controller
         return view('search.bydistributor')->with('data', $result);
     }
 
-    public function searchByFormula($query)
-    {
-        $result = Medicine::with(['inventorydistributors', 'inventorydistributors.distributor'])->where('MedicineFormula', 'LIKE', '%' . $query . '%')->first();
-        return view('search.bymedicine')->with('data', $result);
-    }
-
     public function searchByCompany($query)
     {
-        $result = Medicine::with(['inventorydistributors', 'inventorydistributors.distributor'])->where('MedicineCompany', 'LIKE', '%' . $query . '%')->first();
+        $result = Medicine::with(['inventorydistributor', 'inventorydistributor.distributor'])->where('MedicineCompany', 'LIKE', '%' . $query . '%')->get();
         return view('search.bymedicine')->with('data', $result);
     }
 }

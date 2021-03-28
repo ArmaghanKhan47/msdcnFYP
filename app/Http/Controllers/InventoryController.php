@@ -96,7 +96,7 @@ class InventoryController extends Controller
                 }
                 break;
             case 'Distributor':
-                $distributorshopid = DistributorShop::select('DistributorShopId')->where('UserId', '=', Auth::id())->first()->DistributorShopId;
+                $distributorshop = DistributorShop::select(['DistributorShopId', 'Region'])->where('UserId', '=', Auth::id())->first();
                 foreach($medicine_list as $key => $value)
                 {
                     //Check for ensuring the data type of variables
@@ -105,8 +105,26 @@ class InventoryController extends Controller
                         // return '<h1>If Statment</h1><br><span>0 is_numeric: '. is_numeric($value[0]) .'</span><br><span>0 gettype: '. gettype($value[0]) .'</span><br><span>0 value: '. $value[0] .'</span><br><span>1 is_numeric: '. is_numeric($value[1]) .'</span><br><span>1 gettype: '. gettype($value[1]) .'</span><br><span>1 value: '. $value[1] .'</span>';
                         return redirect()->back()->with('error', 'Invalid Values Entered');
                     }
-                    
-                    $record = InventoryDistributor::where('DistributorShopId', $distributorshopid)->where('MedicineId', $key)->first();
+
+                    //Check if this medicine is being sold by other distributor or not
+                    //In Same Region only one distributor can sell particular medicine, different distributors in same region cannot sell same medicine
+                    $otherDistributorsRecord = DistributorShop::select(['DistributorShopId', 'Region', 'UserId'])->with(['inventories' => function($query) use ($key){
+                        $query->where('MedicineId', $key);
+                    }])->where('Region', $distributorshop->Region)->where('UserId', '!=', Auth::id())->get();
+
+                    foreach($otherDistributorsRecord as $dist)
+                    {
+                        foreach($dist->inventories as $invent)
+                        {
+                            if ($invent->MedicineId == $key)
+                            {
+                                return redirect()->back()->with('error', 'You cannot add some medicines, its already being sold by other distributor in your region');
+                            }
+                        }
+                    }
+
+
+                    $record = InventoryDistributor::where('DistributorShopId', $distributorshop->DistributorShopId)->where('MedicineId', $key)->first();
                     if ($record)
                     {
                         //Medicine exist in inventory
@@ -118,7 +136,7 @@ class InventoryController extends Controller
                     {
                         //Medicine does not exist in inventory
                         InventoryDistributor::create([
-                            'DistributorShopId' => $distributorshopid,
+                            'DistributorShopId' => $distributorshop->DistributorShopId,
                             'MedicineId' => $key,
                             'Quantity' => $value[0],
                             'UnitPrice' => $value[1]

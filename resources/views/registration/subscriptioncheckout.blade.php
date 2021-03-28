@@ -38,7 +38,7 @@
                             @enderror
 
                             <label for="cardnumber" class="mt-2">Card Number</label>
-                            <input type="text" class="form-control" name="cardnumber" id="cardnumber" max="16" pattern="[0-9]{16}" required value="@if($package[1]){{$package[1]->CardNumber}}@endif">
+                            <input type="text" class="form-control" name="cardnumber" id="cardnumber" maxlength="16" minlength="16" pattern="[0-9]{16}" required value="@if($package[1]){{$package[1]->CardNumber}}@endif">
 
                             @error('cardnumber')
                                 <span class="invalid-feedback" role="alert">

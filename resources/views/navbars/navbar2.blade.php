@@ -22,56 +22,73 @@
                 <select class="custom-select" id="searchoption">
                     <option value="1" selected>By Medicine</option>
                     <option value="2">By Distributor</option>
-                    <option value="3">By Formula</option>
-                    <option value="4">By Company</option>
+                    <option value="3">By Company</option>
                     </select>
             </div>
             <input id="searchquery" name="q" type="text" class="form-control" placeholder="Search">
-            <div class="input-group-prepend">
-
-                <button class="btn btn-success" type="button" id="searchbtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                        </svg>
-                </button>
-            </div>
             </div>
         </form>
       @endif
     </div>
   </nav>
   <script>
+
+      window.onload = function()
+      {
+          $('#searchquery').on('input', function(){
+              var q = $(this).val();
+              if (q == '')
+                {
+                     location.reload();
+                }
+              var option = $('#searchoption').val();
+
+              $.post({
+                  "headers" : {
+                        "X-CSRF-TOKEN" : "{{ csrf_token() }}"
+                    },
+                    "url" : "/search",
+                    "data" : {
+                        "query" : q.trim().toLowerCase(),
+                        "option" : option
+                    }
+              }, function(data){
+                  $('#orderDisplay').html(data);
+              });
+          });
+      }
+
       //Creating AJAX to get Results for Search
-      document.getElementById('searchbtn').addEventListener('click', function(){
-          var q = document.getElementById('searchquery').value;
-          var o = document.getElementById('searchoption').value;
+    //   document.getElementById('searchbtn').addEventListener('click', function(){
+    //       var q = document.getElementById('searchquery').value;
+    //       var o = document.getElementById('searchoption').value;
 
-          if (q == '')
-          {
-              location.reload();
-          }
+    //       if (q == '')
+    //       {
+    //           location.reload();
+    //       }
 
-          var httpobj = new XMLHttpRequest();
-          httpobj.onreadystatechange = function()
-          {
-              if (this.status == 200 && this.readyState == 4)
-              {
-                  console.log(this.responseText);
-                  document.getElementById('orderDisplay').innerHTML = this.responseText;
-              }
-          };
+    //       var httpobj = new XMLHttpRequest();
+    //       httpobj.onreadystatechange = function()
+    //       {
+    //           if (this.status == 200 && this.readyState == 4)
+    //           {
+    //               console.log(this.responseText);
+    //               document.getElementById('orderDisplay').innerHTML = this.responseText;
+    //           }
+    //       };
 
-          httpobj.open("POST", "/search/" + o + "/" + q.trim().toLowerCase(), true);
-          httpobj.setRequestHeader("X-CSRF-TOKEN",  "{{ csrf_token() }}");
-          httpobj.send();
-      });
+    //       httpobj.open("POST", "/search/" + o + "/" + q.trim().toLowerCase(), true);
+    //       httpobj.setRequestHeader("X-CSRF-TOKEN",  "{{ csrf_token() }}");
+    //       httpobj.send();
+    //   });
 
-      //Overriding default enter key behaviour on text field
-      document.getElementById('searchquery').addEventListener('keypress', function(event){
-          if (event.keyCode == 13)
-          {
-              event.preventDefault();
-              document.getElementById('searchbtn').click();
-          }
-      });
+    //   //Overriding default enter key behaviour on text field
+    //   document.getElementById('searchquery').addEventListener('keypress', function(event){
+    //       if (event.keyCode == 13)
+    //       {
+    //           event.preventDefault();
+    //           document.getElementById('searchbtn').click();
+    //       }
+    //   });
   </script>

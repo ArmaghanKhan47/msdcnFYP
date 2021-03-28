@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Exception;
 
 class SubscriptionCheck
 {
@@ -19,22 +20,29 @@ class SubscriptionCheck
     public function handle(Request $request, Closure $next)
     {
         $subscriptions = null;
-        switch(Auth::user()->UserType)
+        try
         {
-            case 'Retailer':
-                $subscriptions = User::with(['retailershop.subscriptions' => function($query){
-                    $query->orderBy('startDate', 'desc');
-                }, 'retailershop.subscriptions.package'])->find(Auth::id())->retailershop->subscriptions;
-                break;
+            switch(Auth::user()->UserType)
+            {
+                case 'Retailer':
+                    $subscriptions = User::with(['retailershop.subscriptions' => function($query){
+                        $query->orderBy('startDate', 'desc');
+                    }, 'retailershop.subscriptions.package'])->find(Auth::id())->retailershop->subscriptions;
+                    break;
 
-            case 'Distributor':
-                $subscriptions = User::with(['distributorshop.subscriptions' => function($query){
-                    $query->orderBy('startDate', 'desc');
-                }, 'distributorshop.subscriptions.package'])->find(Auth::id())->distributorshop->subscriptions;
-                break;
+                case 'Distributor':
+                    $subscriptions = User::with(['distributorshop.subscriptions' => function($query){
+                        $query->orderBy('startDate', 'desc');
+                    }, 'distributorshop.subscriptions.package'])->find(Auth::id())->distributorshop->subscriptions;
+                    break;
+            }
+        }
+        catch(Exception $e)
+        {
+            return $next($request);
         }
 
-        if($subscriptions->count() != 0)
+        if($subscriptions  && $subscriptions->count() != 0)
                 {
                     $last_sub = $subscriptions[0];
                     //Formulate Ending Date

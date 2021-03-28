@@ -54,7 +54,7 @@ Route::group(['middleware' => ['auth', 'subcheck']], function () {
     Route::get('/medicine/{id}/detail/{distributorid}', [MedicineController::class, 'show'])->whereNumber(['id', 'distributorid']);
     Route::resource('/inventory', InventoryController::class);
 
-    Route::post('/search/{option}/{query}', [SearchController::class, 'search'])->whereNumber('option')->whereAlphaNumeric('query');
+    Route::post('/search', [SearchController::class, 'search']);
 
     Route::resource('/shopregistration', ShopRegistrationController::class);
 

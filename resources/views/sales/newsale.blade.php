@@ -192,7 +192,7 @@
             }
 
             var searchtext = document.getElementById('searchinput');
-            searchtext.addEventListener('change', function(){
+            searchtext.addEventListener('input', function(){
                 var q = searchtext.value;
                 if (q == '')
                 {

@@ -49,6 +49,7 @@ class HomeController extends Controller
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
+                session(['region' => RetailerShop::select('Region')->where('UserId', Auth::id())->first()->Region]);
                 //Get POS data of Retailer to display on Home
                 $sales = RetailerShop::with(['pointofsale' => function($query){
                     $query->where('created_at', 'LIKE', date('Y-m-d').'%');
@@ -67,7 +68,6 @@ class HomeController extends Controller
                 }])->where('UserId', Auth::id())->first()->orders;
                 break;
         }
-        session(['region' => RetailerShop::select('Region')->where('UserId', Auth::id())->first()->Region]);
         return view('home', compact('data', 'sales', 'notifications'));
     }
 
