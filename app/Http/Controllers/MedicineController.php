@@ -65,7 +65,7 @@ class MedicineController extends Controller
             'coverimg' => 'image|required|max:1999|mimes:jpeg,jpg,png'
         ]);
 
-        $filename = $request->input('medname') . $request->input('medcompany') . $request->input('medtype'). '_' . time() . '_' . $request->file('coverimg')->getClientOriginalExtension();
+        $filename = str_replace(" ", "", $request->input('medname')) . '_' . str_replace(" ", "_", $request->input('medcompany')) . '_' . $request->input('medtype'). '_' . time() . '.' . $request->file('coverimg')->getClientOriginalExtension();
         $request->file('coverimg')->storeAs('public/medicines', $filename);
 
         $id = Medicine::create([
@@ -136,7 +136,7 @@ class MedicineController extends Controller
 
         if($request->hasFile('coverimg'))
         {
-            $filename = $request->input('medname') . $request->input('medcompany') . $request->input('medtype'). '_' . time() . '_' . $request->file('coverimg')->getClientOriginalExtension();
+            $filename = str_replace(" ", "", $request->input('medname')) . '_' . str_replace(" ", "_", $request->input('medcompany')) . '_' . $request->input('medtype'). '_' . time() . '.' . $request->file('coverimg')->getClientOriginalExtension();
             $request->file('coverimg')->storeAs('public/medicines', $filename);
             Storage::delete('public/medicines/'.$medicine->MedicinePic);
             $medicine->MedicinePic = $filename;
