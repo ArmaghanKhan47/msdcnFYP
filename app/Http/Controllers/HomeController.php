@@ -64,7 +64,7 @@ class HomeController extends Controller
 
             case 'Distributor':
                 $sales = DistributorShop::with(['orders' => function($query){
-                    $query->where('OrderStatus', 'LIKE', 'Completed%');
+                    $query->where('OrderStatus', 'LIKE', 'Completed%')->where('created_at', 'LIKE', date('Y-m-d') . '%');
                 }])->where('UserId', Auth::id())->first()->orders;
                 break;
         }

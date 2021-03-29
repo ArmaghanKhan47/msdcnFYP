@@ -68,6 +68,7 @@ Route::group(['middleware' => ['auth', 'subcheck']], function () {
 
     Route::get('/settings', [SettingController::class, 'index'])->withoutMiddleware('subcheck');
     Route::post('/settings/api/token/regenerate', [SettingController::class, 'regenerateApiToken'])->name('api.token.regenerate');
+    Route::post('/settings/shopaddress', [SettingController::class, 'updateShopAddress'])->name('setting.shopaddress');
     Route::post('/settings/reapplied', [SettingController::class, 'reapply'])->withoutMiddleware('subcheck')->name('settings.reapply');
 
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notification.index');

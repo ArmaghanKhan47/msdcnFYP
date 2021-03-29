@@ -48,4 +48,28 @@ class SettingController extends Controller
         $user->save();
         return redirect()->back()->with('success', 'Your have applied again and your application is under review');
     }
+
+    public function updateShopAddress(Request $request)
+    {
+        $this->validate($request, [
+            'value' => 'string|required'
+        ]);
+
+        switch(Auth::user()->UserType)
+        {
+            case 'Retailer':
+                $shop = RetailerShop::where('UserId', Auth::id())->first();
+                $shop->shopAddress = $request->input('value');
+                $shop->save();
+                return 'Changes Saved';
+                break;
+
+            case 'Distributor':
+                $shop = DistributorShop::where('UserId', Auth::id())->first();
+                $shop->shopAddress = $request->input('value');
+                $shop->save();
+                return 'Changes Saved';
+                break;
+        }
+    }
 }
