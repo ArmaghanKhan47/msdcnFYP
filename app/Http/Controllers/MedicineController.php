@@ -136,7 +136,7 @@ class MedicineController extends Controller
 
         if($request->hasFile('coverimg'))
         {
-            $filename = str_replace(" ", "", $request->input('medname')) . '_' . str_replace(" ", "_", $request->input('medcompany')) . '_' . $request->input('medtype'). '_' . time() . '.' . $request->file('coverimg')->getClientOriginalExtension();
+            $filename = str_replace(" ", "_", $request->input('medname')) . '_' . str_replace(" ", "_", $request->input('medcompany')) . '_' . $request->input('medtype'). '_' . time() . '.' . $request->file('coverimg')->getClientOriginalExtension();
             $request->file('coverimg')->storeAs('public/medicines', $filename);
             Storage::delete('public/medicines/'.$medicine->MedicinePic);
             $medicine->MedicinePic = $filename;
