@@ -20,7 +20,7 @@
                     <span class="h6 d-block text-muted">Start Date</span>
                 </div>
                 <div class="col-md-3 text-center">
-                    <span class="h5 d-block">{{date('Y-m-d', strtotime($row->startDate . "+".(string)$row->package->PackageDuration." months"))}}</span>
+                    <span class="h5 d-block">{{$row->endDate}}</span>
                     <span class="h6 d-block text-muted">Ending Date</span>
                 </div>
             </div>

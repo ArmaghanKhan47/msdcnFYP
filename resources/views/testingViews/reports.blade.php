@@ -67,7 +67,6 @@
                 $('#graph-heading').text(' - Daily');
                 //Create AJAX Call for data retrieval
                 $.post({
-                    "type" : 'POST',
                     "headers" : {
                         "X-CSRF-TOKEN" : "{{ csrf_token() }}"
                     },
@@ -86,7 +85,6 @@
                 $('#graph-heading').text(' - Weekly');
                 //Create AJAX Call for data retrieval
                 $.post({
-                    "type" : 'POST',
                     "headers" : {
                         "X-CSRF-TOKEN" : "{{ csrf_token() }}"
                     },
@@ -105,7 +103,6 @@
                 $('#graph-heading').text(' - Monthly');
                 //Create AJAX Call for data retrieval
                 $.post({
-                    "type" : 'POST',
                     "headers" : {
                         "X-CSRF-TOKEN" : "{{ csrf_token() }}"
                     },
@@ -123,7 +120,6 @@
                 $('#graph-heading').text(' - Yearly');
                 //Create AJAX Call for data retrieval
                 $.post({
-                    "type" : 'POST',
                     "headers" : {
                         "X-CSRF-TOKEN" : "{{ csrf_token() }}"
                     },

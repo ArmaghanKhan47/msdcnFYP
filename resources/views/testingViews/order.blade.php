@@ -7,9 +7,9 @@
             <span class="h5">Records Found: {{count($data)}}</span>
         </div>
         @foreach ($data->chunk(4) as $row)
-            <div class="row mt-5">
+            <div class="row mt-1 mt-md-5">
             @foreach ($row as $item)
-                <div class="col-xl-3">
+                <div class="col-xl-3 m-1 m-md-0">
                     <div class="card">
                         <div class="card-body">
                             <span class="h5 d-block">{{$item->medicine->MedicineName}}</span>

@@ -163,29 +163,29 @@ class SubscriptionController extends Controller
         $user->save();
 
         //now check that user is a Retailer or Distributor and act accordingly
-
-        if (Auth::user()->UserType == 'Retailer')
+        switch(Auth::user()->UserType)
         {
-            $retailer = RetailerShop::where('UserId', '=', Auth::id())->first();
+            case 'Retailer':
+                $retailer = RetailerShop::where('UserId', '=', Auth::id())->first();
 
-            SubscriptionHistoryRetailer::create([
-                'SubscriptionPackageId' => $id,
-                'RetailerId' => $retailer->RetailerShopId,
-                'startDate' => date("Y-m-d")
-            ]);
+                SubscriptionHistoryRetailer::create([
+                    'SubscriptionPackageId' => $id,
+                    'RetailerId' => $retailer->RetailerShopId,
+                    'startDate' => date("Y-m-d")
+                ]);
+                break;
 
+            case 'Distributor':
+                $distributor = DistributorShop::where('UserId', '=', Auth::id())->first();
+
+                SubscriptionHistoryDistributor::create([
+                    'SubscriptionPackageId' => $id,
+                    'DistributorId' => $distributor->DistributorShopId,
+                    'startDate' => date("Y-m-d")
+                ]);
+                break;
         }
-        elseif(Auth::user()->UserType == 'Distributor')
-        {
-            $distributor = DistributorShop::where('UserId', '=', Auth::id())->first();
-
-            SubscriptionHistoryDistributor::create([
-                'SubscriptionPackageId' => $id,
-                'DistributorId' => $distributor->DistributorShopId,
-                'startDate' => date("Y-m-d")
-            ]);
-        }
-
+        
         Notification::send(Auth::user(), new SubscribedNotification('You Have Subscribed our ' . SubscriptionPackage::find($id)->PackageName . ' Package'));
 
         return redirect(route('home'))->with('success', 'Hoorah! You Subscribed, Thank You!');

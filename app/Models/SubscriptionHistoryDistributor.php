@@ -15,8 +15,17 @@ class SubscriptionHistoryDistributor extends Model
         'startDate'
     ];
 
+    protected $append = [
+        'endDate'
+    ];
+
     public function package()
     {
         return $this->belongsTo(SubscriptionPackage::class, 'SubscriptionPackageId');
+    }
+
+    public function getEndDateAttribute()
+    {
+        return date('Y-m-d', strtotime($this->startDate . "+".(string)$this->package->PackageDuration." months"));
     }
 }

@@ -45,9 +45,7 @@ class SubscriptionCheck
         if($subscriptions  && $subscriptions->count() != 0)
                 {
                     $last_sub = $subscriptions[0];
-                    //Formulate Ending Date
-                    $end_date = date('Y-m-d', strtotime($last_sub->startDate . "+".(string)$last_sub->package->PackageDuration." months"));
-                    $interval = date_diff(date_create($end_date), date_create(date('Y-m-d', strtotime('today'))));
+                    $interval = date_diff(date_create($last_sub->endDate), date_create(date('Y-m-d', strtotime('today'))));
                     if($interval->days < 3)
                     {
                         if ($interval->days < 1)

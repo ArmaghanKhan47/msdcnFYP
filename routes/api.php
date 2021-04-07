@@ -21,7 +21,6 @@ use Illuminate\Http\Client\Response;
 Route::post('/login', [UserApiController::class, 'login']);
 
 Route::middleware('auth:api')->group(function(){
-    Route::get('/user', function(Request $request){
-        return Auth::user();
-    });
+    Route::post('/dashboard', [UserApiController::class, 'dashboard']);
+    Route::post('/about', [UserApiController::class, 'about']);
 });
