@@ -49,7 +49,7 @@
 
             </div>
         </div>
-        <div class="row">
+        <div class="row mb-1">
             <div class="col-xl-12">
 
                     <button class="btn btn-success" type="submit">Save Changes</button>

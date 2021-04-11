@@ -46,15 +46,15 @@ class UserApiController extends Controller
                 {
                     return response()->json([
                             'message' => 'Invalid Password or Email',
-                            'code' => 404
+                            'code' => 401
                         ]);
                 }
             }
             else
             {
                 return response()->json([
-                        'message' => 'User Doest not Exist',
-                        'code' => 404
+                        'message' => 'Invalid Password or Email',
+                        'code' => 401
                     ]);
             }
         }
@@ -72,7 +72,7 @@ class UserApiController extends Controller
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                $retailer = RetailerShop::with(['pointofsale', 'inventories' => function($query){
+                $retailer = RetailerShop::with(['pointofsale.sales', 'inventories' => function($query){
                     $query->where('Quantity', '<', 6);
                 }, 'inventories.medicine:MedicineId,MedicineName'])->where('UserId', Auth::id())->first();
 
@@ -82,20 +82,38 @@ class UserApiController extends Controller
                     {
                         return $item;
                     }
-                });
+                })->values()->first()->sales;
 
                 return response()->json([
+                    'message' => 'authenticated',
                     'TotalRevenue' => $pointofsale->sum('DailyRevenue'),
                     'TotalSales' => $pointofsale->count(),
                     'TodaySales' => $today->count(),
-                    'TodayRevenue' => $today->sum('DailyRevenue'),
-                    'Inventory' => $retailer->inventories
+                    'TodayRevenue' => $today->sum('Payed'),
+                    'LowInventory' => $retailer->inventories
                 ]);
                 break;
 
             case 'Distributor':
+                $distributor = DistributorShop::with(['orders' => function($query){
+                    $query->where('OrderStatus', 'LIKE', 'Completed%');
+                }, 'inventories' => function($query){
+                    $query->where('Quantity', '<', 6);
+                }, 'inventories.medicine:MedicineId,MedicineName'])->where('UserId', Auth::id())->first();
+
+                $today = $distributor->orders->filter(function($item, $key){
+                    if (date('Y-m-d', strtotime($item['updated_at'])) == date('Y-m-d'))
+                    {
+                        return $item;
+                    }
+                });
                 return response()->json([
-                    'message' => 'This is Distributor'
+                    'message' => 'authenticated',
+                    'TotalRevenue' => $distributor->orders->sum('PayableAmount'),
+                    'TotalSales' => $distributor->orders->count(),
+                    'TodaySales' => $today->count(),
+                    'TodayRevenue' => $today->sum('PayableAmount'),
+                    'LowInventory' => $distributor->inventories
                 ]);
                 break;
         }
@@ -114,6 +132,7 @@ class UserApiController extends Controller
         {
             case 'Retailer':
                 return response()->json([
+                    'message' => 'authenticated',
                     'User' => Auth::user(),
                     'Shop' => RetailerShop::where('UserId', Auth::id())->first()
                 ]);
@@ -121,6 +140,7 @@ class UserApiController extends Controller
 
             case 'Distributor':
                 return response()->json([
+                    'message' => 'authenticated',
                     'User' => Auth::user(),
                     'Shop' => DistributorShop::where('UserId', Auth::id())->first()
                 ]);

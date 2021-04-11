@@ -147,6 +147,7 @@ class OrderController extends Controller
 
             case 'cancelled':
                 $order->OrderStatus = str_replace('Pending', 'Cancelled', $order->OrderStatus);
+                $order->OrderCompletionDate = date('Y-m-d');
                 $order->save();
                 return redirect('/order/history')->with('error', 'Order#' . $request->input('orderid') . ' Cancelled');
                 break;
@@ -159,6 +160,7 @@ class OrderController extends Controller
 
             case 'completed':
                 $order->OrderStatus = str_replace('Dispatched', 'Completed', $order->OrderStatus);
+                $order->OrderCompletionDate = date('Y-m-d');
                 $order->save();
                 return redirect('/order/history')->with('success', 'Order#' . $request->input('orderid') . ' Marked as Completed');
                 break;

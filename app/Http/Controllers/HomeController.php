@@ -40,9 +40,6 @@ class HomeController extends Controller
             return $shop;
         }
 
-        $notifications = User::find(Auth::id())->unreadNotifications->count();
-        session(['notificationscount' => $notifications]);
-
         $this->getSubscription($data);
 
         $sales = null;
@@ -68,7 +65,7 @@ class HomeController extends Controller
                 }])->where('UserId', Auth::id())->first()->orders;
                 break;
         }
-        return view('home', compact('data', 'sales', 'notifications'));
+        return view('home', compact('data', 'sales'));
     }
 
     private function getUserData()

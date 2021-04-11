@@ -85,6 +85,7 @@
     ];
 
     var ctx = document.getElementById('salegraph');
+
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -92,8 +93,8 @@ var myChart = new Chart(ctx, {
         datasets: [{
             label: 'Sales',
             data: data,
-            backgroundColor: 'rgba(220, 53, 69, 0.4)',
-            borderColor: 'rgba(195, 34, 50, 1)',
+            backgroundColor: 'rgba(117, 1, 254, 0.4)',
+            borderColor: 'rgba(110, 0, 255, 1)',
             borderWidth: 2
         }]
     },
