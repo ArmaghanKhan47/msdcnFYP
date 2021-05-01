@@ -52,7 +52,8 @@
                     @auth('admin')
                         {{-- If user is admin --}}
                         <a href="{{route('admin.dashboard')}}" class="list-group-item list-group-item-action bg-dark text-white">Dashboard</a>
-                        <a href="{{route('admin.pending.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Pending Requests</a>
+                        <a href="{{route('admin.pending.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Pending Requests @if(session('pendingcount') > 0)<span class="badge badge-success">{{session('pendingcount')}}</span>@endif</a>
+                        <a href="{{route('admin.feedback.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Feedbacks @if(session('feedbackcount') > 0)<span class="badge badge-success">{{session('feedbackcount')}}</span>@endif</a>
                         <a href="{{route('admin.medicine.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Medicine</a>
                         <a href="{{route('admin.subscription.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Subscription Packages</a>
                     @endauth
@@ -63,6 +64,7 @@
                 <div class="container-fluid mt-xl-3 overflow-auto" style="height: 38.5em;">
                     @include('inc.message')
                     @yield('content')
+                    <div class="jumbotron p-0 m-1 bg-transparent"></div>
                 </div>
             </div>
         </div>

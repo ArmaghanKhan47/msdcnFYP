@@ -46,11 +46,11 @@ class ShopRegistrationController extends Controller
             'lispic' => 'required|image|mimes:jpg,png,jpeg|max:1999'
         ]);
 
-        $filename = 'liscence_pic_' . $request->input('shopname') . '_' . Auth::user()->UserType . "_" . $request->input('region') . "_" . time() . $request->file('lispic')->getClientOriginalExtension();
+        $filename = 'liscence_pic_' . $request->input('shopname') . '_' . Auth::user()->UserType . "_" . $request->input('region') . "_" . time(). '.' . $request->file('lispic')->getClientOriginalExtension();
 
         if (Auth::user()->UserType == 'Retailer')
         {
-            $request->file('lispic')->storeAs('public/retailer/liscence', $filename);
+            $request->file('lispic')->storePubliclyAs('public/retailer/liscence', $filename);
             //If user is Retailer
             RetailerShop::create([
                 'RetailerShopName' => $request->input('shopname'),
@@ -63,7 +63,7 @@ class ShopRegistrationController extends Controller
         }
         elseif(Auth::user()->UserType == 'Distributor')
         {
-            $request->file('lispic')->storeAs('public/distributor/liscence', $filename);
+            $request->file('lispic')->storePubliclyAs('public/distributor/liscence', $filename);
             //If user is Distributor
             DistributorShop::create([
                 'DistributorShopName' => $request->input('shopname'),

@@ -19,8 +19,6 @@ class SubscriptionCheck
      */
     public function handle(Request $request, Closure $next)
     {
-        $notifications = User::find(Auth::id())->unreadNotifications->count();
-        session(['notificationscount' => $notifications]);
 
         $subscriptions = null;
         try

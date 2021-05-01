@@ -64,5 +64,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'subcheck' => \App\Http\Middleware\SubscriptionCheck::class,
         'subselect' => \App\Http\Middleware\SubscriptionSelect::class,
+        'noticount' => \App\Http\Middleware\NotificationsCount::class
     ];
 }

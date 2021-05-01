@@ -87,19 +87,19 @@
                 <div class="row mt-2 d-none" id="list-{{$pending->id}}">
                     <div class="col-md-6">
                         <div class="jumbotron p-2 text-center">
-                            <img class="d-block" src="/storage/cnic/front/{{$pending->CnicFrontPic}}" alt="No Image Found">
+                            <img class="d-block m-auto" src="{{asset('storage/cnic/front/' . $pending->CnicFrontPic)}}" alt="No Image Found" height="250px">
                             <span class="h5">Cnic Front Pic</span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         @if($pending->UserType == 'Retailer')
                             <div class="jumbotron p-2 text-center">
-                                <img class="d-block" src="/storage/retailer/liscence/{{$pending->retailershop->LiscenceFrontPic}}" alt="No Image Found">
+                                <img class="d-block m-auto" src="{{asset('storage/retailer/liscence/' . $pending->retailershop->LiscenceFrontPic)}}" alt="No Image Found" height="250px">
                                 <span class="h5">Liscence Pic</span>
                             </div>
                         @elseif($pending->UserType == 'Distributor')
                             <div class="jumbotron p-2 text-center">
-                                <img class="d-block" src="/storage/distributor/liscence/{{$pending->distributorshop->LiscenceFrontPic}}" alt="No Image Found">
+                                <img class="d-block" src="{{asset('storage/distributor/liscence/' . $pending->distributorshop->LiscenceFrontPic)}}" alt="No Image Found">
                                 <span class="h5">Liscence Pic</span>
                             </div>
                         @endif

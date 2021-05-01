@@ -79,7 +79,7 @@
                                 <form class="d-block mt-2" method="POST" action="/order/status">
                                     @csrf
                                     <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                    <input type="hidden" name="status" value="cancelled">
+                                    <input type="hidden" name="status" value=1>
                                     <button type="submit" class="btn btn-danger">Cancel</button>
                                 </form>
                         @enduser
@@ -88,13 +88,13 @@
                             <form class="d-inline" method="POST" action="/order/status">
                                 @csrf
                                 <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                <input type="hidden" name="status" value="accepted">
+                                <input type="hidden" name="status" value=0>
                                 <button type="submit" class="btn btn-success">Accept</button>
                             </form>
                             <form class="d-inline" method="POST" action="/order/status">
                                 @csrf
                                 <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                <input type="hidden" name="status" value="cancelled">
+                                <input type="hidden" name="status" value=1>
                                 <button type="submit" class="btn btn-danger float-right">Cancel</button>
                             </form>
                         @enduser
@@ -107,7 +107,7 @@
                             <form method="POST" action="/order/status">
                                 @csrf
                                 <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                <input type="hidden" name="status" value="dispatched">
+                                <input type="hidden" name="status" value=2>
                                 <button type="submit" class="btn btn-primary mt-2">Dispatch</button>
                             </form>
                         @enduser
@@ -120,7 +120,7 @@
                             <form method="POST" action="/order/status">
                                 @csrf
                                 <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                <input type="hidden" name="status" value="completed">
+                                <input type="hidden" name="status" value=3>
                                 <button type="submit" class="btn btn-primary mt-2">Mark as Complete</button>
                             </form>
                         @enduser
@@ -319,7 +319,7 @@
                                     <form class="d-block" method="POST" action="/order/status">
                                         @csrf
                                         <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                        <input type="hidden" name="status" value="cancelled">
+                                        <input type="hidden" name="status" value=1>
                                         <button type="submit" class="btn btn-danger">Cancel</button>
                                     </form>
                                 </div>
@@ -329,13 +329,13 @@
                                 <form class="d-inline" method="POST" action="/order/status">
                                     @csrf
                                     <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                    <input type="hidden" name="status" value="accepted">
+                                    <input type="hidden" name="status" value=0>
                                     <button type="submit" class="btn btn-success">Accept</button>
                                 </form>
                                 <form class="d-inline" method="POST" action="/order/status">
                                     @csrf
                                     <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                    <input type="hidden" name="status" value="cancelled">
+                                    <input type="hidden" name="status" value=1>
                                     <button type="submit" class="btn btn-danger float-right">Cancel</button>
                                 </form>
                             @enduser

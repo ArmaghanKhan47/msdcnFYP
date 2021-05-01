@@ -7,7 +7,7 @@
         </div>
         <div class="p-2 col-md-6 d-flex align-items-middle justify-content-end">
             <span class="mr-2">
-                <button type="button" class="btn btn-dark disabled">Make a Request</button>
+                <a href="{{route('request.create')}}" class="btn btn-dark">Make a Request</a>
             </span>
             <span>
                 <button id="btn-add-medicines" class="btn btn-success">Add Medicines</button>

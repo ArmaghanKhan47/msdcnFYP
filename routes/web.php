@@ -15,6 +15,7 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventorySearchController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RequestController as FeedbackController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingController;
@@ -22,6 +23,7 @@ use App\Models\InventoryRetailer;
 use App\Http\Controllers\ShopRegistrationController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\SubscriptionHistoryController;
+use App\Models\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,7 +45,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['middleware' => ['auth', 'subcheck']], function () {
+Route::group(['middleware' => ['auth', 'subcheck', 'noticount']], function () {
     Route::get('/onlineorder', [OrderController::class, 'index']);
     Route::get('/ordercheckout', [OrderController::class, 'create']);
     Route::put('/ordercheckout', [OrderController::class, 'store']);
@@ -87,6 +89,9 @@ Route::group(['middleware' => ['auth', 'subcheck']], function () {
     Route::post('/reports/weekly', [ReportController::class, 'reportsByWeekly'])->name('reports.weekly');
     Route::post('/reports/monthly', [ReportController::class, 'reportsByMonthly'])->name('reports.monthly');
     Route::post('/reports/yearly', [ReportController::class, 'reportsByYearly'])->name('reports.yearly');
+
+    Route::resource('/request', FeedbackController::class)->except(['index', 'edit', 'destroy', 'update']);
+    Route::put('/request/{id}', [FeedbackController::class, 'updateUser'])->name('request.update');
 });
 
 //Defining Admin Routes
@@ -95,7 +100,7 @@ Route::prefix('/admin')->name('admin.')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
 
-    Route::middleware('auth:admin')->group(function(){
+    Route::middleware(['auth:admin', 'noticount'])->group(function(){
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
         Route::get('/medicine/create', [MedicineController::class, 'create'])->name('medicine.create');
@@ -112,6 +117,10 @@ Route::prefix('/admin')->name('admin.')->group(function () {
         Route::post('/subscriptions/edit/{id}', [SubscriptionController::class, 'adminUpdate']);
 
         Route::get('/pendingrequests', [RequestController::class, 'index'])->name('pending.index');
+        Route::get('/feedbacks', [FeedbackController::class, 'index'])->name('feedback.index');
+        Route::get('/feedback/{id}', [FeedbackController::class, 'show'])->name('feedback.show');
+        Route::put('/feedback/{id}', [FeedbackController::class, 'update'])->name('feedback.update');
+        Route::put('/feedback/{id}/completed', [FeedbackController::class, 'changeStatus'])->name('feedback.completed');
         Route::put('/request/accepted/{userid}', [RequestController::class, 'update'])->name('request.accepte');
         Route::delete('/request/rejected/{userid}', [RequestController::class, 'destroy'])->name('request.rejected');
     });

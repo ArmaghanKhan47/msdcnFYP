@@ -16,6 +16,7 @@ use App\Models\User;
 
 class OrderController extends Controller
 {
+    private static $paymentMethods = ['COD', 'Credit Card'];
     //
     public function index()
     {
@@ -48,8 +49,11 @@ class OrderController extends Controller
         //Storing Order Details in Database
         $this->validate($request, [
             'retailerid' => 'string|required',
-            'shippingAddress' => 'string|required'
+            'shippingAddress' => 'string|required',
+            'paymentMethod' => 'numeric|required|min:0|max:1'
         ]);
+
+        $paymentStatus = 'Unpayed';
 
         //Check if Retailer has an address if not save given address
         $retailerData = RetailerShop::select('RetailerShopId', 'shopAddress')->where('UserId','=', Auth::id())->first();
@@ -61,15 +65,21 @@ class OrderController extends Controller
         }
 
         //This will check if user has credit card
-        $test = new CreditCardController();
-        $cardid = $test->create($request);
-        if ($cardid != null)
+        if ($request->input('paymentMethod'))
         {
-            //Means no credit card was found
-            //New Credit Card Record is created and now the reference is being stored in user
-            $user = User::find(Auth::id());
-            $user->CreditCardId = $cardid;
-            $user->save();
+            //If value of paymentMethod is 1, which means Credit Card payment method is selected
+            $test = new CreditCardController();
+            $cardid = $test->create($request);
+            if ($cardid != null)
+            {
+                //Means no credit card was found
+                //New Credit Card Record is created and now the reference is being stored in user
+                $user = User::find(Auth::id());
+                $user->CreditCardId = $cardid;
+                $user->save();
+            }
+
+            $paymentStatus = 'Payed';
         }
 
         $cart = new Cart();
@@ -86,8 +96,8 @@ class OrderController extends Controller
             $orderid = Order::create([
                 'RetailerId' => $request->input('retailerid'),
                 'DistributorId' => $distributor[0]->get('distributorid'),
-                'OrderStatus' => 'Pending|Payed',
-                'PaymentMethod' => 'CreditCard',
+                'OrderStatus' => 'Pending|' . $paymentStatus,
+                'PaymentMethod' => OrderController::$paymentMethods[$request->input('paymentMethod')],
                 'PayableAmount' => $distributor->sum('totalprice'),
                 'PayedDate' => date('y-m-d'),
                 'OrderPlacingDate' => date('y-m-d'),
@@ -133,32 +143,38 @@ class OrderController extends Controller
         //For Distributor to Change Order Status
         $this->validate($request, [
             'orderid' => 'string|required',
-            'status' => 'string|required'
+            'status' => 'numeric|required|min:0|max:3'
         ]);
 
         $order = Order::find($request->input('orderid'));
         switch($request->input('status'))
         {
-            case 'accepted':
+            /*
+                0 => accepted
+                1 => cancelled
+                2 => dispatched
+                3 => completed
+            */
+            case 0:
                 $order->OrderStatus = str_replace('Pending', 'Preparing', $order->OrderStatus);
                 $order->save();
                 return redirect('/order/history')->with('success', 'Order#' . $request->input('orderid') . ' Accepted');
                 break;
 
-            case 'cancelled':
+            case 1:
                 $order->OrderStatus = str_replace('Pending', 'Cancelled', $order->OrderStatus);
                 $order->OrderCompletionDate = date('Y-m-d');
                 $order->save();
                 return redirect('/order/history')->with('error', 'Order#' . $request->input('orderid') . ' Cancelled');
                 break;
 
-            case 'dispatched':
+            case 2:
                 $order->OrderStatus = str_replace('Preparing', 'Dispatched', $order->OrderStatus);
                 $order->save();
                 return redirect('/order/history')->with('success', 'Order#' . $request->input('orderid') . ' Marked as Dispatched');
                 break;
 
-            case 'completed':
+            case 3:
                 $order->OrderStatus = str_replace('Dispatched', 'Completed', $order->OrderStatus);
                 $order->OrderCompletionDate = date('Y-m-d');
                 $order->save();

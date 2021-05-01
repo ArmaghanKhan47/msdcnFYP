@@ -30,7 +30,8 @@
                     @endauth
                     @auth('admin')
                     <li class="nav-item"><a href="{{route('admin.dashboard')}}" class="nav-link disables">Dashboard</a></li>
-                        <li class="nav-item"><a href="{{route('admin.pending.index')}}" class="nav-link">Pending Requests</a></li>
+                        <li class="nav-item"><a href="{{route('admin.pending.index')}}" class="nav-link">Pending Requests @if(session('pendingcount') > 0)<span class="badge badge-success">{{session('pendingcount')}}</span>@endif</a></li>
+                        <li class="nav-item"><a href="{{route('admin.feedback.index')}}" class="nav-link">Feedbacks @if(session('feedbackcount') > 0)<span class="badge badge-success">{{session('feedbackcount')}}</span>@endif</a></li>
                         <li class="nav-item"><a href="{{route('admin.medicine.index')}}" class="nav-link">Medicine</a></li>
                         <li class="nav-item"><a href="{{route('admin.subscription.index')}}" class="nav-link">Subscription Packages</a></li>
                     @endauth
