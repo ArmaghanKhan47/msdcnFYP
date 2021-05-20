@@ -39,9 +39,8 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    // return view('sales.index');
-    return redirect('/home');
+Route::middleware('guest')->get('/', function () {
+    return view("welcome");
 });
 
 Auth::routes();
