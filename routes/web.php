@@ -23,6 +23,7 @@ use App\Models\InventoryRetailer;
 use App\Http\Controllers\ShopRegistrationController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\SubscriptionHistoryController;
+use App\Models\Medicine;
 use App\Models\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -38,9 +39,8 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    // return view('sales.index');
-    return redirect('/home');
+Route::middleware('guest')->get('/', function () {
+    return view("welcome");
 });
 
 Auth::routes();

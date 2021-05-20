@@ -154,6 +154,7 @@ class OrderController extends Controller
                 1 => cancelled
                 2 => dispatched
                 3 => completed
+                4 => cod_payment_received
             */
             case 0:
                 $order->OrderStatus = str_replace('Pending', 'Preparing', $order->OrderStatus);
@@ -179,6 +180,12 @@ class OrderController extends Controller
                 $order->OrderCompletionDate = date('Y-m-d');
                 $order->save();
                 return redirect('/order/history')->with('success', 'Order#' . $request->input('orderid') . ' Marked as Completed');
+                break;
+
+            case 4:
+                $order->OrderStatus = str_replace('Unpayed', 'Payed', $order->OrderStatus);
+                $order->save();
+                return redirect('/order/history')->with('success', 'Order#' . $request->input('orderid') . ' Marked as Payed');
                 break;
         }
     }

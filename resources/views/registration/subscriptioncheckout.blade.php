@@ -48,8 +48,8 @@
 
                             <label class="mt-2" for="expirydate">Expiry Date</label>
                             <div class="input-group" id="expirydate">
-                                <input class="form-control" type="text" name="expirymonth" id="expirymonth" placeholder="mm" max="2" pattern="[0-9]{2}" required value="@if($package[1]){{$package[1]->ExpiryMonth}}@endif">
-                                <input class="form-control" type="text" name="expiryyear" id="expiryyear" placeholder="yy" max="2" pattern="[0-9]{2}" required value="@if($package[1]){{$package[1]->ExpiryYear}}@endif">
+                                <input class="form-control" type="text" name="expirymonth" id="expirymonth" placeholder="mm" maxlength="2" pattern="[0-9]{2}" required value="@if($package[1]){{$package[1]->ExpiryMonth}}@endif">
+                                <input class="form-control" type="text" name="expiryyear" id="expiryyear" placeholder="yy" maxlength="2" pattern="[0-9]{2}" required value="@if($package[1]){{$package[1]->ExpiryYear}}@endif">
                             </div>
 
                             @error(['expirymonth', 'expiryyear'])
@@ -59,7 +59,7 @@
                             @enderror
 
                             <label class="mt-2" for="cvv">CVV Code</label>
-                            <input class="form-control" type="text" name="cvv" id="cvv" placeholder="0000" max="4" pattern="[0-9]{4}" required value="@if($package[1]){{$package[1]->cvv}}@endif">
+                            <input class="form-control" type="text" name="cvv" id="cvv" placeholder="0000" maxlength="4" pattern="[0-9]{4}" required value="@if($package[1]){{$package[1]->cvv}}@endif">
 
                             @error('cvv')
                                 <span class="invalid-feedback" role="alert">

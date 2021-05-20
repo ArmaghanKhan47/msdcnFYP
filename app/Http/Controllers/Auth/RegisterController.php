@@ -70,8 +70,15 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data, array $picturesname)
+    protected function create(array $data)
     {
+
+        //Storing Pictures
+        $cnicfrontfilename = 'cnic_front_' . str_replace(" ", "_", $data['name']) . '_' . $data['usertype'] . '_' . time() . '.' . $data['cnicfrontpic']->getClientOriginalExtension();
+        $cnicbackfilename = 'cnic_back_' . str_replace(" ", "_", $data['name']) . '_' . $data['usertype'] . '_' . time() . '.' . $data['cnicbackpic']->getClientOriginalExtension();
+        $data['cnicfrontpic']->storePubliclyAs('public/cnic/front', $cnicfrontfilename);
+        $data['cnicbackpic']->storePubliclyAs('public/cnic/back', $cnicbackfilename);
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -80,8 +87,8 @@ class RegisterController extends Controller
             'AccountStatus' => 'PENDING',
             'CnicCardNumber' => $data['cnicnumber'],
             'api_token' => Str::random(60),
-            'CnicFrontPic' => $picturesname[0],
-            'CnicBackPic' => $picturesname[1],
+            'CnicFrontPic' => $cnicfrontfilename,
+            'CnicBackPic' => $cnicbackfilename,
         ]);
     }
 
