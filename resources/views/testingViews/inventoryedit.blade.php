@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="jumbotron p-3">
+<div class="jumbotron p-3 text-white jumbotron_apnd text-center  ">
     <span class="h1 d-block">Update Medicine</span>
 </div>
 <form action="/inventory/{{$data->inventories[0]->InventoryId}}" method="POST">
@@ -9,13 +9,13 @@
     <div class="container">
         <div class="row">
             <div class="col-xl-6">
-                <div class="jumbotron p-1">
-                    <div class="card">
+                <div class="jumbotron  jumbotron_apnd">
+                    <div class="card bg-transparent text-white">
                         <img src="/storage/medicines/{{$data->inventories[0]->medicine->MedicinePic}}">
                         <div class="card-body">
-                            <span class="h5 d-block">{{$data->inventories[0]->medicine->MedicineName}} - {{$data->inventories[0]->medicine->MedicineType}}</span>
-                            <span class="h6 d-block text-muted">By {{$data->inventories[0]->medicine->MedicineCompany}}</span>
-                            <span class="h6 d-block text-muted">
+                            <span class="h5 d-block text-white ">{{$data->inventories[0]->medicine->MedicineName}} - {{$data->inventories[0]->medicine->MedicineType}}</span>
+                            <span class="h6 d-block text-white">By {{$data->inventories[0]->medicine->MedicineCompany}}</span>
+                            <span class="h6 d-block text-white">
                                 Contains
                                 @foreach (json_decode($data->inventories[0]->medicine->MedicineFormula) as $item)
                                     {{$item}},
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="col-xl-6">
-                <div class="jumbotron p-4">
+                <div class="jumbotron p-4 ">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                           <span class="input-group-text">Quantity</span>
@@ -49,7 +49,7 @@
 
             </div>
         </div>
-        <div class="row mb-1">
+        <div class="row">
             <div class="col-xl-12">
 
                     <button class="btn btn-success" type="submit">Save Changes</button>

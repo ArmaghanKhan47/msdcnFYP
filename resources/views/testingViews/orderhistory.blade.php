@@ -79,7 +79,7 @@
                                 <form class="d-block mt-2" method="POST" action="/order/status">
                                     @csrf
                                     <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                    <input type="hidden" name="status" value=1>
+                                    <input type="hidden" name="status" value="cancelled">
                                     <button type="submit" class="btn btn-danger">Cancel</button>
                                 </form>
                         @enduser
@@ -88,13 +88,13 @@
                             <form class="d-inline" method="POST" action="/order/status">
                                 @csrf
                                 <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                <input type="hidden" name="status" value=0>
+                                <input type="hidden" name="status" value="accepted">
                                 <button type="submit" class="btn btn-success">Accept</button>
                             </form>
                             <form class="d-inline" method="POST" action="/order/status">
                                 @csrf
                                 <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                <input type="hidden" name="status" value=1>
+                                <input type="hidden" name="status" value="cancelled">
                                 <button type="submit" class="btn btn-danger float-right">Cancel</button>
                             </form>
                         @enduser
@@ -107,7 +107,7 @@
                             <form method="POST" action="/order/status">
                                 @csrf
                                 <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                <input type="hidden" name="status" value=2>
+                                <input type="hidden" name="status" value="dispatched">
                                 <button type="submit" class="btn btn-primary mt-2">Dispatch</button>
                             </form>
                         @enduser
@@ -120,7 +120,7 @@
                             <form method="POST" action="/order/status">
                                 @csrf
                                 <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                <input type="hidden" name="status" value=3>
+                                <input type="hidden" name="status" value="completed">
                                 <button type="submit" class="btn btn-primary mt-2">Mark as Complete</button>
                             </form>
                         @enduser
@@ -319,7 +319,7 @@
                                     <form class="d-block" method="POST" action="/order/status">
                                         @csrf
                                         <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                        <input type="hidden" name="status" value=1>
+                                        <input type="hidden" name="status" value="cancelled">
                                         <button type="submit" class="btn btn-danger">Cancel</button>
                                     </form>
                                 </div>
@@ -329,13 +329,13 @@
                                 <form class="d-inline" method="POST" action="/order/status">
                                     @csrf
                                     <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                    <input type="hidden" name="status" value=0>
+                                    <input type="hidden" name="status" value="accepted">
                                     <button type="submit" class="btn btn-success">Accept</button>
                                 </form>
                                 <form class="d-inline" method="POST" action="/order/status">
                                     @csrf
                                     <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                    <input type="hidden" name="status" value=1>
+                                    <input type="hidden" name="status" value="cancelled">
                                     <button type="submit" class="btn btn-danger float-right">Cancel</button>
                                 </form>
                             @enduser
@@ -454,68 +454,61 @@
 </div>
 
 <script>
-    window.onload = function(){
-        //Write Custom JQuery Here
+    //Adding event listener to #btn-all
+    document.getElementById('btn-all').addEventListener('click', function(){
+        //Playing with buttons
+        $('#btn-all').removeClass('btn-secondary').addClass('btn-primary');
+        $('#btn-pending').removeClass('btn-info').addClass('btn-secondary');
+        $('#btn-cancelled').removeClass('btn-danger').addClass('btn-secondary');
+        $('#btn-completed').removeClass('btn-success').addClass('btn-secondary');
 
-        //Adding event listener to #btn-all
-        $('#btn-all').click(function(){
-            //Playing with buttons
-            $('#btn-all').removeClass('btn-secondary').addClass('btn-primary');
-            $('#btn-pending').removeClass('btn-info').addClass('btn-secondary');
-            $('#btn-cancelled').removeClass('btn-danger').addClass('btn-secondary');
-            $('#btn-completed').removeClass('btn-success').addClass('btn-secondary');
+        //playing with containers
+        $('#all').removeClass('d-none').addClass('d-block');
+        $('#completed').removeClass('d-block').addClass('d-none');
+        $('#pending').removeClass('d-block').addClass('d-none');
+        $('#cancelled').removeClass('d-block').addClass('d-none');
+    });
 
-            //Playing with containers
-            $('#all').removeClass('d-none').addClass('d-block');
-            $('#completed').removeClass('d-block').addClass('d-none');
-            $('#pending').removeClass('d-block').addClass('d-none');
-            $('#cancelled').removeClass('d-block').addClass('d-none');
-        });
+    //Adding event listener to #btn-completed
+    document.getElementById('btn-completed').addEventListener('click', function(){
+        $('#btn-all').removeClass('btn-primary').addClass('btn-secondary');
+        $('#btn-pending').removeClass('btn-info').addClass('btn-secondary');
+        $('#btn-cancelled').removeClass('btn-danger').addClass('btn-secondary');
+        $('#btn-completed').removeClass('btn-secondary').addClass('btn-success');
 
-        //Adding event listener to #btn-completed
-        $('#btn-completed').click(function(){
-            //Playing with buttons
-            $('#btn-all').removeClass('btn-primary').addClass('btn-secondary');
-            $('#btn-pending').removeClass('btn-info').addClass('btn-secondary');
-            $('#btn-cancelled').removeClass('btn-danger').addClass('btn-secondary');
-            $('#btn-completed').removeClass('btn-secondary').addClass('btn-success');
+        //playing with containers
+        $('#all').removeClass('d-block').addClass('d-none');
+        $('#completed').removeClass('d-none').addClass('d-block');
+        $('#pending').removeClass('d-block').addClass('d-none');
+        $('#cancelled').removeClass('d-block').addClass('d-none');
+    });
 
-            //Playing with containers
-            $('#all').removeClass('d-block').addClass('d-none');
-            $('#completed').removeClass('d-none').addClass('d-block');
-            $('#pending').removeClass('d-block').addClass('d-none');
-            $('#cancelled').removeClass('d-block').addClass('d-none');
-        });
+    //Adding event listener to #btn-pending
+    document.getElementById('btn-pending').addEventListener('click', function(){
+        $('#btn-all').removeClass('btn-primary').addClass('btn-secondary');
+        $('#btn-pending').removeClass('btn-secondary').addClass('btn-info');
+        $('#btn-cancelled').removeClass('btn-danger').addClass('btn-secondary');
+        $('#btn-completed').removeClass('btn-success').addClass('btn-secondary');
 
-        //Adding event listener to #btn-pending
-        $('#btn-pending').click(function(){
-            //Playing with buttons
-            $('#btn-all').removeClass('btn-primary').addClass('btn-secondary');
-            $('#btn-pending').removeClass('btn-secondary').addClass('btn-info');
-            $('#btn-cancelled').removeClass('btn-danger').addClass('btn-secondary');
-            $('#btn-completed').removeClass('btn-success').addClass('btn-secondary');
+        //playing with containers
+        $('#all').removeClass('d-block').addClass('d-none');
+        $('#completed').removeClass('d-block').addClass('d-none');
+        $('#pending').removeClass('d-none').addClass('d-block');
+        $('#cancelled').removeClass('d-block').addClass('d-none');
+    });
 
-            //Playing with containers
-            $('#all').removeClass('d-block').addClass('d-none');
-            $('#completed').removeClass('d-block').addClass('d-none');
-            $('#pending').removeClass('d-none').addClass('d-block');
-            $('#cancelled').removeClass('d-block').addClass('d-none');
-        });
+    //Adding event listener to #btn-cancelled
+    document.getElementById('btn-cancelled').addEventListener('click', function(){
+        $('#btn-all').removeClass('btn-primary').addClass('btn-secondary');
+        $('#btn-pending').removeClass('btn-info').addClass('btn-secondary');
+        $('#btn-cancelled').removeClass('btn-secondary').addClass('btn-danger');
+        $('#btn-completed').removeClass('btn-success').addClass('btn-secondary');
 
-        //Adding event listener to #btn-cancelled
-        $('#btn-cancelled').click(function(){
-            //Playing with buttons
-            $('#btn-all').removeClass('btn-primary').addClass('btn-secondary');
-            $('#btn-pending').removeClass('btn-info').addClass('btn-secondary');
-            $('#btn-cancelled').removeClass('btn-secondary').addClass('btn-danger');
-            $('#btn-completed').removeClass('btn-success').addClass('btn-secondary');
-
-            //Playing with containers
-            $('#all').removeClass('d-block').addClass('d-none');
-            $('#completed').removeClass('d-block').addClass('d-none');
-            $('#pending').removeClass('d-block').addClass('d-none');
-            $('#cancelled').removeClass('d-none').addClass('d-block');
-        });
-    }
+        //playing with containers
+        $('#all').removeClass('d-block').addClass('d-none');
+        $('#completed').removeClass('d-block').addClass('d-none');
+        $('#pending').removeClass('d-block').addClass('d-none');
+        $('#cancelled').removeClass('d-none').addClass('d-block');
+    });
 </script>
 @endsection

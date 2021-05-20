@@ -23,13 +23,10 @@
 
                             <label class="mt-2" for="medtype">Company Type</label>
                             <select id="medtype" name="medtype" class="form-control custom-select @error('medtype'){{'is-invalid'}}@enderror" value="{{old('medtype')}}">
-                                <option value="0" @if($medicine->MedicineType == 'Vial'){{'selected'}}@endif>Vial</option>
-                                <option value="1" @if($medicine->MedicineType == 'Tablets'){{'selected'}}@endif>Tablets</option>
-                                <option value="2" @if($medicine->MedicineType == 'Syrup'){{'selected'}}@endif>Syrup</option>
-                                <option value="3" @if($medicine->MedicineType == 'Drips'){{'selected'}}@endif>Drips</option>
-                                <option value="4" @if($medicine->MedicineType == 'Cream'){{'selected'}}@endif>Cream</option>
-                                <option value="5" @if($medicine->MedicineType == 'Gel'){{'selected'}}@endif>Gel</option>
-                                <option value="6" @if($medicine->MedicineType == 'Elixir'){{'selected'}}@endif>Elixir</option>
+                                <option value="Vial" @if($medicine->MedicineType == 'Vial'){{'selected'}}@endif>Vial</option>
+                                <option value="Tablets" @if($medicine->MedicineType == 'Tablets'){{'selected'}}@endif>Tablets</option>
+                                <option value="Syrup" @if($medicine->MedicineType == 'Syrup'){{'selected'}}@endif>Syrup</option>
+                                <option value="Drips" @if($medicine->MedicineType == 'Drips'){{'selected'}}@endif>Drips</option>
                             </select>
 
                             <label class="mt-2" for="medformula">Formula</label>

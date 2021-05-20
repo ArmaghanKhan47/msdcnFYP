@@ -3,8 +3,8 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-xl-4">
-            <div class="jumbotron p-4" style="height: 100%">
+        <div class="col-xl-4 text-white">
+            <div class="jumbotron p-4 jumbotron_apnd" >
                 <span class="h1 d-block">Information</span>
                 <ul>
                     <li>Enter your <strong>Original Shop Name</strong></li>
@@ -14,8 +14,8 @@
                 </ul>
             </div>
         </div>
-        <div class="col-xl-8">
-            <div class="jumbotron p-4" style="height: 100%">
+        <div class="col-xl-8 text-white">
+            <div class="jumbotron p-4 jumbotron_apnd">
                 <span class="h1 d-block">
                     {{$type}} Shop Registration
                 </span>
@@ -40,7 +40,7 @@
                         <label for="liscenceno" class="col-md-4 col-form-label text-md-right">Liscence No</label>
 
                         <div class="col-md-6">
-                            <input id="liscencno" type="text" maxlength="13" pattern="[0-9]+" class="form-control @error('liscenceno') is-invalid @enderror" name="liscenceno" value="{{ old('liscenceno') }}" required>
+                            <input id="liscencno" type="text" class="form-control @error('liscenceno') is-invalid @enderror" name="liscenceno" value="{{ old('liscenceno') }}" required>
 
                             @error('liscencno')
                                 <span class="invalid-feedback" role="alert">
@@ -65,7 +65,7 @@
                         <label for="contactnumber" class="col-md-4 col-form-label text-md-right">{{ __('Contact Number') }}</label>
 
                         <div class="col-md-6">
-                            <input type="tel" id="contactnumber" name="contactnumber" class="form-control @error('contactnumber') is-invalid @enderror" required maxlength="11" minlength="11">
+                            <input type="tel" id="contactnumber" name="contactnumber" class="form-control @error('contactnumber') is-invalid @enderror" required max="11" min="11">
                             @error('liscencno')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -90,7 +90,7 @@
 
                     <div class="form-group row mb-0">
                         <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-danger">
                                 {{ __('Register Shop') }}
                             </button>
                         </div>
