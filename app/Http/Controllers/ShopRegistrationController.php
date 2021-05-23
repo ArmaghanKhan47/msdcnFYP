@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\RetailerShop;
 use App\Models\DistributorShop;
+use App\Models\MobileBank;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,15 +40,37 @@ class ShopRegistrationController extends Controller
      */
     public function store(Request $request)
     {
+        $mobilebankprovider = [
+            'EasyPaisa',
+            'JassCash'
+        ];
+
         $this->validate($request, [
             'shopname' => 'required|string',
             'region' => 'required|string',
             'liscenceno' => 'required|string',
             'contactnumber' => 'required|string|min:11|max:11',
-            'lispic' => 'required|image|mimes:jpg,png,jpeg|max:1999'
+            'lispic' => 'required|image|mimes:jpg,png,jpeg|max:1999',
+            'mobilebankaccountprovider' => 'numeric|min:1|max:2',
+            'qrcode' => 'image|mimes:jpg,png,jpeg|max:1999'
         ]);
 
-        $filename = 'liscence_pic_' . $request->input('shopname') . '_' . Auth::user()->UserType . "_" . $request->input('region') . "_" . time(). '.' . $request->file('lispic')->getClientOriginalExtension();
+        $filename = 'liscence_pic_' . str_replace(" ", "_", $request->input('shopname')) . '_' . Auth::user()->UserType . "_" . $request->input('region') . "_" . time(). '.' . $request->file('lispic')->getClientOriginalExtension();
+
+        if ($request->hasFile('qrcode'))
+        {
+            $qrcode = 'qrcode_pic_' . $mobilebankprovider[$request->input('mobilebankaccountprovider')] . '_' . str_replace(" ", "_", $request->input('shopname')) . '_' . Auth::user()->UserType . "_" . $request->input('region') . "_" . time() . '.' . $request->file('qrcode')->getClientOriginalExtension();
+            $request->file('qrcode')->storePubliclyAs('public/mobilebank/qrcode', $qrcode);
+
+            $qrcodeid = MobileBank::create([
+                'acount_provider' => $mobilebankprovider[$request->input('mobilebankaccountprovider')],
+                'qr_code' => $qrcode
+            ])->id;
+
+            $user = User::find(Auth::id());
+            $user->mobilebankaccountid = $qrcodeid;
+            $user->save();
+        }
 
         if (Auth::user()->UserType == 'Retailer')
         {
@@ -58,7 +82,7 @@ class ShopRegistrationController extends Controller
                 'ContactNumber' => $request->input('contactnumber'),
                 'Region' => $request->input('region'),
                 'LiscenceFrontPic' => $filename,
-                'UserId' => Auth::id()
+                'UserId' => Auth::id(),
             ]);
         }
         elseif(Auth::user()->UserType == 'Distributor')

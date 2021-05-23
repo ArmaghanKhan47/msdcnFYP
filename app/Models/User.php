@@ -25,7 +25,8 @@ class User extends Authenticatable
         'CnicCardNumber',
         'api_token',
         'CnicFrontPic',
-        'CnicBackPic'
+        'CnicBackPic',
+        'mobilebankaccountid'
     ];
 
     /**
@@ -62,5 +63,10 @@ class User extends Authenticatable
     public function creditcard()
     {
         return $this->hasOne(CreditCard::class, 'rowId');
+    }
+
+    public function mobilebank()
+    {
+        return $this->hasOne(MobileBank::class);
     }
 }
