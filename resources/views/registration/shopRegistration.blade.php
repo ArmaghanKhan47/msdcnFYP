@@ -78,7 +78,27 @@
                         <label for="lispic" class="col-md-4 col-form-label text-md-right">{{ __('Liscence Picture') }}</label>
 
                         <div class="col-md-6">
-                            <input type="file" id="lispic" name="lispic" class="form-control @error('contactnumber') is-invalid @enderror" required>
+                            <input type="file" id="lispic" name="lispic" class="form-control @error('lispic') is-invalid @enderror" required>
+                            <label class="text-muted">Max image size:1.9 MB | Supported formats: jpeg,jpg,png</label>
+                            @error('liscencno')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="mobile-bank-account-provider" class="col-md-4 col-form-label text-md-right">{{ __('Mobile Bank Account(Optional)') }}</label>
+
+                        <div class="col-md-6">
+                            <select id="mobile-bank-account-provider" name="mobilebankaccountprovider" class="form-select form-control">
+                                <option value="0">EasyPaisa</option>
+                                <option value="1">JazzCash</option>
+                            </select>
+
+                            <span class="text-muted">QR Code</span>
+                            <input type="file" id="qrcode" name="qrcode" class="form-control @error('qrcode') is-invalid @enderror">
                             <label class="text-muted">Max image size:1.9 MB | Supported formats: jpeg,jpg,png</label>
                             @error('liscencno')
                                 <span class="invalid-feedback" role="alert">

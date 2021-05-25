@@ -1,13 +1,8 @@
 <?php
 
-use App\Http\Controllers\AdminAuth\ConfirmPasswordController;
-use App\Http\Controllers\AdminAuth\ForgotPasswordController;
-use App\Http\Controllers\AdminAuth\LoginController;
-use App\Http\Controllers\AdminAuth\RegisterController as AdminAuthRegisterController;
-use App\Http\Controllers\AdminAuth\ResetPasswordController;
+use App\Http\Controllers\AdminAuth\LoginController;;
 use App\Http\Controllers\AdminControllers\AdminDashboardController;
 use App\Http\Controllers\AdminControllers\RequestController;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\OrderController;
@@ -19,12 +14,9 @@ use App\Http\Controllers\RequestController as FeedbackController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingController;
-use App\Models\InventoryRetailer;
 use App\Http\Controllers\ShopRegistrationController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\SubscriptionHistoryController;
-use App\Models\Medicine;
-use App\Models\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
