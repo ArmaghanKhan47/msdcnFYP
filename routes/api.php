@@ -57,7 +57,7 @@ Route::middleware('auth:api')->group(function(){
             Contains follwing:
                 If valid key value provided in api_token
                     message:
-                        'authenticated' 
+                        'authenticated'
                     TotalRevenue:
                         All Time earning
                     TotalSales:
