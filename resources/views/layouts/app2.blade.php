@@ -10,7 +10,6 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
@@ -24,11 +23,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 </head>
 <body>
-    <div id="app">
-        @include('navbars.mainhorizontalbar')
+    <div class="grad1" id="app">
+        @auth
+            @include('navbars.mainhorizontalbar')
+        @endauth
 
+        @guest
+            @include('navbars.transparent')
+        @endguest
         <div class="row justifiy-content-center m-0">
-            <div class="col-md-12 m-0">
+            <div class="col-xl-12 m-0">
                 <div class="container mt-md-3">
                     @include('inc.message')
                     @yield('content')
@@ -36,5 +40,13 @@
             </div>
         </div>
     </div>
+
+    <div class = "p-1 border-danger linear-gradient"></div>
+
+    <!-- footer -->
+    @include('navbars.footer')
+
+
+
 </body>
 </html>

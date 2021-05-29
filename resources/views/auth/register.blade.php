@@ -4,7 +4,7 @@
 <div class="container overflow-show">
     <div class="row justify-content-center">
         <div class="col-xl-4">
-            <div class="jumbotron p-4" style="height: 100%">
+            <div class="jumbotron p-4 jumbotron_apnd text-white" >
                 <span class="h1 d-block">Information</span>
                 <ul>
                     <li>Enter your <strong>Original Name</strong></li>
@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="col-xl-8">
-            <div class="jumbotron p-4" style="height: 100%">
+            <div class="jumbotron p-4 jumbotron_apnd text-white"" >
                 <span class="h1 d-block">{{ __('Register') }}</span>
                 <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                     @csrf
@@ -37,10 +37,10 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                        <label for="email2" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                         <div class="col-md-6">
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                            <input id="email2" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
 
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
@@ -87,7 +87,7 @@
                         <label for="cnicnumber" class="col-md-4 col-form-label text-md-right">{{ __('CNIC Number') }}</label>
 
                         <div class="col-md-6">
-                            <input type="text" pattern="[0-9]+" id="cnicnumber" name="cnicnumber" class="form-control" required maxlength="13" minlength="13" autocomplete="false">
+                            <input type="text" id="cnicnumber" name="cnicnumber" class="form-control" required max="13" min="13">
                         </div>
                     </div>
 
@@ -111,7 +111,7 @@
 
                     <div class="form-group row mb-0">
                         <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-danger">
                                 {{ __('Register') }}
                             </button>
                         </div>

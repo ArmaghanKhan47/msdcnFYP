@@ -33,7 +33,7 @@
                     </div>
                     <div class="col-md-9">
                         {{-- <span class="h5 d-block">{{$notification->id}}</span> --}}
-                        <span class="h5 d-block m-0 align-middle">{!!$notification->data['message']!!}</span>
+                        <span class="h5 d-block m-0 align-middle">{{$notification->data['message']}}</span>
                         <span class="h6 d-inline text-muted align-middle">Notified On {{$notification->created_at}}</span>
                     </div>
                     <div class="col-md-2 text-right">
@@ -103,7 +103,7 @@
                     </div>
                     <div class="col-md-9">
                         {{-- <span class="h5 d-block">{{$notification->id}}</span> --}}
-                        <span class="h5 d-block m-0 align-middle">{!!$readNotification->data['message']!!}</span>
+                        <span class="h5 d-block m-0 align-middle">{{$readNotification->data['message']}}</span>
                         <span class="h6 d-inline text-muted align-middle">Read On {{$readNotification->read_at}} | Notified On {{$readNotification->created_at}}</span>
                     </div>
                     <div class="col-md-2 text-right">

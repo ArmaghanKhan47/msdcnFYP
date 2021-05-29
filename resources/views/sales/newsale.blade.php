@@ -23,8 +23,8 @@
                             <input id="searchinput" type="text" class="form-control" list="searchresults" inventoryid='0'>
                             <div class="input-group-append">
                                 <button id="btnadd" class="btn btn-success">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                                       </svg>
                                 </button>
                             </div>
@@ -87,31 +87,6 @@
         </form>
         <script>
 
-            function discountFunction(){
-                var value = parseInt($(this).text());
-                var input = document.createElement('input');
-                $(input).addClass('form-control').val(value);
-                $(this).html(input);
-                $(this).unbind('click');
-
-                $(input).change(function(){
-                    var value = $(this).val();
-                    $(this).remove();
-                    $('#discount').html(value).bind('click', discountFunction);
-
-                    var total2 = parseFloat($('#total2').html());
-                    $('#grandtotal').html(total2 - value);
-                });
-            }
-
-            window.onload = function(){
-                //Custom JQuery Start
-
-                $('#discount').click(discountFunction);
-
-                //Custom JQuery End
-            }
-
             function calculatePrice(item_list)
             {
                 var childs = $(item_list).find('span.h5.d-block');
@@ -122,7 +97,7 @@
                 }
                 var gst = (totalprice * (16/100)).toFixed(2);
                 var total2 = totalprice + parseFloat(gst);
-                var discount = 0;
+                var discount = 20;
                 var grandtotal = (total2 - discount).toFixed(2);
 
                 //put values in their places
@@ -192,7 +167,7 @@
             }
 
             var searchtext = document.getElementById('searchinput');
-            searchtext.addEventListener('input', function(){
+            searchtext.addEventListener('change', function(){
                 var q = searchtext.value;
                 if (q == '')
                 {
@@ -230,24 +205,18 @@
             });
 
             document.getElementById('btnadd').addEventListener('click', function(){
-                if (searchtext.value.trim() != '')
-                {
-                    var val = $('option[value=\"' + searchtext.value + '\"]');
-                    var company = val.attr('company');
-                    var name = val.attr('value');
-                    var unitprice = val.attr('unitprice');
-                    var medicineid = val.attr('medicineid');
-                    var inventoryid = val.attr('inventoryid');
+                var val = $('option[value=\"' + searchtext.value + '\"]');
+                var company = val.attr('company');
+                var name = val.attr('value');
+                var unitprice = val.attr('unitprice');
+                var medicineid = val.attr('medicineid');
+                var inventoryid = val.attr('inventoryid');
 
-                    //getting item list
-                    $('#item-list').append(createItem(name, company, unitprice, medicineid, inventoryid));
-                    //Calculate Price
-                    calculatePrice($('#item-list'));
-                }
-                else
-                {
-                    alert('Please select medicine');
-                }
+                //getting item list
+                $('#item-list').append(createItem(name, company, unitprice, medicineid, inventoryid));
+                //Calculate Price
+                calculatePrice($('#item-list'));
+
             });
 
            document.getElementById('checkout').addEventListener('click', function(event){

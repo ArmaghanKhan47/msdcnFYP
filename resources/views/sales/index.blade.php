@@ -1,8 +1,9 @@
 @extends('layouts.app')
 @section('content')
     {{-- Heading --}}
-    <div class="jumbotron p-3">
-        <span class="h1 d-block">Sales</span>
+    <div class="jumbotron p-3 row">
+        <span class="col-md-10 h2 pt-2 d-block"><strong>SALE</strong></span>
+
     </div>
 
     {{-- Little Info Tabs --}}

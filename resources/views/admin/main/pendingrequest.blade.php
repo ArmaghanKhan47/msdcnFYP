@@ -4,6 +4,7 @@
     <div class="jumbotron p-3">
         <span class="h1 d-block">Pending Requests</span>
     </div>
+
     @if ($pendings->count() != 0)
 
         @foreach ($pendings as $pending)
@@ -85,94 +86,35 @@
                     </div>
                 </div>
                 <div class="row mt-2 d-none" id="list-{{$pending->id}}">
-                    <div class="col-md-6">
-                        <div class="jumbotron p-2 text-center">
-                            <span class="h5 mb-1">Cnic Front Picture</span>
-                            <img class="d-block m-auto rounded" src="{{asset('storage/cnic/front/' . $pending->CnicFrontPic)}}" alt="No Image Found" height="200px" width="400px">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="jumbotron p-2 text-center">
-                            <span class="h5 mb-1">Liscence Picture</span>
-                            <img class="d-block m-auto rounded" src="@if($pending->UserType == 'Retailer'){{asset('storage/retailer/liscence/' . $pending->retailershop->LiscenceFrontPic)}}@elseif($pending->UserType == 'Distributor'){{asset('storage/distributor/liscence/' . $pending->distributorshop->LiscenceFrontPic)}}@endif" alt="No Image Found" height="200px" width="400px">
+                    <div class="col-md-12">
+                        <div class="jumbotron p-2">
+                            <span class="h5">Cnic Front Pic</span>
+                            <img src="/storage/cnic/front/{{$pending->CnicFrontPic}}" alt="No Image Found">
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <hr class="divider bg-danger">
-                        <span class="h3 d-block text-center">Details</span>
-                        <hr class="divider">
-                        <span class="d-block">
-                            <span class="h4">Cnic#</span>
-                            <span class="h5 float-right">{{$pending->CnicCardNumber}}</span>
-                            <hr class="divider">
-                        </span>
-                        @if ($pending->UserType == 'Retailer')
-                            <span class="d-block">
-                                <span class="h4">Liscence#</span>
-                                <span class="h5 float-right">{{$pending->retailershop->LiscenceNo}}</span>
-                                <hr class="divider">
-                            </span>
-
-                            <span class="d-block">
-                                <span class="h4">Shop Name: </span>
-                                <span class="h5 float-right">{{$pending->retailershop->RetailerShopName}}</span>
-                                <hr class="divider">
-                            </span>
-
-                            <span class="d-block">
-                                <span class="h4">Shop Address: </span>
-                                <span class="h5 float-right">{{$pending->retailershop->shopAddress}}</span>
-                                <hr class="divider">
-                            </span>
-
-                            <span class="d-block">
-                                <span class="h4">Contact# </span>
-                                <span class="h5 float-right">{{$pending->retailershop->ContactNumber}}</span>
-                            </span>
-                        @elseif($pending->UserType == 'Distributor')
-                            <span class="d-block">
-                                <span class="h4">Liscence#</span>
-                                <span class="h5 float-right">{{$pending->distributorshop->LiscenceNo}}</span>
-                                <hr class="divider">
-                            </span>
-
-                            <span class="d-block">
-                                <span class="h4">Shop Name: </span>
-                                <span class="h5 float-right">{{$pending->distributorshop->DistributorShopName}}</span>
-                                <hr class="divider">
-                            </span>
-
-                            <span class="d-block">
-                                <span class="h4">Shop Address: </span>
-                                <span class="h5 float-right">{{$pending->distributorshop->shopAddress}}</span>
-                                <hr class="divider">
-                            </span>
-
-                            <span class="d-block">
-                                <span class="h4">Contact# </span>
-                                <span class="h5 float-right">{{$pending->distributorshop->ContactNumber}}</span>
-                            </span>
-                        @endif
+                        <div class="jumbotron p-2">
+                            <span class="h5">Cnic Back Pic</span>
+                            <img src="/storage/cnic/back/{{$pending->CnicBackPic}}" alt="No Image Found">
+                        </div>
                     </div>
                 </div>
                 <script>
-                    window.onload = function(){
-                        //Custom JQuery Start
-
-                        $('#detailbtn-{{$pending->id}}').click(function(){
-                            var list = $('#list-{{$pending->id}}');
-                            if(list.hasClass('d-none'))
-                            {
-                                list.removeClass('d-none').addClass('d-flex');
-                            }
-                            else if (list.hasClass('d-flex'))
-                            {
-                                list.removeClass('d-flex').addClass('d-none');
-                            }
-                        });
-
-                        //Custom JQuery End
-                    }
+                    // Custom JS to hide or show Order Items
+                    document.getElementById("detailbtn-{{$pending->id}}").addEventListener('click', function(){
+                        var el = document.getElementById('list-{{$pending->id}}');
+                        var attri = el.getAttribute('class');
+                        if (attri == 'row mt-2 d-none')
+                        {
+                            el.setAttribute('class', 'row mt-2 d-block');
+                            // caret.setAttribute('class', 'bi bi-caret-up-fill');
+                        }
+                        else if (attri == 'row mt-2 d-block')
+                        {
+                            el.setAttribute('class', 'row mt-2 d-none');
+                            // caret.setAttribute('class', 'bi bi-caret-down-fill');
+                        }
+                    });
                 </script>
             </div>
         @endforeach

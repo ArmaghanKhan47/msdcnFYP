@@ -11,7 +11,12 @@
                             <span class="h5 d-block">{{$data->MedicineName}} - {{$data->MedicineType}}</span>
                             <span class="h6 d-block text-muted">By {{$data->MedicineCompany}}</span>
                             <span class="h6 d-block text-muted">{{$data->inventorydistributor->distributor->DistributorShopName}}</span>
-                            <span class="h6 d-block text-muted">Contains {{implode(',', json_decode($data->MedicineFormula))}}</span>
+                            <span class="h6 d-block text-muted">
+                                Contains
+                                @foreach (json_decode($data->MedicineFormula) as $item)
+                                    {{$item}},
+                                @endforeach
+                            </span>
                             <div>
                                 <span><span id="unitprice">{{$data->inventorydistributor->UnitPrice}}</span>{{' PKR'}}</span>
                                 <span class="float-right">In Stock {{$data->inventorydistributor->Quantity}}</span>
@@ -55,13 +60,11 @@
         </div>
         <script>
             //Custom JS to update total price as Quantity Increases or Decreases
-            window.onload = function(){
-                $('#quantity').on('change', function(){
-                    var quantity = $('#quantity').val();
-                    var unitprice = $('#unitprice').text();
-                    $('#totalprice').val((quantity * unitprice).toFixed(2));
-                });
-            }
+            document.getElementById('quantity').addEventListener('change', function(){
+                var quantity = document.getElementById('quantity').value;
+                var unitprice = document.getElementById('unitprice').innerText;
+                document.getElementById('totalprice').value = (quantity * unitprice).toFixed(2);
+            });
         </script>
     </div>
 @endsection

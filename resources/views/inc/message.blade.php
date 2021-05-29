@@ -14,12 +14,14 @@
             <span aria-hidden="true">&times;</span>
           </button>
     </div>
+    {{Session::forget('success')}}
 @endif
 
 @if (session('error'))
-    <div class="alert alert-danger" role="alert">{!!session('error')!!}
+    <div class="alert alert-danger" role="alert">{{session('error')}}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
     </div>
+    {{Session::forget('error')}}
 @endif

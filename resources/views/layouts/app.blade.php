@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ mix('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -23,9 +23,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
     {{-- Chart.js CDN --}}
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 </head>
-<body style="overflow: hidden">
+<body style="overflow: hidden ">
     <div id="app">
         @include('navbars.mainhorizontalbar')
         <div class="row justifiy-content-center">
@@ -41,7 +41,7 @@
                         @elseuser('Distributor')
                         <a href="/order/history" class="list-group-item list-group-item-action bg-dark text-white">Orders</a>
                         @enduser
-                        <a href="{{route('report.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Reports</a>
+                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white disabled">Reports</a>
                         @user ('Retailer')
                         <a href="/order/history" class="list-group-item list-group-item-action bg-dark text-white">Order History</a>
                         @enduser
@@ -52,19 +52,17 @@
                     @auth('admin')
                         {{-- If user is admin --}}
                         <a href="{{route('admin.dashboard')}}" class="list-group-item list-group-item-action bg-dark text-white">Dashboard</a>
-                        <a href="{{route('admin.pending.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Pending Requests @if(session('pendingcount') > 0)<span class="badge badge-success">{{session('pendingcount')}}</span>@endif</a>
-                        <a href="{{route('admin.feedback.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Feedbacks @if(session('feedbackcount') > 0)<span class="badge badge-success">{{session('feedbackcount')}}</span>@endif</a>
+                        <a href="{{route('admin.pending.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Pending Requests</a>
                         <a href="{{route('admin.medicine.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Medicine</a>
                         <a href="{{route('admin.subscription.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Subscription Packages</a>
                     @endauth
                   {{-- end --}}
                 </div>
             </div>
-            <div class="col-md-10">
-                <div class="container-fluid mt-xl-3 overflow-auto" style="height: 38.5em;">
+            <div class="col-md-10 " style="background-color: #d9d9d9">
+                <div class="container-fluid mt-xl-3 overflow-auto" style="height: 41em;">
                     @include('inc.message')
                     @yield('content')
-                    <div class="jumbotron p-0 m-1 bg-transparent"></div>
                 </div>
             </div>
         </div>
