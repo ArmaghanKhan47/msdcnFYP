@@ -5,8 +5,10 @@
             {{-- Package Details --}}
             <div class="jumbotron">
                 <span class="h3 d-block">{{$package[0]->PackageName}}</span>
+                <hr>
                 <span class="h6 d-block text-muted">{{$package[0]->PackagePrice}} PKR</span>
                 <span class="h6 d-block text-muted">Last {{$package[0]->PackageDuration}} Month(s)</span>
+                <span class="h6 d-block text-muted">Mobile App: @if($package[0]->supportApi){{"YES"}}@else{{"NO"}}@endif</span>
                 <hr>
                 <div>
                     <ul>

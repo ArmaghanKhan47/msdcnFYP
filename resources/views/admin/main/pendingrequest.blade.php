@@ -87,22 +87,15 @@
                 <div class="row mt-2 d-none" id="list-{{$pending->id}}">
                     <div class="col-md-6">
                         <div class="jumbotron p-2 text-center">
-                            <img class="d-block m-auto" src="{{asset('storage/cnic/front/' . $pending->CnicFrontPic)}}" alt="No Image Found" height="250px">
-                            <span class="h5">Cnic Front Pic</span>
+                            <span class="h5 mb-1">Cnic Front Picture</span>
+                            <img class="d-block m-auto rounded" src="{{asset('storage/cnic/front/' . $pending->CnicFrontPic)}}" alt="No Image Found" height="200px" width="400px">
                         </div>
                     </div>
                     <div class="col-md-6">
-                        @if($pending->UserType == 'Retailer')
-                            <div class="jumbotron p-2 text-center">
-                                <img class="d-block m-auto" src="{{asset('storage/retailer/liscence/' . $pending->retailershop->LiscenceFrontPic)}}" alt="No Image Found" height="250px">
-                                <span class="h5">Liscence Pic</span>
-                            </div>
-                        @elseif($pending->UserType == 'Distributor')
-                            <div class="jumbotron p-2 text-center">
-                                <img class="d-block" src="{{asset('storage/distributor/liscence/' . $pending->distributorshop->LiscenceFrontPic)}}" alt="No Image Found">
-                                <span class="h5">Liscence Pic</span>
-                            </div>
-                        @endif
+                        <div class="jumbotron p-2 text-center">
+                            <span class="h5 mb-1">Liscence Picture</span>
+                            <img class="d-block m-auto rounded" src="@if($pending->UserType == 'Retailer'){{asset('storage/retailer/liscence/' . $pending->retailershop->LiscenceFrontPic)}}@elseif($pending->UserType == 'Distributor'){{asset('storage/distributor/liscence/' . $pending->distributorshop->LiscenceFrontPic)}}@endif" alt="No Image Found" height="200px" width="400px">
+                        </div>
                     </div>
                     <div class="col-md-12">
                         <hr class="divider bg-danger">
@@ -145,7 +138,7 @@
 
                             <span class="d-block">
                                 <span class="h4">Shop Name: </span>
-                                <span class="h5 float-right">{{$pending->distributorshop->RetailerShopName}}</span>
+                                <span class="h5 float-right">{{$pending->distributorshop->DistributorShopName}}</span>
                                 <hr class="divider">
                             </span>
 

@@ -25,6 +25,7 @@ class CreateOrdersTable extends Migration
             $table->date('PayedDate')->nullable();
             $table->date('OrderPlacingDate');
             $table->date('OrderCompletionDate')->nullable();
+            $table->timestamps();
 
             $table->foreign('RetailerId')->references('RetailerShopId')->on('retailer_shops');
             $table->foreign('DistributorId')->references('DistributorShopId')->on('distributor_shops');

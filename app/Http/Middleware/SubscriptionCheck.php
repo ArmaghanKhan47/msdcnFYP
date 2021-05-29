@@ -19,7 +19,6 @@ class SubscriptionCheck
      */
     public function handle(Request $request, Closure $next)
     {
-
         $subscriptions = null;
         try
         {
@@ -46,18 +45,40 @@ class SubscriptionCheck
         if($subscriptions  && $subscriptions->count() != 0)
                 {
                     $last_sub = $subscriptions[0];
-                    $interval = date_diff(date_create($last_sub->endDate), date_create(date('Y-m-d', strtotime('today'))));
-                    if($interval->days < 3)
+                    $interval = date_diff(date_create(date('Y-m-d', strtotime('today'))), date_create($last_sub->endDate));
+                    $intervel = $interval->invert ? -$interval->days : $interval->days;
+                    if($intervel < 3)
                     {
-                        if ($interval->days < 1)
+                        if ($intervel < 1)
                         {
+                            if ($request->header('accept') == 'application/json')
+                            {
+                                //responce for api calls
+                                return response()->json([
+                                    'message' => 'Your Subscription has ended'
+                                ]);
+                            }
                             return redirect(route('subscription.index'))->with('error', 'Your Subscription has ended.');
                         }
+                        if ($request->header('accept') == 'application/json')
+                            {
+                                //responce for api calls
+                                return response()->json([
+                                    'message' => 'Your Subscription will end in ' . (string)$interval->days . ' days'
+                                ]);
+                            }
                         session()->now('error', 'Your Subscription will end in ' . (string)$interval->days . ' days');
                     }
                 }
                 else
                 {
+                    if ($request->header('accept') == 'application/json')
+                    {
+                        //responce for api calls
+                        return response()->json([
+                            'message' => 'Please Subscribe'
+                            ]);
+                    }
                     return redirect(route('subscription.index'))->with('error', 'Please Subscribe');
                 }
 
@@ -65,10 +86,24 @@ class SubscriptionCheck
         switch(User::find(Auth::id())->AccountStatus)
         {
             case 'PENDING':
+                if ($request->header('accept') == 'application/json')
+                {
+                    //responce for api calls
+                    return response()->json([
+                        'message' => 'Your Account Activation is Pending'
+                        ]);
+                }
                 return redirect('/settings')->with('error', 'Your Account Activation is Pending');
                 break;
 
             case 'DEACTIVE':
+                if ($request->header('accept') == 'application/json')
+                {
+                    //responce for api calls
+                    return response()->json([
+                        'message' => 'Your Account is Deactive'
+                        ]);
+                }
                 return redirect('/settings')->with('error', 'Your Account is Deactive');
                 break;
         }

@@ -42,7 +42,7 @@ use Illuminate\Http\Client\Response;
 */
 Route::post('/login', [UserApiController::class, 'login']);
 
-Route::middleware('auth:api')->group(function(){
+Route::middleware(['auth:api', 'subcheck'])->group(function(){
     /*
         Route:
             domain + /api/dashboard, e.g, msdcn.test/api/dashboard

@@ -11,12 +11,11 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\RetailerShop;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use App\Models\User;
 
 class OrderController extends Controller
 {
-    private static $paymentMethods = ['COD', 'Credit Card'];
+    private static $paymentMethods = ['COD', 'Credit Card', 'Mobile Payment'];
     //
     public function index()
     {
@@ -41,7 +40,22 @@ class OrderController extends Controller
         $cartData = $cart->getCart();
         $retailerData = RetailerShop::select('RetailerShopId', 'shopAddress')->where('UserId','=', Auth::id())->first();
         $creditCard = CreditCard::find(Auth::user()->CreditCardId);
-        return view('cart.cartcheckout')->with('data', [$cartData, $retailerData, $creditCard]);
+
+        $distributors = $cartData->groupBy('distributorid')->map(function($item){
+            return $item->sum('totalprice');
+        });
+        $mobilebanks = DistributorShop::select(['DistributorShopId', 'UserId', 'DistributorShopName'])->with(['user' => function($query){
+            $query->select(['id', 'mobilebankaccountid'])->with('mobilebank');
+        }])->whereIn('DistributorShopId', $distributors->keys())->get()->map(function($item) use ($distributors){
+            // return $item->user->mobilebank;
+            return (object)[
+                'distributorshopid' => $item->DistributorShopId,
+                'distributorshopname' => $item->DistributorShopName,
+                'amount' => $distributors[$item->DistributorShopId],
+                'mobilebank' => $item->user->mobilebank
+            ];
+        });
+        return view('cart.cartcheckout')->with('data', [$cartData, $retailerData, $creditCard, $mobilebanks]);
     }
 
     public function store(Request $request)
@@ -50,9 +64,10 @@ class OrderController extends Controller
         $this->validate($request, [
             'retailerid' => 'string|required',
             'shippingAddress' => 'string|required',
-            'paymentMethod' => 'numeric|required|min:0|max:1'
+            'paymentMethod' => 'numeric|required|min:0|max:2'
         ]);
 
+        $trasaction_ids = null;
         $paymentStatus = 'Unpayed';
 
         //Check if Retailer has an address if not save given address
@@ -65,21 +80,40 @@ class OrderController extends Controller
         }
 
         //This will check if user has credit card
-        if ($request->input('paymentMethod'))
+        switch($request->input('paymentMethod'))
         {
-            //If value of paymentMethod is 1, which means Credit Card payment method is selected
-            $test = new CreditCardController();
-            $cardid = $test->create($request);
-            if ($cardid != null)
-            {
-                //Means no credit card was found
-                //New Credit Card Record is created and now the reference is being stored in user
-                $user = User::find(Auth::id());
-                $user->CreditCardId = $cardid;
-                $user->save();
-            }
+            case 1:
+                //Payment Mode Credit Card Selected
+                $test = new CreditCardController();
+                $cardid = $test->create($request);
+                if ($cardid != null)
+                {
+                    //Means no credit card was found
+                    //New Credit Card Record is created and now the reference is being stored in user
+                    $user = User::find(Auth::id());
+                    $user->CreditCardId = $cardid;
+                    $user->save();
+                }
+                $paymentStatus = 'Payed';
+                break;
 
-            $paymentStatus = 'Payed';
+            case 2:
+                //Payment mode Mobile Payment Selected
+                $this->validate($request, [
+                    'transactions-ids' => 'string|required'
+                ]);
+                $trasaction_ids = json_decode($request->input('transactions-ids'), true);
+                foreach($trasaction_ids as $key => $value)
+                {
+                    //Validating the data
+                    if (is_numeric($key) && is_numeric($value))
+                    {
+                        continue;
+                    }
+                    return redirect()->back()->with('error', 'Invalid Transaction Ids');
+                }
+                break;
+
         }
 
         $cart = new Cart();
@@ -102,6 +136,7 @@ class OrderController extends Controller
                 'PayedDate' => date('y-m-d'),
                 'OrderPlacingDate' => date('y-m-d'),
                 'deliveryAddress' => $request->input('shippingAddress'),
+                'mobilePaymentTransactionId' => $trasaction_ids ? $trasaction_ids[$distributor[0]->get('distributorid')] : null
             ])->OrderId;
             foreach($distributor as $item)
             {
@@ -143,7 +178,7 @@ class OrderController extends Controller
         //For Distributor to Change Order Status
         $this->validate($request, [
             'orderid' => 'string|required',
-            'status' => 'numeric|required|min:0|max:3'
+            'status' => 'numeric|required|min:0|max:4'
         ]);
 
         $order = Order::find($request->input('orderid'));
@@ -154,15 +189,17 @@ class OrderController extends Controller
                 1 => cancelled
                 2 => dispatched
                 3 => completed
-                4 => cod_payment_received
+                4 => payment status
             */
             case 0:
+                //Order is accepted, changing status from Pending -> Preparing
                 $order->OrderStatus = str_replace('Pending', 'Preparing', $order->OrderStatus);
                 $order->save();
                 return redirect('/order/history')->with('success', 'Order#' . $request->input('orderid') . ' Accepted');
                 break;
 
             case 1:
+                //Order is cancelled, changing status from Pending -> Cancelled
                 $order->OrderStatus = str_replace('Pending', 'Cancelled', $order->OrderStatus);
                 $order->OrderCompletionDate = date('Y-m-d');
                 $order->save();
@@ -170,12 +207,14 @@ class OrderController extends Controller
                 break;
 
             case 2:
+                //Order is dispatched, changing status from Preparing -> Dispatched
                 $order->OrderStatus = str_replace('Preparing', 'Dispatched', $order->OrderStatus);
                 $order->save();
                 return redirect('/order/history')->with('success', 'Order#' . $request->input('orderid') . ' Marked as Dispatched');
                 break;
 
             case 3:
+                //Order is completed, changing status from Dispatched -> Completed
                 $order->OrderStatus = str_replace('Dispatched', 'Completed', $order->OrderStatus);
                 $order->OrderCompletionDate = date('Y-m-d');
                 $order->save();
@@ -183,6 +222,7 @@ class OrderController extends Controller
                 break;
 
             case 4:
+                //Order payment is made, changing payment status from Unpayed -> Payed
                 $order->OrderStatus = str_replace('Unpayed', 'Payed', $order->OrderStatus);
                 $order->save();
                 return redirect('/order/history')->with('success', 'Order#' . $request->input('orderid') . ' Marked as Payed');

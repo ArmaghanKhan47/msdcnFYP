@@ -15,6 +15,7 @@ use App\Notifications\SubscriptionNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 
 class SubscriptionController extends Controller
 {
@@ -64,13 +65,15 @@ class SubscriptionController extends Controller
         $this->validate($request, [
             'pkgname' => 'string|required|max:255',
             'pkgprice' => 'numeric|required',
-            'pkgduration' => 'numeric|required'
+            'pkgduration' => 'numeric|required',
+            'supportapi' => 'numeric|required|max:1|min:0'
         ]);
 
         $id = SubscriptionPackage::create([
             'PackageName' => $request->input('pkgname'),
             'PackagePrice' => $request->input('pkgprice'),
-            'PackageDuration' => $request->input('pkgduration')
+            'PackageDuration' => $request->input('pkgduration'),
+            'supportApi' => $request->input('supportapi')
         ])->PackageId;
 
         Notification::send(User::all(), new SubscriptionNotification('New Package is introduced with name ' . $request->input('pkgname')));
@@ -102,7 +105,7 @@ class SubscriptionController extends Controller
      */
     public function edit($id)
     {
-        //
+        //For Admin
         $data = SubscriptionPackage::find($id);
         return view('admin.main.editsubscriptionpackage')->with('package', $data);
     }
@@ -112,13 +115,15 @@ class SubscriptionController extends Controller
         $this->validate($request, [
             'pkgname' => 'string|required|max:255',
             'pkgprice' => 'numeric|required',
-            'pkgduration' => 'numeric|required'
+            'pkgduration' => 'numeric|required',
+            'supportapi' => 'numeric|required|max:1|min:0'
         ]);
 
         $package = SubscriptionPackage::find($id);
         $package->PackageName = $request->input('pkgname');
         $package->PackagePrice = $request->input('pkgprice');
         $package->PackageDuration = $request->input('pkgduration');
+        $package->supportApi = $request->input('supportapi');
         $package->save();
 
         return redirect(route('admin.subscription.index'))->with('success', 'Packaged Updated');
@@ -159,20 +164,32 @@ class SubscriptionController extends Controller
         {
             $user->CreditCardId = $cardid;
         }
-        $user->AccountStatus = 'PENDING';
         $user->save();
 
         //now check that user is a Retailer or Distributor and act accordingly
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                $retailer = RetailerShop::where('UserId', '=', Auth::id())->first();
+                // $retailer = RetailerShop::where('UserId', '=', Auth::id())->first();
+                $retailer = User::select('id', 'api_token')->with('retailershop')->where('id', Auth::id())->first();
 
                 SubscriptionHistoryRetailer::create([
                     'SubscriptionPackageId' => $id,
-                    'RetailerId' => $retailer->RetailerShopId,
+                    'RetailerId' => $retailer->retailershop->RetailerShopId,
                     'startDate' => date("Y-m-d")
                 ]);
+
+                //If Package Support API Then genetrate API for the user
+                $subscription_api_support = SubscriptionPackage::select('PackageId', 'supportApi')->where('PackageId', $id)->first()->supportApi;
+                if ($subscription_api_support)
+                {
+                    $retailer->api_token = Str::random(60);
+                }
+                else
+                {
+                    $retailer->api_token = null;
+                }
+                $retailer->save();
                 break;
 
             case 'Distributor':
@@ -185,7 +202,7 @@ class SubscriptionController extends Controller
                 ]);
                 break;
         }
-        
+
         Notification::send(Auth::user(), new SubscribedNotification('You Have Subscribed our ' . SubscriptionPackage::find($id)->PackageName . ' Package'));
 
         return redirect(route('home'))->with('success', 'Hoorah! You Subscribed, Thank You!');
