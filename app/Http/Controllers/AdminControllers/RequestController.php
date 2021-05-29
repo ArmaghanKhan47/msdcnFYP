@@ -18,6 +18,13 @@ class RequestController extends Controller
     {
         //
         $pendings = User::where('AccountStatus', 'Pending')->with(['retailershop', 'distributorshop'])->get();
+        //Now check for incomplete registration
+        $pendings = $pendings->filter(function($item){
+            if ($item->retailershop || $item->distributorshop)
+            {
+                    return $item;
+            }
+        });
         return view('admin.main.pendingrequest', compact('pendings'));
     }
 

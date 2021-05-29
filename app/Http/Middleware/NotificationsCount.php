@@ -28,7 +28,12 @@ class NotificationsCount
         elseif (Auth::guard('admin')->check())
         {
             //For admin users
-            $pendings = User::where('AccountStatus', 'Pending')->get()->count();
+            $pendings = User::where('AccountStatus', 'Pending')->with(['retailershop', 'distributorshop'])->get()->filter(function($item){
+                if($item->retailershop || $item->distributorshop)
+                {
+                    return $item;
+                }
+            })->count();
             session(['pendingcount' => $pendings]);
 
             $feedback = ModelsRequest::where('status', 'ACTIVE')->get()->count();

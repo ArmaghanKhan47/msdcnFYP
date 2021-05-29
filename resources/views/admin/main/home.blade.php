@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="jumbotron text-center p-3">
-                <span class="d-block h3">{{$pendings}}</span>
+                <span class="d-block h3">{{session('pendingcount')}}</span>
                 <span class="d-block h4 text-muted">Pending Requests</span>
             </div>
         </div>
