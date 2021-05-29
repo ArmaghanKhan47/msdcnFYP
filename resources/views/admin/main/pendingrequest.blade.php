@@ -86,6 +86,10 @@
                     </div>
                 </div>
                 <div class="row mt-2 d-none" id="list-{{$pending->id}}">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 02925ac88674e0a124237d9b05d720cfc061194d
                     <div class="col-md-12">
                         <div class="jumbotron p-2">
                             <span class="h5">Cnic Front Pic</span>
@@ -97,6 +101,79 @@
                             <span class="h5">Cnic Back Pic</span>
                             <img src="/storage/cnic/back/{{$pending->CnicBackPic}}" alt="No Image Found">
                         </div>
+<<<<<<< HEAD
+=======
+=======
+                    <div class="col-md-6">
+                        <div class="jumbotron p-2 text-center">
+                            <span class="h5 mb-1">Cnic Front Picture</span>
+                            <img class="d-block m-auto rounded" src="{{asset('storage/cnic/front/' . $pending->CnicFrontPic)}}" alt="No Image Found" height="200px" width="400px">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="jumbotron p-2 text-center">
+                            <span class="h5 mb-1">Liscence Picture</span>
+                            <img class="d-block m-auto rounded" src="@if($pending->UserType == 'Retailer'){{asset('storage/retailer/liscence/' . $pending->retailershop->LiscenceFrontPic)}}@elseif($pending->UserType == 'Distributor'){{asset('storage/distributor/liscence/' . $pending->distributorshop->LiscenceFrontPic)}}@endif" alt="No Image Found" height="200px" width="400px">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr class="divider bg-danger">
+                        <span class="h3 d-block text-center">Details</span>
+                        <hr class="divider">
+                        <span class="d-block">
+                            <span class="h4">Cnic#</span>
+                            <span class="h5 float-right">{{$pending->CnicCardNumber}}</span>
+                            <hr class="divider">
+                        </span>
+                        @if ($pending->UserType == 'Retailer')
+                            <span class="d-block">
+                                <span class="h4">Liscence#</span>
+                                <span class="h5 float-right">{{$pending->retailershop->LiscenceNo}}</span>
+                                <hr class="divider">
+                            </span>
+
+                            <span class="d-block">
+                                <span class="h4">Shop Name: </span>
+                                <span class="h5 float-right">{{$pending->retailershop->RetailerShopName}}</span>
+                                <hr class="divider">
+                            </span>
+
+                            <span class="d-block">
+                                <span class="h4">Shop Address: </span>
+                                <span class="h5 float-right">{{$pending->retailershop->shopAddress}}</span>
+                                <hr class="divider">
+                            </span>
+
+                            <span class="d-block">
+                                <span class="h4">Contact# </span>
+                                <span class="h5 float-right">{{$pending->retailershop->ContactNumber}}</span>
+                            </span>
+                        @elseif($pending->UserType == 'Distributor')
+                            <span class="d-block">
+                                <span class="h4">Liscence#</span>
+                                <span class="h5 float-right">{{$pending->distributorshop->LiscenceNo}}</span>
+                                <hr class="divider">
+                            </span>
+
+                            <span class="d-block">
+                                <span class="h4">Shop Name: </span>
+                                <span class="h5 float-right">{{$pending->distributorshop->DistributorShopName}}</span>
+                                <hr class="divider">
+                            </span>
+
+                            <span class="d-block">
+                                <span class="h4">Shop Address: </span>
+                                <span class="h5 float-right">{{$pending->distributorshop->shopAddress}}</span>
+                                <hr class="divider">
+                            </span>
+
+                            <span class="d-block">
+                                <span class="h4">Contact# </span>
+                                <span class="h5 float-right">{{$pending->distributorshop->ContactNumber}}</span>
+                            </span>
+                        @endif
+>>>>>>> master
+>>>>>>> 02925ac88674e0a124237d9b05d720cfc061194d
                     </div>
                 </div>
                 <script>

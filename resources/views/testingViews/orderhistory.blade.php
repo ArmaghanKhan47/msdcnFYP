@@ -125,12 +125,36 @@ git @extends('layouts.app')
                         {{-- If order is preparing show this as a status of accepted order --}}
                         <button class="btn btn-success btn-block">Accepted</button>
                         @user('Distributor')
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 02925ac88674e0a124237d9b05d720cfc061194d
                             <form method="POST" action="/order/status">
                                 @csrf
                                 <input type="hidden" name="orderid" value="{{$order->OrderId}}">
                                 <input type="hidden" name="status" value="dispatched">
                                 <button type="submit" class="btn btn-primary mt-2">Dispatch</button>
                             </form>
+<<<<<<< HEAD
+=======
+=======
+                            @if (strstr($order->OrderStatus, 'Unpayed'))
+                                <form method="POST" action="/order/status">
+                                    @csrf
+                                    <input type="hidden" name="orderid" value="{{$order->OrderId}}">
+                                    <input type="hidden" name="status" value=4>
+                                    <button type="submit" class="btn btn-primary mt-2">Payment Confirmed</button>
+                                </form>
+                            @else
+                                <form method="POST" action="/order/status">
+                                    @csrf
+                                    <input type="hidden" name="orderid" value="{{$order->OrderId}}">
+                                    <input type="hidden" name="status" value=2>
+                                    <button type="submit" class="btn btn-primary mt-2">Dispatch</button>
+                                </form>
+                            @endif
+>>>>>>> master
+>>>>>>> 02925ac88674e0a124237d9b05d720cfc061194d
                         @enduser
                     </div>
                 @elseif(strstr($order->OrderStatus, 'Dispatched'))
