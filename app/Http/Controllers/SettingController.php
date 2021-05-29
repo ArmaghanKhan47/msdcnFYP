@@ -113,7 +113,7 @@ class SettingController extends Controller
 
         $qrcode = 'qrcode_pic_' . $mobilebankprovider[$request->input('mobileaccountprovider')] . '_' . str_replace(" ", "_", $details->distributorshop->DistributorShopName) . '_' . Auth::user()->UserType . "_" . $details->distributorshop->Region . "_" . time() . '.' . $request->file('qrcode')->getClientOriginalExtension();
         $request->file('qrcode')->storePubliclyAs('public/mobilebank/qrcode', $qrcode);
-        if($details)
+        if($details->mobilebank)
         {
             //Update info
             Storage::delete($details->mobilebank->qr_code);
