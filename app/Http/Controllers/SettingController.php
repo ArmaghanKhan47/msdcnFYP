@@ -125,7 +125,7 @@ class SettingController extends Controller
 
         //Creating new
         $qrcodeid = MobileBank::create([
-            'acount_provider' => $mobilebankprovider[$request->input('mobilebankaccountprovider')],
+            'acount_provider' => $mobilebankprovider[$request->input('mobileaccountprovider')],
             'qr_code' => $qrcode
         ])->id;
 
