@@ -14,7 +14,8 @@ class SubscriptionPackage extends Model
     protected $fillable = [
         'PackageName',
         'PackagePrice',
-        'PackageDuration'
+        'PackageDuration',
+        'supportApi'
     ];
 
     protected $hidden = [

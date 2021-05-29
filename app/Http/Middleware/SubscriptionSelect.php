@@ -44,8 +44,9 @@ class SubscriptionSelect
                 {
                     $last_sub = $subscriptions[0];
                     //Formulate Ending Date
-                    $interval = date_diff(date_create($last_sub->endDate), date_create(date('Y-m-d', strtotime('today'))));
-                    if($interval->days > 0)
+                    $interval = date_diff(date_create(date('Y-m-d', strtotime('today'))), date_create($last_sub->endDate));
+                    $intervel = $interval->invert ? -$interval->days : $interval->days;
+                    if($intervel > 0)
                     {
                         return redirect()->back()->with('success', 'Your Subscription is valid for ' . $interval->days . ' days');
                     }

@@ -28,7 +28,12 @@ class RetailerShop extends Model
 
     public function subscriptions()
     {
-        return $this->hasMany(SubscriptionHistoryRetailer::class, 'RetailerId');
+        return $this->hasMany(SubscriptionHistoryRetailer::class, 'RetailerId')->latest();
+    }
+
+    public function subscription()
+    {
+        return $this->hasOne(SubscriptionHistoryRetailer::class, 'RetailerId')->latest();
     }
 
     public function pointofsale()

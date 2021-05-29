@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use phpDocumentor\Reflection\Types\Boolean;
 use Svg\Tag\Rect;
 
 class UserApiController extends Controller
@@ -77,19 +78,23 @@ class UserApiController extends Controller
                 }, 'inventories.medicine:MedicineId,MedicineName'])->where('UserId', Auth::id())->first();
 
                 $pointofsale = $retailer->pointofsale;
-                $today = $pointofsale->filter(function($item, $key){
-                    if (date('Y-m-d', strtotime($item['created_at'])) == date('Y-m-d'))
-                    {
-                        return $item;
-                    }
-                })->values()->first()->sales;
+                $today = null;
+                if ($pointofsale->count())
+                {
+                    $today = $pointofsale->filter(function($item, $key){
+                        if (date('Y-m-d', strtotime($item['created_at'])) == date('Y-m-d'))
+                        {
+                            return $item;
+                        }
+                    })->values()->first()->sales;
+                }
 
                 return response()->json([
                     'message' => 'authenticated',
                     'TotalRevenue' => $pointofsale->sum('DailyRevenue'),
                     'TotalSales' => $pointofsale->count(),
-                    'TodaySales' => $today->count(),
-                    'TodayRevenue' => $today->sum('Payed'),
+                    'TodaySales' => $today ? $today->count() : 0,
+                    'TodayRevenue' => $today ? $today->sum('Payed') : 0,
                     'LowInventory' => $retailer->inventories
                 ]);
                 break;

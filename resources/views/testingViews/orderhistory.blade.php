@@ -9,10 +9,12 @@
     <button id="btn-pending" class="btn btn-secondary d-inline">Pending</button>
     <button id="btn-cancelled" class="btn btn-secondary d-inline">Cancelled</button>
 </div>
-{{-- To Display All type of Orders --}}
+{{-- To Display All type of Orders Start --}}
 <div id="all" class="container-fluid p-0 d-block">
     @foreach ($orders as $order)
+        {{-- Order Template Start --}}
         <div class="jumbotron p-3 mb-2">
+            {{-- Order Basic Info Stat --}}
             <div class="row p-1">
                 <div class="col-md-1">
                     <span class="h5 d-block">{{$order->OrderId}}</span>
@@ -50,7 +52,23 @@
                     <span class="h6 d-block text-muted">@user('Distributor'){{'Shipping Address'}}@elseuser('Retailer'){{'Delivery Address'}}@enduser</span>
                 </div>
             </div>
+            {{-- Order Basic Info End --}}
+
+            {{-- Order Transaction Info Stat --}}
+            @if(strstr($order->PaymentMethod, 'Mobile Payment'))
+                <div class="row p-1 justify-content-center">
+                    <div class="col-md-6 text-center">
+                        <span class="h5 d-block">{{$order->mobilePaymentTransactionId}}</span>
+                        <span class="h6 d-block text-muted">Mobile Payment - Transaction Id</span>
+                    </div>
+                </div>
+            @endif
+            {{-- Order Transaction Info End --}}
+
+            {{-- Button to Show / Hide Order Item List --}}
             <button id="buttton-{{$order->OrderId}}" class="btn btn-secondary btn-block" type="button">Items<span class="p-1"><i id="caret-{{$order->OrderId}}" class="bi bi-caret-down-fill" style="font-size: 1em"></i></span></button>
+
+            {{-- Order Item List Start --}}
             <div class="d-none" id="items-{{$order->OrderId}}">
                 @foreach ($order->orderitems as $item)
                     <div class="jumbotron bg-dark bg-gradient text-white p-4 m-1">
@@ -71,10 +89,13 @@
                     </div>
                 @endforeach
             </div>
+            {{-- Order ITem List End --}}
+
+            {{-- Order Status Controlls Start --}}
                 @if (strstr($order->OrderStatus, 'Pending'))
                     {{-- If Order is pending show these functions --}}
                     <div class="mt-2">
-                        @user('Retailer')
+                        {{-- @user('Retailer')
                             <button class="btn btn-info btn-block">Pending</button>
                                 <form class="d-block mt-2" method="POST" action="/order/status">
                                     @csrf
@@ -82,7 +103,7 @@
                                     <input type="hidden" name="status" value="cancelled">
                                     <button type="submit" class="btn btn-danger">Cancel</button>
                                 </form>
-                        @enduser
+                        @enduser --}}
 
                         @user('Distributor')
                             <form class="d-inline" method="POST" action="/order/status">
@@ -104,12 +125,30 @@
                         {{-- If order is preparing show this as a status of accepted order --}}
                         <button class="btn btn-success btn-block">Accepted</button>
                         @user('Distributor')
+<<<<<<< HEAD
                             <form method="POST" action="/order/status">
                                 @csrf
                                 <input type="hidden" name="orderid" value="{{$order->OrderId}}">
                                 <input type="hidden" name="status" value="dispatched">
                                 <button type="submit" class="btn btn-primary mt-2">Dispatch</button>
                             </form>
+=======
+                            @if (strstr($order->OrderStatus, 'Unpayed'))
+                                <form method="POST" action="/order/status">
+                                    @csrf
+                                    <input type="hidden" name="orderid" value="{{$order->OrderId}}">
+                                    <input type="hidden" name="status" value=4>
+                                    <button type="submit" class="btn btn-primary mt-2">Payment Confirmed</button>
+                                </form>
+                            @else
+                                <form method="POST" action="/order/status">
+                                    @csrf
+                                    <input type="hidden" name="orderid" value="{{$order->OrderId}}">
+                                    <input type="hidden" name="status" value=2>
+                                    <button type="submit" class="btn btn-primary mt-2">Dispatch</button>
+                                </form>
+                            @endif
+>>>>>>> master
                         @enduser
                     </div>
                 @elseif(strstr($order->OrderStatus, 'Dispatched'))
@@ -126,16 +165,17 @@
                         @enduser
                     </div>
                 @elseif(strstr($order->OrderStatus, 'Completed'))
-                <div class="mt-2">
-                    {{-- If order is preparing show this as a status of accepted order --}}
-                    <button class="btn btn-success btn-block">Completed</button>
-                </div>
+                    <div class="mt-2">
+                        {{-- If order is preparing show this as a status of accepted order --}}
+                        <button class="btn btn-success btn-block">Completed</button>
+                    </div>
                 @elseif(strstr($order->OrderStatus, 'Cancelled'))
                     <div class="mt-2">
                         {{-- If order is cancelled show this as a status of cancelled order --}}
                         <button class="btn btn-danger btn-block">Cancelled</button>
                     </div>
                 @endif
+            {{-- Order Status Controlls End --}}
             <script>
                 // Custom JS to hide or show Order Items
                 document.getElementById("buttton-{{$order->OrderId}}").addEventListener('click', function(){
@@ -155,10 +195,12 @@
                 });
             </script>
         </div>
+        {{-- Order Template End --}}
     @endforeach
 </div>
+{{-- To Display All type of Orders End --}}
 
-{{-- To Display Completed type of Orders --}}
+{{-- To Display Completed type of Orders Start --}}
 <div id="completed" class="container-fluid p-0 d-none">
     @foreach ($orders as $order)
         @if(explode('|', $order->OrderStatus)[0] == 'Completed')
@@ -247,8 +289,9 @@
         @endif
     @endforeach
 </div>
+{{-- To Display Completed type of Orders End --}}
 
-{{-- To Display Pending type of Orders --}}
+{{-- To Display Pending type of Orders Start --}}
 <div id="pending" class="container-fluid p-0 d-none">
     @foreach ($orders as $order)
         @if(explode('|', $order->OrderStatus)[0] == 'Pending')
@@ -362,8 +405,9 @@
         @endif
     @endforeach
 </div>
+{{-- To Display Pending type of Orders End --}}
 
-{{-- To Display Cancelled type of Orders --}}
+{{-- To Display Cancelled type of Orders Start --}}
 <div id="cancelled" class="container-fluid p-0 d-none">
     @foreach ($orders as $order)
         @if(explode('|', $order->OrderStatus)[0] == 'Cancelled')
@@ -452,6 +496,7 @@
         @endif
     @endforeach
 </div>
+{{-- To Display Cancelled type of Orders End --}}
 
 <script>
     //Adding event listener to #btn-all

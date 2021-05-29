@@ -67,6 +67,6 @@ class User extends Authenticatable
 
     public function mobilebank()
     {
-        return $this->hasOne(MobileBank::class);
+        return $this->hasOne(MobileBank::class, 'id', 'mobilebankaccountid');
     }
 }

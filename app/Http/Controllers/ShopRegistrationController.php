@@ -51,7 +51,7 @@ class ShopRegistrationController extends Controller
             'liscenceno' => 'required|string',
             'contactnumber' => 'required|string|min:11|max:11',
             'lispic' => 'required|image|mimes:jpg,png,jpeg|max:1999',
-            'mobilebankaccountprovider' => 'numeric|min:1|max:2',
+            'mobilebankaccountprovider' => 'numeric|min:0|max:1',
             'qrcode' => 'image|mimes:jpg,png,jpeg|max:1999'
         ]);
 

@@ -42,7 +42,7 @@ use Illuminate\Http\Client\Response;
 */
 Route::post('/login', [UserApiController::class, 'login']);
 
-Route::middleware('auth:api')->group(function(){
+Route::middleware(['auth:api', 'subcheck'])->group(function(){
     /*
         Route:
             domain + /api/dashboard, e.g, msdcn.test/api/dashboard
@@ -57,7 +57,7 @@ Route::middleware('auth:api')->group(function(){
             Contains follwing:
                 If valid key value provided in api_token
                     message:
-                        'authenticated' 
+                        'authenticated'
                     TotalRevenue:
                         All Time earning
                     TotalSales:

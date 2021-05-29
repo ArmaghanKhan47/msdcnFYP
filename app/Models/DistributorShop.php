@@ -28,11 +28,21 @@ class DistributorShop extends Model
 
     public function subscriptions()
     {
-        return $this->hasMany(SubscriptionHistoryDistributor::class, 'DistributorId');
+        return $this->hasMany(SubscriptionHistoryDistributor::class, 'DistributorId')->latest();
+    }
+
+    public function subscription()
+    {
+        return $this->hasOne(SubscriptionHistoryDistributor::class, 'DistributorId')->latest();
     }
 
     public function orders()
     {
         return $this->hasMany(Order::class, 'DistributorId');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'UserId');
     }
 }

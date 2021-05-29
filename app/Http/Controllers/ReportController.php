@@ -34,7 +34,7 @@ class ReportController extends Controller
             case 'Distributor':
                 //Daily
                 $sales = DistributorShop::select('DistributorShopId')->with(['orders' => function($query){
-                    $query->select('OrderId', 'PayableAmount', 'DistributorId')->where('created_at', 'LIKE', date('Y-m-d') . '%')->where('OrderStatus', 'LIKE', 'Completed%');
+                    $query->select('OrderId', 'PayableAmount', 'DistributorId')->where('updated_at', 'LIKE', date('Y-m-d') . '%')->where('OrderStatus', 'LIKE', 'Completed%');
                 }])->where('UserId', Auth::id())->first()->orders;
                 break;
         }
