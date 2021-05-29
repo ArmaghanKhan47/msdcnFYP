@@ -38,9 +38,7 @@ class AdminDashboardController extends Controller
         $distributors = User::select('id', 'AccountStatus', 'UserType')->where('AccountStatus','Active')->where('UserType','Distributor')->get()->count();
         //Total Medicines
         $medicines = Medicine::get()->count();
-        //Pending Request
-        $pendings = User::select('id', 'AccountStatus')->where('AccountStatus', 'Pending')->get()->count();
-        return view('admin.main.home', compact('retailers', 'distributors', 'medicines', 'pendings'));
+        return view('admin.main.home', compact('retailers', 'distributors', 'medicines'));
     }
 
     private function getUserData()

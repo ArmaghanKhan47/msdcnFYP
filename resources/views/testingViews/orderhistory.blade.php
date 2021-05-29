@@ -1,4 +1,4 @@
-@extends('layouts.app')
+git @extends('layouts.app')
 @section('content')
 <div class="jumbotron p-3 mb-1">
     <span class="h1 d-block">Order History</span>
@@ -126,12 +126,17 @@
                         <button class="btn btn-success btn-block">Accepted</button>
                         @user('Distributor')
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 02925ac88674e0a124237d9b05d720cfc061194d
                             <form method="POST" action="/order/status">
                                 @csrf
                                 <input type="hidden" name="orderid" value="{{$order->OrderId}}">
                                 <input type="hidden" name="status" value="dispatched">
                                 <button type="submit" class="btn btn-primary mt-2">Dispatch</button>
                             </form>
+<<<<<<< HEAD
+=======
 =======
                             @if (strstr($order->OrderStatus, 'Unpayed'))
                                 <form method="POST" action="/order/status">
@@ -149,6 +154,7 @@
                                 </form>
                             @endif
 >>>>>>> master
+>>>>>>> 02925ac88674e0a124237d9b05d720cfc061194d
                         @enduser
                     </div>
                 @elseif(strstr($order->OrderStatus, 'Dispatched'))

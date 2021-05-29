@@ -87,6 +87,9 @@
                 </div>
                 <div class="row mt-2 d-none" id="list-{{$pending->id}}">
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 02925ac88674e0a124237d9b05d720cfc061194d
                     <div class="col-md-12">
                         <div class="jumbotron p-2">
                             <span class="h5">Cnic Front Pic</span>
@@ -98,6 +101,8 @@
                             <span class="h5">Cnic Back Pic</span>
                             <img src="/storage/cnic/back/{{$pending->CnicBackPic}}" alt="No Image Found">
                         </div>
+<<<<<<< HEAD
+=======
 =======
                     <div class="col-md-6">
                         <div class="jumbotron p-2 text-center">
@@ -168,6 +173,7 @@
                             </span>
                         @endif
 >>>>>>> master
+>>>>>>> 02925ac88674e0a124237d9b05d720cfc061194d
                     </div>
                 </div>
                 <script>

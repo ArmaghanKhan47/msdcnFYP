@@ -35,6 +35,11 @@
                     <div class="card-header">
                         <span class="h5">Credit Card Details</span>
 =======
+<<<<<<< HEAD
+                <div class="card">
+                    <div class="card-header">
+                        <span class="h5">Credit Card Details</span>
+=======
                 <div id="card-cod" class="card">
                     <div class="card-header">
                         <div class="row">
@@ -79,6 +84,7 @@
                             </div>
                         </div>
 >>>>>>> master
+>>>>>>> 02925ac88674e0a124237d9b05d720cfc061194d
                     </div>
                     <div class="card-body">
                         <form method="POST" action="/ordercheckout" id="form1">
@@ -135,6 +141,8 @@
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
+=======
 <<<<<<< HEAD
 =======
             {{-- Credit Card End --}}
@@ -219,16 +227,22 @@
             </div>
             {{-- Mobile Account Payment End --}}
 >>>>>>> master
+>>>>>>> 02925ac88674e0a124237d9b05d720cfc061194d
         </div>
         {{-- Right Block End --}}
     </div>
     <script>
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 02925ac88674e0a124237d9b05d720cfc061194d
         var submitbtn = document.getElementById('submitbtn').addEventListener('click', function(event){
             event.preventDefault();
             document.getElementById('shipping2').value = document.getElementById('shipping1').value;
             document.getElementById('form1').submit();
         });
+<<<<<<< HEAD
+=======
 =======
         window.onload = function()
         {
@@ -307,5 +321,6 @@
             //Custom JQuery End
         }
 >>>>>>> master
+>>>>>>> 02925ac88674e0a124237d9b05d720cfc061194d
     </script>
 @endsection
