@@ -25,13 +25,15 @@ class SubscriptionCheck
             switch(Auth::user()->UserType)
             {
                 case 'Retailer':
-                    $subscriptions = User::with(['retailershop.subscriptions' => function($query){
+                    $retailershop = User::select('id')->with(['retailershop:RetailerShopId,UserId,Region', 'retailershop.subscriptions' => function($query){
                         $query->orderBy('startDate', 'desc');
-                    }, 'retailershop.subscriptions.package'])->find(Auth::id())->retailershop->subscriptions;
+                    }, 'retailershop.subscriptions.package'])->find(Auth::id())->retailershop;
+                    $subscriptions = $retailershop->subscriptions;
+                    session(['region' => $retailershop->Region]);
                     break;
 
                 case 'Distributor':
-                    $subscriptions = User::with(['distributorshop.subscriptions' => function($query){
+                    $subscriptions = User::select('id')->with(['distributorshop:DistributorShopId,UserId', 'distributorshop.subscriptions' => function($query){
                         $query->orderBy('startDate', 'desc');
                     }, 'distributorshop.subscriptions.package'])->find(Auth::id())->distributorshop->subscriptions;
                     break;

@@ -6,6 +6,11 @@
         <div class="container">
             <span class="h5">Records Found: {{count($data)}}</span>
         </div>
+        @if (!count($data))
+            <div class="jumbotron p-2 text-center">
+                <span class="h5">It seems no medicine is available in your region</span>
+            </div>
+        @endif
         @foreach ($data->chunk(4) as $row)
             <div class="row mt-1 mt-md-5">
             @foreach ($row as $item)
