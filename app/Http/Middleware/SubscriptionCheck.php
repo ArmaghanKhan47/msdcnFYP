@@ -39,7 +39,7 @@ class SubscriptionCheck
         }
         catch(Exception $e)
         {
-            return $next($request);
+            return redirect(route('subscription.index'))->with('error', 'Your haven\'t subscribed yet');
         }
 
         if($subscriptions  && $subscriptions->count() != 0)

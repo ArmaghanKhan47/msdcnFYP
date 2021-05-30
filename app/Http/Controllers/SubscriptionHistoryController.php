@@ -22,14 +22,14 @@ class SubscriptionHistoryController extends Controller
                 //Pull Retailer Subscription Records
                 $data = RetailerShop::with(['subscriptions' => function($query){
                     $query->latest();
-                }])->where('UserId', '=', Auth::id())->select('RetailerShopId')->first()->subscriptions;
+                }])->where('UserId', $user->id)->select('RetailerShopId')->first()->subscriptions;
                 break;
 
             case 'Distributor':
                 //Pull Distributor Subscription Records
                 $data = DistributorShop::with(['subscriptions' => function($query){
                     $query->latest();
-                }])->where('UserId', '=', Auth::id())->select('DistributorShopId')->first()->subscriptions;
+                }])->where('UserId', '=', $user->id)->select('DistributorShopId')->first()->subscriptions;
                 break;
         }
         return view('testingViews.subscriptionhistory')->with('data', $data);

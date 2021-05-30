@@ -30,6 +30,7 @@ class SubscriptionController extends Controller
     }
     public function index()
     {
+        //For User
         //Pull Subscription Packages
         $data = SubscriptionPackage::get();
         //Display Subscription Page
@@ -89,7 +90,7 @@ class SubscriptionController extends Controller
      */
     public function show($id)
     {
-        //
+        //For User
         $details = SubscriptionPackage::find($id);
         $test = new CreditCardController();
         $card = $test->index();
@@ -112,6 +113,7 @@ class SubscriptionController extends Controller
 
     public function adminUpdate(Request $request, $id)
     {
+        //For Admin
         $this->validate($request, [
             'pkgname' => 'string|required|max:255',
             'pkgprice' => 'numeric|required',
@@ -139,29 +141,14 @@ class SubscriptionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //Temporarly used for saving credit card details, later will move to separate controller specific for this purpose
-        // $this->validate($request, [
-        //     'holdername' => 'string|required|max:26',
-        //     'expirymonth' => 'string|required|max:2',
-        //     'expiryyear' => 'string|required|max:2',
-        //     'cvv' => 'string|required|max:4',
-        //     'cardnumber' => 'string|required|max:16'
-        // ]);
-
-        // $card = CreditCard::create([
-        //     'CardHolderName' => $request->input('holdername'),
-        //     'ExpiryMonth' => $request->input('expirymonth'),
-        //     'ExpiryYear' => $request->input('expiryyear'),
-        //     'cvv' => $request->input('cvv'),
-        //     'CardNumber' => $request->input('cardnumber'),
-        // ]);
-
+        //For User
         $test = new CreditCardController();
         $cardid = $test->create($request);
 
         $user = User::find(Auth::id());
         if ($cardid != null)
         {
+            //New Credit Card REcord is created creted
             $user->CreditCardId = $cardid;
         }
         $user->save();
@@ -170,7 +157,6 @@ class SubscriptionController extends Controller
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                // $retailer = RetailerShop::where('UserId', '=', Auth::id())->first();
                 $retailer = User::select('id', 'api_token')->with('retailershop')->where('id', Auth::id())->first();
 
                 SubscriptionHistoryRetailer::create([
@@ -180,30 +166,34 @@ class SubscriptionController extends Controller
                 ]);
 
                 //If Package Support API Then genetrate API for the user
-                $subscription_api_support = SubscriptionPackage::select('PackageId', 'supportApi')->where('PackageId', $id)->first()->supportApi;
-                if ($subscription_api_support)
+                $subscription_api_support = SubscriptionPackage::select('PackageId', 'PackageName', 'supportApi')->where('PackageId', $id)->first();
+                if ($subscription_api_support->supportApi)
                 {
                     $retailer->api_token = Str::random(60);
+                    $retailer->save();
                 }
-                else
-                {
-                    $retailer->api_token = null;
-                }
-                $retailer->save();
                 break;
 
             case 'Distributor':
-                $distributor = DistributorShop::where('UserId', '=', Auth::id())->first();
+                $distributor = User::select('id', 'api_token')->with('distributorshop')->where('id', Auth::id())->first();
 
                 SubscriptionHistoryDistributor::create([
                     'SubscriptionPackageId' => $id,
                     'DistributorId' => $distributor->DistributorShopId,
                     'startDate' => date("Y-m-d")
                 ]);
+
+                //If Package Support API Then genetrate API for the user
+                $subscription_api_support = SubscriptionPackage::select('PackageId', 'PackageName', 'supportApi')->where('PackageId', $id)->first();
+                if ($subscription_api_support->supportApi)
+                {
+                    $distributor->api_token = Str::random(60);
+                    $distributor->save();
+                }
                 break;
         }
 
-        Notification::send(Auth::user(), new SubscribedNotification('You Have Subscribed our ' . SubscriptionPackage::find($id)->PackageName . ' Package'));
+        Notification::send(Auth::user(), new SubscribedNotification('You Have Subscribed our ' . $subscription_api_support->PackageName . ' Package'));
 
         return redirect(route('home'))->with('success', 'Hoorah! You Subscribed, Thank You!');
 

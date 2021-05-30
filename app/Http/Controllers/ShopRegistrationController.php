@@ -72,32 +72,61 @@ class ShopRegistrationController extends Controller
             $user->save();
         }
 
-        if (Auth::user()->UserType == 'Retailer')
+        switch(Auth::user()->UserType)
         {
-            $request->file('lispic')->storePubliclyAs('public/retailer/liscence', $filename);
-            //If user is Retailer
-            RetailerShop::create([
-                'RetailerShopName' => $request->input('shopname'),
-                'LiscenceNo' => $request->input('liscenceno'),
-                'ContactNumber' => $request->input('contactnumber'),
-                'Region' => $request->input('region'),
-                'LiscenceFrontPic' => $filename,
-                'UserId' => Auth::id(),
-            ]);
+            case 'Retailer':
+                $request->file('lispic')->storePubliclyAs('public/retailer/liscence', $filename);
+                //If user is Retailer
+                RetailerShop::create([
+                    'RetailerShopName' => $request->input('shopname'),
+                    'LiscenceNo' => $request->input('liscenceno'),
+                    'ContactNumber' => $request->input('contactnumber'),
+                    'Region' => $request->input('region'),
+                    'LiscenceFrontPic' => $filename,
+                    'UserId' => Auth::id(),
+                ]);
+                break;
+
+            case 'Distributor':
+                $request->file('lispic')->storePubliclyAs('public/distributor/liscence', $filename);
+                //If user is Distributor
+                DistributorShop::create([
+                    'DistributorShopName' => $request->input('shopname'),
+                    'LiscenceNo' => $request->input('liscenceno'),
+                    'ContactNumber' => $request->input('contactnumber'),
+                    'Region' => $request->input('region'),
+                    'LiscenceFrontPic' => $filename,
+                    'UserId' => Auth::id()
+                ]);
+                break;
         }
-        elseif(Auth::user()->UserType == 'Distributor')
-        {
-            $request->file('lispic')->storePubliclyAs('public/distributor/liscence', $filename);
-            //If user is Distributor
-            DistributorShop::create([
-                'DistributorShopName' => $request->input('shopname'),
-                'LiscenceNo' => $request->input('liscenceno'),
-                'ContactNumber' => $request->input('contactnumber'),
-                'Region' => $request->input('region'),
-                'LiscenceFrontPic' => $filename,
-                'UserId' => Auth::id()
-            ]);
-        }
+
+        // if (Auth::user()->UserType == 'Retailer')
+        // {
+        //     $request->file('lispic')->storePubliclyAs('public/retailer/liscence', $filename);
+        //     //If user is Retailer
+        //     RetailerShop::create([
+        //         'RetailerShopName' => $request->input('shopname'),
+        //         'LiscenceNo' => $request->input('liscenceno'),
+        //         'ContactNumber' => $request->input('contactnumber'),
+        //         'Region' => $request->input('region'),
+        //         'LiscenceFrontPic' => $filename,
+        //         'UserId' => Auth::id(),
+        //     ]);
+        // }
+        // elseif(Auth::user()->UserType == 'Distributor')
+        // {
+        //     $request->file('lispic')->storePubliclyAs('public/distributor/liscence', $filename);
+        //     //If user is Distributor
+        //     DistributorShop::create([
+        //         'DistributorShopName' => $request->input('shopname'),
+        //         'LiscenceNo' => $request->input('liscenceno'),
+        //         'ContactNumber' => $request->input('contactnumber'),
+        //         'Region' => $request->input('region'),
+        //         'LiscenceFrontPic' => $filename,
+        //         'UserId' => Auth::id()
+        //     ]);
+        // }
 
         return redirect(route('home'));
     }

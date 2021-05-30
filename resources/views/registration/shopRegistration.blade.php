@@ -88,25 +88,30 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <label for="mobile-bank-account-provider" class="col-md-4 col-form-label text-md-right">{{ __('Mobile Bank Account(Optional)') }}</label>
+                    {{-- Optional Mobile Account for Only Distributor Start--}}
+                    @user('Distributor')
+                        <div class="form-group row">
+                            <label for="mobile-bank-account-provider" class="col-md-4 col-form-label text-md-right">{{ __('Mobile Bank Account(Optional)') }}</label>
 
-                        <div class="col-md-6">
-                            <select id="mobile-bank-account-provider" name="mobilebankaccountprovider" class="form-select form-control">
-                                <option value="0">EasyPaisa</option>
-                                <option value="1">JazzCash</option>
-                            </select>
+                            <div class="col-md-6">
+                                <select id="mobile-bank-account-provider" name="mobilebankaccountprovider" class="form-select form-control">
+                                    <option value="0">EasyPaisa</option>
+                                    <option value="1">JazzCash</option>
+                                </select>
 
-                            <span class="text-muted">QR Code</span>
-                            <input type="file" id="qrcode" name="qrcode" class="form-control @error('qrcode') is-invalid @enderror">
-                            <label class="text-muted">Max image size:1.9 MB | Supported formats: jpeg,jpg,png</label>
-                            @error('liscencno')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                                <span class="text-muted">QR Code</span>
+                                <input type="file" id="qrcode" name="qrcode" class="form-control @error('qrcode') is-invalid @enderror">
+                                <label class="text-muted">Max image size:1.9 MB | Supported formats: jpeg,jpg,png</label>
+                                @error('liscencno')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                         </div>
-                    </div>
+                    @enduser
+                    {{-- Optional Mobile Account for Only Distributor End --}}
+
 
                     <div class="form-group row mb-0">
                         <div class="col-md-6 offset-md-4">

@@ -40,7 +40,7 @@ class HomeController extends Controller
             return $shop;
         }
 
-        $this->getSubscription($data);
+        // $this->getSubscription($data);
 
         $sales = null;
         switch(Auth::user()->UserType)
@@ -97,20 +97,22 @@ class HomeController extends Controller
             case 'Retailer':
                 if ($userData->retailershop == null)
                 {
-                    return redirect(route('shopregistration.index'));
+                    return redirect(route('shopregistration.index'))->with('error', 'Please complete registration process, in order to continue');
                 }
+                return null;
                 break;
 
             case 'Distributor':
                 if ($userData->distributorshop == null)
                 {
-                    return redirect(route('shopregistration.index'));
+                    return redirect(route('shopregistration.index'))->with('error', 'Please complete registration process, in order to continue');
                 }
-                break;
-
-            default:
                 return null;
                 break;
+
+            // default:
+            //     return null;
+            //     break;
         }
     }
 

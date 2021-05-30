@@ -14,12 +14,14 @@ class RequestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
     public function index()
     {
         //
-        $pendings = User::where('AccountStatus', 'Pending')->with(['retailershop', 'distributorshop'])->get();
-        //Now check for incomplete registration
-        $pendings = $pendings->filter(function($item){
+        $pendings = User::where('AccountStatus', 'Pending')->with(['retailershop', 'distributorshop'])->get()->filter(function($item){
             if ($item->retailershop || $item->distributorshop)
             {
                     return $item;

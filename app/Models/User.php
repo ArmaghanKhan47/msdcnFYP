@@ -62,7 +62,7 @@ class User extends Authenticatable
 
     public function creditcard()
     {
-        return $this->hasOne(CreditCard::class, 'rowId');
+        return $this->hasOne(CreditCard::class, 'rowId', 'CreditCardId');
     }
 
     public function mobilebank()
