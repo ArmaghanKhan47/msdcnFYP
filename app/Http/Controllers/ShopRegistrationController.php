@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\QrCodeEvent;
 use App\Models\RetailerShop;
 use App\Models\DistributorShop;
-use App\Models\MobileBank;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,10 +40,6 @@ class ShopRegistrationController extends Controller
      */
     public function store(Request $request)
     {
-        $mobilebankprovider = [
-            'EasyPaisa',
-            'JassCash'
-        ];
 
         $this->validate($request, [
             'shopname' => 'required|string',
@@ -59,17 +55,8 @@ class ShopRegistrationController extends Controller
 
         if ($request->hasFile('qrcode'))
         {
-            $qrcode = 'qrcode_pic_' . $mobilebankprovider[$request->input('mobilebankaccountprovider')] . '_' . str_replace(" ", "_", $request->input('shopname')) . '_' . Auth::user()->UserType . "_" . $request->input('region') . "_" . time() . '.' . $request->file('qrcode')->getClientOriginalExtension();
-            $request->file('qrcode')->storePubliclyAs('public/mobilebank/qrcode', $qrcode);
-
-            $qrcodeid = MobileBank::create([
-                'acount_provider' => $mobilebankprovider[$request->input('mobilebankaccountprovider')],
-                'qr_code' => $qrcode
-            ])->id;
-
             $user = User::find(Auth::id());
-            $user->mobilebankaccountid = $qrcodeid;
-            $user->save();
+            event(new QrCodeEvent($request->file('qrcode'), $user, [$request->input('mobilebankaccountprovider'), $request->input('shopname'), $request->input('region')]));
         }
 
         switch(Auth::user()->UserType)
@@ -100,33 +87,6 @@ class ShopRegistrationController extends Controller
                 ]);
                 break;
         }
-
-        // if (Auth::user()->UserType == 'Retailer')
-        // {
-        //     $request->file('lispic')->storePubliclyAs('public/retailer/liscence', $filename);
-        //     //If user is Retailer
-        //     RetailerShop::create([
-        //         'RetailerShopName' => $request->input('shopname'),
-        //         'LiscenceNo' => $request->input('liscenceno'),
-        //         'ContactNumber' => $request->input('contactnumber'),
-        //         'Region' => $request->input('region'),
-        //         'LiscenceFrontPic' => $filename,
-        //         'UserId' => Auth::id(),
-        //     ]);
-        // }
-        // elseif(Auth::user()->UserType == 'Distributor')
-        // {
-        //     $request->file('lispic')->storePubliclyAs('public/distributor/liscence', $filename);
-        //     //If user is Distributor
-        //     DistributorShop::create([
-        //         'DistributorShopName' => $request->input('shopname'),
-        //         'LiscenceNo' => $request->input('liscenceno'),
-        //         'ContactNumber' => $request->input('contactnumber'),
-        //         'Region' => $request->input('region'),
-        //         'LiscenceFrontPic' => $filename,
-        //         'UserId' => Auth::id()
-        //     ]);
-        // }
 
         return redirect(route('home'));
     }

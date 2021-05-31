@@ -154,8 +154,8 @@ class SubscriptionController extends Controller
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                $user = User::select('id', 'api_token')->with('retailershop')->where('id', Auth::id())->first();
-                
+                $user = User::select('id', 'api_token')->with('retailershop:RetailerShopId,UserId')->where('id', Auth::id())->first();
+
                 SubscriptionHistoryRetailer::create([
                     'SubscriptionPackageId' => $id,
                     'RetailerId' => $user->retailershop->RetailerShopId,
@@ -164,11 +164,11 @@ class SubscriptionController extends Controller
                 break;
 
             case 'Distributor':
-                $user = User::select('id', 'api_token')->with('distributorshop')->where('id', Auth::id())->first();
+                $user = User::select('id', 'api_token')->with('distributorshop:DistributorShopId,UserId')->where('id', Auth::id())->first();
 
                 SubscriptionHistoryDistributor::create([
                     'SubscriptionPackageId' => $id,
-                    'DistributorId' => $user->DistributorShopId,
+                    'DistributorId' => $user->distributorshop->DistributorShopId,
                     'startDate' => date("Y-m-d")
                 ]);
                 break;

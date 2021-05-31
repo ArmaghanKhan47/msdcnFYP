@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\QrCodeEvent;
 use App\Events\UserLoggedIn;
+use App\Listeners\QrCodeEventListerner;
 use App\Listeners\UserLoggedInListener;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        
+        QrCodeEvent::class => [
+            QrCodeEventListerner::class]
     ];
 
     /**
