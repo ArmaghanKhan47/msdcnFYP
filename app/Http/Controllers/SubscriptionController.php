@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CreditCard;
 use App\Http\Controllers\CreditCardController;
-use App\Models\DistributorShop;
-use App\Models\RetailerShop;
 use App\Models\SubscriptionHistoryDistributor;
 use App\Models\SubscriptionHistoryRetailer;
 use App\Models\SubscriptionPackage;
@@ -157,40 +154,37 @@ class SubscriptionController extends Controller
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                $retailer = User::select('id', 'api_token')->with('retailershop')->where('id', Auth::id())->first();
-
+                $user = User::select('id', 'api_token')->with('retailershop')->where('id', Auth::id())->first();
+                
                 SubscriptionHistoryRetailer::create([
                     'SubscriptionPackageId' => $id,
-                    'RetailerId' => $retailer->retailershop->RetailerShopId,
+                    'RetailerId' => $user->retailershop->RetailerShopId,
                     'startDate' => date("Y-m-d")
                 ]);
-
-                //If Package Support API Then genetrate API for the user
-                $subscription_api_support = SubscriptionPackage::select('PackageId', 'PackageName', 'supportApi')->where('PackageId', $id)->first();
-                if ($subscription_api_support->supportApi)
-                {
-                    $retailer->api_token = Str::random(60);
-                    $retailer->save();
-                }
                 break;
 
             case 'Distributor':
-                $distributor = User::select('id', 'api_token')->with('distributorshop')->where('id', Auth::id())->first();
+                $user = User::select('id', 'api_token')->with('distributorshop')->where('id', Auth::id())->first();
 
                 SubscriptionHistoryDistributor::create([
                     'SubscriptionPackageId' => $id,
-                    'DistributorId' => $distributor->DistributorShopId,
+                    'DistributorId' => $user->DistributorShopId,
                     'startDate' => date("Y-m-d")
                 ]);
-
-                //If Package Support API Then genetrate API for the user
-                $subscription_api_support = SubscriptionPackage::select('PackageId', 'PackageName', 'supportApi')->where('PackageId', $id)->first();
-                if ($subscription_api_support->supportApi)
-                {
-                    $distributor->api_token = Str::random(60);
-                    $distributor->save();
-                }
                 break;
+        }
+
+        //If Package Support API Then genetrate API for the user
+        $subscription_api_support = SubscriptionPackage::select('PackageId', 'PackageName', 'supportApi')->where('PackageId', $id)->first();
+        if ($subscription_api_support->supportApi)
+        {
+            $user->api_token = Str::random(60);
+            $user->save();
+        }
+        else
+        {
+            $user->api_token = null;
+            $user->save();
         }
 
         Notification::send(Auth::user(), new SubscribedNotification('You Have Subscribed our ' . $subscription_api_support->PackageName . ' Package'));

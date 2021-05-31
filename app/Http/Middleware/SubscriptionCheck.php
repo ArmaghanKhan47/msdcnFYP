@@ -22,6 +22,7 @@ class SubscriptionCheck
         $subscriptions = null;
         try
         {
+            //Fetching User Subscriptions
             switch(Auth::user()->UserType)
             {
                 case 'Retailer':
@@ -41,11 +42,12 @@ class SubscriptionCheck
         }
         catch(Exception $e)
         {
-            return redirect(route('subscription.index'))->with('error', 'Your haven\'t subscribed yet');
+            return $next($request);
         }
 
         if($subscriptions  && $subscriptions->count() != 0)
                 {
+                    //User Has subscriptions, because $subscriptions is not null and Subscriptions count is not zero
                     $last_sub = $subscriptions[0];
                     $interval = date_diff(date_create(date('Y-m-d', strtotime('today'))), date_create($last_sub->endDate));
                     $intervel = $interval->invert ? -$interval->days : $interval->days;

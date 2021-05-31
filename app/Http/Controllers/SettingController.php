@@ -55,6 +55,11 @@ class SettingController extends Controller
         if(!$subscription_api_support)
         {
             //Means you can regenerate your api token
+            if ($user->api_token)
+            {
+                $user->api_token = null;
+                $user->save();
+            }
             return redirect()->back()->with('error', 'Your current subscription does not support api token');
         }
         $user->api_token = Str::random(60);
