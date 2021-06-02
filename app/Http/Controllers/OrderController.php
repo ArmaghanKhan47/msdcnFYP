@@ -135,7 +135,7 @@ class OrderController extends Controller
                 'PayedDate' => date('y-m-d'),
                 'OrderPlacingDate' => date('y-m-d'),
                 'deliveryAddress' => $request->input('shippingAddress'),
-                'mobilePaymentTransactionId' => $trasaction_ids ? $trasaction_ids[$distributor[0]->get('distributorid')] : null
+                'TransactionId' => $trasaction_ids ? $trasaction_ids[$distributor[0]->get('distributorid')] : 000000000000
             ])->OrderId;
             foreach($distributor as $item)
             {
@@ -158,16 +158,17 @@ class OrderController extends Controller
         //Reterive Order History based on $id and order by placing date
         if (Auth::user()->UserType == 'Retailer')
         {
-            $retailerId = RetailerShop::select('RetailerShopId')->where('UserId','=',Auth::id())->first()->RetailerShopId;
-            $orderRecord = Order::with('orderitems', 'distributor:DistributorShopId,DistributorShopName', 'orderitems.medicine:MedicineId,MedicineName,MedicineType')->where('RetailerId','=', $retailerId)->orderBy('OrderId', 'desc')->get();
+            $orderRecord = RetailerShop::select('RetailerShopId')->with(['orders' => function($query){
+                $query->with('orderitems', 'distributor:DistributorShopId,DistributorShopName', 'orderitems.medicine:MedicineId,MedicineName,MedicineType', 'retailer:RetailerShopId')->orderBy('OrderId', 'desc')->get();
+            }])->where('UserId', Auth::id())->first()->orders;
             // return $orderRecord;
             return view('testingViews.orderhistory')->with('orders', $orderRecord);
         }
         else if(Auth::user()->UserType == 'Distributor')
         {
-            $distributorId = DistributorShop::select('DistributorShopId')->where('UserId','=',Auth::id())->first()->DistributorShopId;
-            $orderRecord = Order::with('orderitems', 'retailer:RetailerShopId,RetailerShopName', 'orderitems.medicine:MedicineId,MedicineName,MedicineType')->where('DistributorId','=', $distributorId)->orderBy('OrderId', 'desc')->get();
-            // return $orderRecord;
+            $orderRecord = DistributorShop::select('DistributorShopId')->with(['orders' => function($query){
+                $query->with('orderitems', 'retailer:RetailerShopId,RetailerShopName', 'orderitems.medicine:MedicineId,MedicineName,MedicineType', 'distributor:DistributorShopId')->orderBy('OrderId', 'desc')->get();
+            }])->where('UserId', Auth::id())->first()->orders;
             return view('testingViews.orderhistory')->with('orders', $orderRecord);
         }
     }

@@ -14,7 +14,8 @@ class SubscriptionHistoryRetailer extends Model
     protected $fillable = [
         'SubscriptionPackageId',
         'RetailerId',
-        'startDate'
+        'startDate',
+        'TransactionId'
     ];
 
     protected $hidden = [

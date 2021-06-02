@@ -129,6 +129,20 @@
                                 <span class="h4">Contact# </span>
                                 <span class="h5 float-right">{{$pending->retailershop->ContactNumber}}</span>
                             </span>
+
+                            <span class="h3 d-block text-center">Subscription Details</span>
+                            <hr class="divider">
+
+                            <span class="d-block">
+                                <span class="h4">Subscribed Package </span>
+                                <span class="h5 float-right">{{$pending->retailershop->subscription->package->PackageName}}</span>
+                                <hr class="divider">
+                            </span>
+
+                            <span class="d-block">
+                                <span class="h4">Subscribed Package </span>
+                                <span class="h5 float-right">{{$pending->retailershop->subscription->TransactionId}}</span>
+                            </span>
                         @elseif($pending->UserType == 'Distributor')
                             <span class="d-block">
                                 <span class="h4">Liscence#</span>
@@ -151,28 +165,44 @@
                             <span class="d-block">
                                 <span class="h4">Contact# </span>
                                 <span class="h5 float-right">{{$pending->distributorshop->ContactNumber}}</span>
+                                <hr class="divider">
+                            </span>
+
+                            <span class="h3 d-block text-center">Subscription Details</span>
+                            <hr class="divider">
+
+                            <span class="d-block">
+                                <span class="h4">Subscribed Package </span>
+                                <span class="h5 float-right">{{$pending->distributorshop->subscription->package->PackageName}}</span>
+                                <hr class="divider">
+                            </span>
+
+                            <span class="d-block">
+                                <span class="h4">Transaction Id# </span>
+                                <span class="h5 float-right">{{$pending->distributorshop->subscription->TransactionId}}</span>
                             </span>
                         @endif
                     </div>
                 </div>
                 <script>
-                    window.onload = function(){
                         //Custom JQuery Start
 
-                        $('#detailbtn-{{$pending->id}}').click(function(){
+                        $(function(){
+                            $('#detailbtn-{{$pending->id}}').click(function(){
+                            console.log('Function Called');
                             var list = $('#list-{{$pending->id}}');
-                            if(list.hasClass('d-none'))
-                            {
-                                list.removeClass('d-none').addClass('d-flex');
-                            }
-                            else if (list.hasClass('d-flex'))
-                            {
-                                list.removeClass('d-flex').addClass('d-none');
-                            }
+                                if(list.hasClass('d-none'))
+                                {
+                                    list.removeClass('d-none').addClass('d-flex');
+                                }
+                                else if (list.hasClass('d-flex'))
+                                {
+                                    list.removeClass('d-flex').addClass('d-none');
+                                }
+                            });
                         });
 
                         //Custom JQuery End
-                    }
                 </script>
             </div>
         @endforeach
