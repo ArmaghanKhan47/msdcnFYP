@@ -29,7 +29,6 @@ class OrderController extends Controller
                 return $item;
             }
         });
-        // $data = DistributorShop::with('inventories.medicine')->select('DistributorShopId' ,'DistributorShopName')->get();
         return view('testingViews.order')->with('data', $result);
     }
 

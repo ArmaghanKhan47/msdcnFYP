@@ -16,7 +16,7 @@ class UserApiController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except('login');
+        $this->middleware(['auth:api', 'subcheck'])->except('login');
     }
 
     /**
@@ -30,18 +30,26 @@ class UserApiController extends Controller
         //if given credentials exits, api_token will be returned
         if ($request->has('email') && $request->has('password'))
         {
-            $user = User::where('email', $request->input('email'))->first();
+            $user = User::select('id', 'email', 'password', 'api_token')->where('email', $request->input('email'))->first();
             if ($user)
             {
                 $user->makeVisible(['password']);
                 if(Hash::check($request->input('password'), $user->password))
                 {
-                    //Password matched;
-                    return response()->json([
+                    if ($user->api_token)
+                    {
+                        //Password matched;
+                        return response()->json([
                             'message' => 'Login Successful',
                             'code' => 200,
                             'key' => $user->api_token
                         ]);
+                    }
+                    return response()->json([
+                        'message' => 'No API Key Found, Please try to generate new api token in settings on web app',
+                        'code' => 404,
+                    ]);
+
                 }
                 else
                 {

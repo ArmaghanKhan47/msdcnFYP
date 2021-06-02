@@ -22,16 +22,19 @@ class SubscriptionCheck
         $subscriptions = null;
         try
         {
+            //Fetching User Subscriptions
             switch(Auth::user()->UserType)
             {
                 case 'Retailer':
-                    $subscriptions = User::with(['retailershop.subscriptions' => function($query){
+                    $retailershop = User::select('id')->with(['retailershop:RetailerShopId,UserId,Region', 'retailershop.subscriptions' => function($query){
                         $query->orderBy('startDate', 'desc');
-                    }, 'retailershop.subscriptions.package'])->find(Auth::id())->retailershop->subscriptions;
+                    }, 'retailershop.subscriptions.package'])->find(Auth::id())->retailershop;
+                    $subscriptions = $retailershop->subscriptions;
+                    session(['region' => $retailershop->Region]);
                     break;
 
                 case 'Distributor':
-                    $subscriptions = User::with(['distributorshop.subscriptions' => function($query){
+                    $subscriptions = User::select('id')->with(['distributorshop:DistributorShopId,UserId', 'distributorshop.subscriptions' => function($query){
                         $query->orderBy('startDate', 'desc');
                     }, 'distributorshop.subscriptions.package'])->find(Auth::id())->distributorshop->subscriptions;
                     break;
@@ -44,6 +47,7 @@ class SubscriptionCheck
 
         if($subscriptions  && $subscriptions->count() != 0)
                 {
+                    //User Has subscriptions, because $subscriptions is not null and Subscriptions count is not zero
                     $last_sub = $subscriptions[0];
                     $interval = date_diff(date_create(date('Y-m-d', strtotime('today'))), date_create($last_sub->endDate));
                     $intervel = $interval->invert ? -$interval->days : $interval->days;

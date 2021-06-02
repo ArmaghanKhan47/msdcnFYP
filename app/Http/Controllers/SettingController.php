@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CreditCard;
+use App\Events\QrCodeEvent;
 use App\Models\DistributorShop;
 use App\Models\MobileBank;
 use App\Models\RetailerShop;
@@ -55,6 +56,11 @@ class SettingController extends Controller
         if(!$subscription_api_support)
         {
             //Means you can regenerate your api token
+            if ($user->api_token)
+            {
+                $user->api_token = null;
+                $user->save();
+            }
             return redirect()->back()->with('error', 'Your current subscription does not support api token');
         }
         $user->api_token = Str::random(60);
@@ -99,38 +105,21 @@ class SettingController extends Controller
     //To Show Page for upload or add mobile bank account detail
     public function saveMobileAccountSettings(Request $request)
     {
-        $mobilebankprovider = [
-            'EasyPaisa',
-            'JassCash'
-        ];
-
+        
         $this->validate($request, [
             'mobileaccountprovider' => 'numeric|min:0|max:1|required',
             'qrcode' => 'image|mimes:jpg,png,jpeg|max:1999|required'
         ]);
 
-        $details = User::select(['id', 'mobilebankaccountid'])->with('distributorshop:DistributorShopId,UserId,DistributorShopName,Region' ,'mobilebank')->where('id', Auth::id())->first();
+        $user = User::select(['id', 'mobilebankaccountid'])->with('distributorshop:DistributorShopId,UserId,DistributorShopName,Region' ,'mobilebank')->where('id', Auth::id())->first();
 
-        $qrcode = 'qrcode_pic_' . $mobilebankprovider[$request->input('mobileaccountprovider')] . '_' . str_replace(" ", "_", $details->distributorshop->DistributorShopName) . '_' . Auth::user()->UserType . "_" . $details->distributorshop->Region . "_" . time() . '.' . $request->file('qrcode')->getClientOriginalExtension();
-        $request->file('qrcode')->storePubliclyAs('public/mobilebank/qrcode', $qrcode);
-        if($details->mobilebank)
-        {
-            //Update info
-            Storage::delete($details->mobilebank->qr_code);
-            $details->mobilebank->qr_code = $qrcode;
-            $details->mobilebank->acount_provider = $mobilebankprovider[$request->input('mobileaccountprovider')];
-            $details->mobilebank->save();
-            return redirect()->back()->with('success', 'Mobile Account details updated Successfully');
-        }
+        $additional_parameters = [
+            $request->input('mobileaccountprovider'),
+            $user->distributorshop->DistributorShopName,
+            $user->distributorshop->Region
+        ];
 
-        //Creating new
-        $qrcodeid = MobileBank::create([
-            'acount_provider' => $mobilebankprovider[$request->input('mobileaccountprovider')],
-            'qr_code' => $qrcode
-        ])->id;
-
-        $details->mobilebankaccountid = $qrcodeid;
-        $details->save();
+        event(new QrCodeEvent($request->file('qrcode'), $user, $additional_parameters));
 
         return redirect()->back()->with('success', 'Mobile Account details saved Successfully');
     }

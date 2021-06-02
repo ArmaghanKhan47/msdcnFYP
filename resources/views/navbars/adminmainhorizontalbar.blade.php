@@ -1,10 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="{{ route('home') }}" style="margin-right: 0px;">
-
-            {{ config('app.name', 'Laravel') }}
-
-
+        <a class="navbar-brand" href="{{ route('admin.dashboard') }}">
+            {{ config('app.name', 'Laravel') }} | Admin Panel
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
@@ -14,22 +11,13 @@
             <!-- Left Side Of Navbar -->
             @auth
             <ul class="navbar-nav mr-auto d-block d-md-none">
-                    @auth('web')
-                        <li class="nav-item"><a href="/home" class="nav-link">Dashboard</a></li>
-                        <li class="nav-item"><a href="/inventory" class="nav-link">Inventory</a></li>
-                        @user ('Retailer')
-                            <li class="nav-item"><a href="{{route('sales.index')}}" class="nav-link">Sales</a></li>
-                            <li class="nav-item"><a href="/onlineorder" class="nav-link">Online Order</a></li>
-                        @elseuser('Distributor')
-                            <li class="nav-item"><a href="/order/history" class="nav-link">Orders</a></li>
-                        @enduser
-                        <li class="nav-item"><a href="#" class="nav-link disabled">Reports</a></li>
-                        @user('Retailer')
-                            <li class="nav-item"><a href="/order/history" class="nav-link">Order History</a></li>
-                        @enduser
-                        <li class="nav-item"><a href="/subscriptionhistory" class="nav-link">Subscription History</a></li>
-                        <li class="nav-item"><a href="{{route('notification.index')}}" class="nav-link">Notifications @if(session('notificationscount') > 0)<span class="badge badge-success">{{session('notificationscount')}}</span>@endif</a></li>
-                        <li class="nav-item"><a href="/settings" class="nav-link">Settings</a></li>
+                    @auth('admin')
+                        <li class="nav-item"><a href="{{route('admin.dashboard')}}" class="nav-link disables">Dashboard</a></li>
+                        <li class="nav-item"><a href="{{route('admin.pending.index')}}" class="nav-link">Pending Requests @if(session('pendingcount') > 0)<span class="badge badge-success">{{session('pendingcount')}}</span>@endif</a></li>
+                        <li class="nav-item"><a href="{{route('admin.feedback.index')}}" class="nav-link">Feedbacks @if(session('feedbackcount') > 0)<span class="badge badge-success">{{session('feedbackcount')}}</span>@endif</a></li>
+                        <li class="nav-item"><a href="{{route('admin.medicine.index')}}" class="nav-link">Medicine</a></li>
+                        <li class="nav-item"><a href="{{route('admin.subscription.index')}}" class="nav-link">Subscription Packages</a></li>
+                        <li class="nav-item"><a href="{{route('admin.settings.index')}}" class="nav-link">Settings</a></li>
                     @endauth
             </ul>
             @endauth
@@ -40,16 +28,15 @@
                 @guest
                     @if (Route::has('login'))
                         <li class="nav-item">
-                            <a class="nav-link " id="loginBtnHome" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
                     @endif
 
-                    {{--@if (Route::has('register'))
+                    @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="btn btn-danger" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
                     @endif
-                    --}}
                 @else
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

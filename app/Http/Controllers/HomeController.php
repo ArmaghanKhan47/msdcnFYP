@@ -40,13 +40,12 @@ class HomeController extends Controller
             return $shop;
         }
 
-        $this->getSubscription($data);
+        // $this->getSubscription($data);
 
         $sales = null;
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                session(['region' => RetailerShop::select('Region')->where('UserId', Auth::id())->first()->Region]);
                 //Get POS data of Retailer to display on Home
                 $sales = RetailerShop::with(['pointofsale' => function($query){
                     $query->where('created_at', 'LIKE', date('Y-m-d').'%');
@@ -97,20 +96,22 @@ class HomeController extends Controller
             case 'Retailer':
                 if ($userData->retailershop == null)
                 {
-                    return redirect(route('shopregistration.index'));
+                    return redirect(route('shopregistration.index'))->with('error', 'Please complete registration process, in order to continue');
                 }
+                return null;
                 break;
 
             case 'Distributor':
                 if ($userData->distributorshop == null)
                 {
-                    return redirect(route('shopregistration.index'));
+                    return redirect(route('shopregistration.index'))->with('error', 'Please complete registration process, in order to continue');
                 }
-                break;
-
-            default:
                 return null;
                 break;
+
+            // default:
+            //     return null;
+            //     break;
         }
     }
 

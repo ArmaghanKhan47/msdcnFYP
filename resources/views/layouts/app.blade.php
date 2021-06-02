@@ -49,13 +49,6 @@
                         <a href="{{route('notification.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Notifications @if(session('notificationscount') > 0)<span class="badge badge-success">{{session('notificationscount')}}</span>@endif</a>
                         <a href="/settings" class="list-group-item list-group-item-action bg-dark text-white">Settings</a>
                     @endauth
-                    @auth('admin')
-                        {{-- If user is admin --}}
-                        <a href="{{route('admin.dashboard')}}" class="list-group-item list-group-item-action bg-dark text-white">Dashboard</a>
-                        <a href="{{route('admin.pending.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Pending Requests</a>
-                        <a href="{{route('admin.medicine.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Medicine</a>
-                        <a href="{{route('admin.subscription.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Subscription Packages</a>
-                    @endauth
                   {{-- end --}}
                 </div>
             </div>

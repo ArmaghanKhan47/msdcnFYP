@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminAuth\LoginController;;
 use App\Http\Controllers\AdminControllers\AdminDashboardController;
+use App\Http\Controllers\AdminControllers\AdminSettingController;
 use App\Http\Controllers\AdminControllers\RequestController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\MedicineController;
@@ -116,5 +117,6 @@ Route::prefix('/admin')->name('admin.')->group(function () {
         Route::put('/feedback/{id}/completed', [FeedbackController::class, 'changeStatus'])->name('feedback.completed');
         Route::put('/request/accepted/{userid}', [RequestController::class, 'update'])->name('request.accepte');
         Route::delete('/request/rejected/{userid}', [RequestController::class, 'destroy'])->name('request.rejected');
+        Route::resource('/settings', AdminSettingController::class)->only('index');
     });
 });
