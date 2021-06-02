@@ -1,4 +1,4 @@
-git @extends('layouts.app')
+@extends('layouts.app')
 @section('content')
 <div class="jumbotron p-3 mb-1">
     <span class="h1 d-block">Order History</span>
