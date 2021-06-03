@@ -16,6 +16,8 @@ use Illuminate\Support\Str;
 
 class SubscriptionController extends Controller
 {
+    private static $paymentMethods = ['COD', 'Credit Card', 'Mobile Payment'];
+
     /**
      * Display a listing of the resource.
      *
@@ -91,8 +93,18 @@ class SubscriptionController extends Controller
         $details = SubscriptionPackage::find($id);
         $test = new CreditCardController();
         $card = $test->index();
+        //TestQrCode
+        $qrcode = (object) [
+            "distributorshopname" => 'MSDCN Official Account',
+            "amount" => $details->PackagePrice,
+            "distributorshopid" => 0,
+            "mobilebank" => (object) [
+                "qr_code" => "",
+                "acount_provider" => "EasyPaisa"
+            ],
+        ];
         // return $card;
-        return view('registration.subscriptioncheckout')->with('package', [$details, $card]);
+        return view('registration.subscriptioncheckout')->with('package', [$details, $card, $qrcode]);
     }
 
     /**
@@ -139,16 +151,45 @@ class SubscriptionController extends Controller
     public function update(Request $request, $id)
     {
         //For User
-        $test = new CreditCardController();
-        $cardid = $test->create($request);
+        $this->validate($request, [
+            'paymentMethod' => 'numeric|required|min:0|max:2'
+        ]);
 
-        $user = User::find(Auth::id());
-        if ($cardid != null)
+        $trasaction_ids = null;
+
+        switch($request->input('paymentMethod'))
         {
-            //New Credit Card REcord is created creted
-            $user->CreditCardId = $cardid;
+            case 1:
+                //creditcard
+                $test = new CreditCardController();
+                $cardid = $test->create($request);
+
+                $user = User::find(Auth::id());
+                if ($cardid != null)
+                {
+                    //New Credit Card REcord is created creted
+                    $user->CreditCardId = $cardid;
+                }
+                $user->save();
+                break;
+
+            case 2:
+                //mobilepayment
+                $this->validate($request, [
+                    'transactions-ids' => 'string|required'
+                ]);
+                $trasaction_ids = json_decode($request->input('transactions-ids'), true);
+                foreach($trasaction_ids as $key => $value)
+                {
+                    //Validating the data
+                    if (is_numeric($key) && is_numeric($value))
+                    {
+                        continue;
+                    }
+                    return redirect()->back()->with('error', 'Invalid Transaction Ids');
+                }
+                break;
         }
-        $user->save();
 
         //now check that user is a Retailer or Distributor and act accordingly
         switch(Auth::user()->UserType)
@@ -160,7 +201,8 @@ class SubscriptionController extends Controller
                     'SubscriptionPackageId' => $id,
                     'RetailerId' => $user->retailershop->RetailerShopId,
                     'startDate' => date("Y-m-d"),
-                    'TransactionId' => 000000000000
+                    'TransactionId' => $trasaction_ids ? $trasaction_ids[0] : 000000000000,
+                    'PaymentMethod' => SubscriptionController::$paymentMethods[$request->input('paymentMethod')]
                 ]);
                 break;
 
@@ -171,7 +213,8 @@ class SubscriptionController extends Controller
                     'SubscriptionPackageId' => $id,
                     'DistributorId' => $user->distributorshop->DistributorShopId,
                     'startDate' => date("Y-m-d"),
-                    'TransactionId' => 000000000000
+                    'TransactionId' => $trasaction_ids ? $trasaction_ids[0] : 000000000000,
+                    'PaymentMethod' => SubscriptionController::$paymentMethods[$request->input('paymentMethod')]
                 ]);
                 break;
         }

@@ -15,7 +15,8 @@ class SubscriptionHistoryRetailer extends Model
         'SubscriptionPackageId',
         'RetailerId',
         'startDate',
-        'TransactionId'
+        'TransactionId',
+        'PaymentMethod',
     ];
 
     protected $hidden = [

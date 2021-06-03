@@ -21,7 +21,7 @@ class RequestController extends Controller
     public function index()
     {
         //
-        $pendings = User::where('AccountStatus', 'PENDING')->with(['retailershop.subscription:HistoryId,SubscriptionPackageId,RetailerId,TransactionId', 'retailershop.subscription.package:PackageId,PackageName', 'distributorshop.subscription:HistoryId,SubscriptionPackageId,DistributorId,TransactionId', 'distributorshop.subscription.package:PackageId,PackageName'])->get()->filter(function($item){
+        $pendings = User::where('AccountStatus', 'PENDING')->with(['retailershop.subscription:HistoryId,SubscriptionPackageId,RetailerId,TransactionId,PaymentMethod', 'retailershop.subscription.package:PackageId,PackageName', 'distributorshop.subscription:HistoryId,SubscriptionPackageId,DistributorId,TransactionId,PaymentMethod', 'distributorshop.subscription.package:PackageId,PackageName'])->get()->filter(function($item){
             if ($item->retailershop || $item->distributorshop)
             {
                     return $item;

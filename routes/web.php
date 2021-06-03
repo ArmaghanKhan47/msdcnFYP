@@ -40,7 +40,7 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth', 'subcheck', 'noticount']], function () {
     Route::get('/onlineorder', [OrderController::class, 'index']);
-    Route::get('/ordercheckout', [OrderController::class, 'create']);
+    Route::get('/ordercheckout', [OrderController::class, 'create'])->name('order.checkout');
     Route::put('/ordercheckout', [OrderController::class, 'store']);
     Route::get('/order/history',[OrderController::class, 'show']);
     Route::post('order/status', [OrderController::class, 'update']);

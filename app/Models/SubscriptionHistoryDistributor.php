@@ -13,7 +13,8 @@ class SubscriptionHistoryDistributor extends Model
         'SubscriptionPackageId',
         'DistributorId',
         'startDate',
-        'TransactionId'
+        'TransactionId',
+        'PaymentMethod',
     ];
 
     protected $append = [

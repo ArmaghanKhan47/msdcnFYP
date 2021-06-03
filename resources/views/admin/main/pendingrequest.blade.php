@@ -141,8 +141,14 @@
                             </span>
 
                             <span class="d-block">
-                                <span class="h4">Subscribed Package </span>
+                                <span class="h4">Transaction Id# </span>
                                 <span class="h5 float-right">{{$pending->retailershop->subscription->TransactionId}}</span>
+                                <hr class="divider">
+                            </span>
+
+                            <span class="d-block">
+                                <span class="h4">Payment Method </span>
+                                <span class="h5 float-right">{{$pending->retailershop->subscription->PaymentMethod}}</span>
                             </span>
                         @elseif($pending->UserType == 'Distributor')
                             <span class="d-block">
@@ -181,6 +187,12 @@
                             <span class="d-block">
                                 <span class="h4">Transaction Id# </span>
                                 <span class="h5 float-right">{{$pending->distributorshop->subscription->TransactionId}}</span>
+                                <hr class="divider">
+                            </span>
+
+                            <span class="d-block">
+                                <span class="h4">Payment Method </span>
+                                <span class="h5 float-right">{{$pending->distributorshop->subscription->PaymentMethod}}</span>
                             </span>
                         @endif
 >>>>>>> master
