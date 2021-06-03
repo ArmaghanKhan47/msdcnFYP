@@ -10,7 +10,8 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
+    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -32,10 +33,11 @@
             @include('navbars.transparent')
         @endguest
         <div class="row justifiy-content-center m-0">
-            <div class="col-xl-12 m-0">
+            <div class="container-fluid mt-xl-3 overflow-auto" style="height: 38.5em;">
                 <div class="container mt-md-3">
                     @include('inc.message')
                     @yield('content')
+                    <div class="jumbotron p-0 m-1 bg-transparent"></div>
                 </div>
             </div>
         </div>

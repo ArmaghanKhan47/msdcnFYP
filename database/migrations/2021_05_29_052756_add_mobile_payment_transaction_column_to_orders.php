@@ -15,7 +15,7 @@ class AddMobilePaymentTransactionColumnToOrders extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             //
-            $table->bigInteger('mobilePaymentTransactionId')->nullable()->after('deliveryAddress');
+            $table->bigInteger('TransactionId')->nullable()->after('deliveryAddress');
         });
     }
 

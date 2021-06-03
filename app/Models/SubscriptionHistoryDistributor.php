@@ -12,7 +12,8 @@ class SubscriptionHistoryDistributor extends Model
     protected $fillable = [
         'SubscriptionPackageId',
         'DistributorId',
-        'startDate'
+        'startDate',
+        'TransactionId'
     ];
 
     protected $append = [

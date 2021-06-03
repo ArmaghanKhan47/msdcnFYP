@@ -159,7 +159,8 @@ class SubscriptionController extends Controller
                 SubscriptionHistoryRetailer::create([
                     'SubscriptionPackageId' => $id,
                     'RetailerId' => $user->retailershop->RetailerShopId,
-                    'startDate' => date("Y-m-d")
+                    'startDate' => date("Y-m-d"),
+                    'TransactionId' => 000000000000
                 ]);
                 break;
 
@@ -169,11 +170,13 @@ class SubscriptionController extends Controller
                 SubscriptionHistoryDistributor::create([
                     'SubscriptionPackageId' => $id,
                     'DistributorId' => $user->distributorshop->DistributorShopId,
-                    'startDate' => date("Y-m-d")
+                    'startDate' => date("Y-m-d"),
+                    'TransactionId' => 000000000000
                 ]);
                 break;
         }
 
+        $user->AccountStatus = 'PENDING';
         //If Package Support API Then genetrate API for the user
         $subscription_api_support = SubscriptionPackage::select('PackageId', 'PackageName', 'supportApi')->where('PackageId', $id)->first();
         if ($subscription_api_support->supportApi)

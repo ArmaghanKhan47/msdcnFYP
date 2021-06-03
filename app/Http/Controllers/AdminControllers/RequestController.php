@@ -21,12 +21,13 @@ class RequestController extends Controller
     public function index()
     {
         //
-        $pendings = User::where('AccountStatus', 'Pending')->with(['retailershop', 'distributorshop'])->get()->filter(function($item){
+        $pendings = User::where('AccountStatus', 'PENDING')->with(['retailershop.subscription:HistoryId,SubscriptionPackageId,RetailerId,TransactionId', 'retailershop.subscription.package:PackageId,PackageName', 'distributorshop.subscription:HistoryId,SubscriptionPackageId,DistributorId,TransactionId', 'distributorshop.subscription.package:PackageId,PackageName'])->get()->filter(function($item){
             if ($item->retailershop || $item->distributorshop)
             {
                     return $item;
             }
         });
+        // return $pendings;
         return view('admin.main.pendingrequest', compact('pendings'));
     }
 

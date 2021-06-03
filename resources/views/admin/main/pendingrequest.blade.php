@@ -86,24 +86,6 @@
                     </div>
                 </div>
                 <div class="row mt-2 d-none" id="list-{{$pending->id}}">
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 02925ac88674e0a124237d9b05d720cfc061194d
-                    <div class="col-md-12">
-                        <div class="jumbotron p-2">
-                            <span class="h5">Cnic Front Pic</span>
-                            <img src="/storage/cnic/front/{{$pending->CnicFrontPic}}" alt="No Image Found">
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="jumbotron p-2">
-                            <span class="h5">Cnic Back Pic</span>
-                            <img src="/storage/cnic/back/{{$pending->CnicBackPic}}" alt="No Image Found">
-                        </div>
-<<<<<<< HEAD
-=======
-=======
                     <div class="col-md-6">
                         <div class="jumbotron p-2 text-center">
                             <span class="h5 mb-1">Cnic Front Picture</span>
@@ -148,6 +130,20 @@
                                 <span class="h4">Contact# </span>
                                 <span class="h5 float-right">{{$pending->retailershop->ContactNumber}}</span>
                             </span>
+
+                            <span class="h3 d-block text-center">Subscription Details</span>
+                            <hr class="divider">
+
+                            <span class="d-block">
+                                <span class="h4">Subscribed Package </span>
+                                <span class="h5 float-right">{{$pending->retailershop->subscription->package->PackageName}}</span>
+                                <hr class="divider">
+                            </span>
+
+                            <span class="d-block">
+                                <span class="h4">Subscribed Package </span>
+                                <span class="h5 float-right">{{$pending->retailershop->subscription->TransactionId}}</span>
+                            </span>
                         @elseif($pending->UserType == 'Distributor')
                             <span class="d-block">
                                 <span class="h4">Liscence#</span>
@@ -170,6 +166,21 @@
                             <span class="d-block">
                                 <span class="h4">Contact# </span>
                                 <span class="h5 float-right">{{$pending->distributorshop->ContactNumber}}</span>
+                                <hr class="divider">
+                            </span>
+
+                            <span class="h3 d-block text-center">Subscription Details</span>
+                            <hr class="divider">
+
+                            <span class="d-block">
+                                <span class="h4">Subscribed Package </span>
+                                <span class="h5 float-right">{{$pending->distributorshop->subscription->package->PackageName}}</span>
+                                <hr class="divider">
+                            </span>
+
+                            <span class="d-block">
+                                <span class="h4">Transaction Id# </span>
+                                <span class="h5 float-right">{{$pending->distributorshop->subscription->TransactionId}}</span>
                             </span>
                         @endif
 >>>>>>> master
@@ -177,21 +188,24 @@
                     </div>
                 </div>
                 <script>
-                    // Custom JS to hide or show Order Items
-                    document.getElementById("detailbtn-{{$pending->id}}").addEventListener('click', function(){
-                        var el = document.getElementById('list-{{$pending->id}}');
-                        var attri = el.getAttribute('class');
-                        if (attri == 'row mt-2 d-none')
-                        {
-                            el.setAttribute('class', 'row mt-2 d-block');
-                            // caret.setAttribute('class', 'bi bi-caret-up-fill');
-                        }
-                        else if (attri == 'row mt-2 d-block')
-                        {
-                            el.setAttribute('class', 'row mt-2 d-none');
-                            // caret.setAttribute('class', 'bi bi-caret-down-fill');
-                        }
-                    });
+                        //Custom JQuery Start
+
+                        $(function(){
+                            $('#detailbtn-{{$pending->id}}').click(function(){
+                            console.log('Function Called');
+                            var list = $('#list-{{$pending->id}}');
+                                if(list.hasClass('d-none'))
+                                {
+                                    list.removeClass('d-none').addClass('d-flex');
+                                }
+                                else if (list.hasClass('d-flex'))
+                                {
+                                    list.removeClass('d-flex').addClass('d-none');
+                                }
+                            });
+                        });
+
+                        //Custom JQuery End
                 </script>
             </div>
         @endforeach

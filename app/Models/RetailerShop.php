@@ -40,4 +40,9 @@ class RetailerShop extends Model
     {
         return $this->hasMany(PointOfSaleRetailerRecord::class, 'RetailerShopId');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'RetailerId');
+    }
 }

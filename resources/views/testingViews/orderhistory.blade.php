@@ -58,7 +58,7 @@
             @if(strstr($order->PaymentMethod, 'Mobile Payment'))
                 <div class="row p-1 justify-content-center">
                     <div class="col-md-6 text-center">
-                        <span class="h5 d-block">{{$order->mobilePaymentTransactionId}}</span>
+                        <span class="h5 d-block">{{$order->TransactionId}}</span>
                         <span class="h6 d-block text-muted">Mobile Payment - Transaction Id</span>
                     </div>
                 </div>

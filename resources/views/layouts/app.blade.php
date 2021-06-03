@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -29,7 +29,7 @@
     <div id="app">
         @include('navbars.mainhorizontalbar')
         <div class="row justifiy-content-center">
-              <div class="bg-dark border-right col-md-2">
+            <div class="bg-dark border-right col-md-2">
                 <div class="list-group list-group-flush d-none d-md-block">
                     @auth('web')
                         {{-- If user is normal --}}
@@ -41,7 +41,7 @@
                         @elseuser('Distributor')
                         <a href="/order/history" class="list-group-item list-group-item-action bg-dark text-white">Orders</a>
                         @enduser
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white disabled">Reports</a>
+                        <a href="{{route('report.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Reports</a>
                         @user ('Retailer')
                         <a href="/order/history" class="list-group-item list-group-item-action bg-dark text-white">Order History</a>
                         @enduser

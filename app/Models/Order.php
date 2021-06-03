@@ -21,7 +21,7 @@ class Order extends Model
         'OrderPlacingDate',
         'OrderCompletionDate',
         'deliveryAddress',
-        'mobilePaymentTransactionId'
+        'TransactionId'
     ];
 
     public function orderitems()
