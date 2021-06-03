@@ -23,15 +23,16 @@
     <!-- Bootstrap Icon CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 </head>
-<body>
+<body style="overflow: hidden">
     <div id="app">
         @include('navbars.mainhorizontalbar')
 
         <div class="row justifiy-content-center m-0">
-            <div class="col-md-12 m-0">
+            <div class="container-fluid mt-xl-3 overflow-auto" style="height: 38.5em;">
                 <div class="container mt-md-3">
                     @include('inc.message')
                     @yield('content')
+                    <div class="jumbotron p-0 m-1 bg-transparent"></div>
                 </div>
             </div>
         </div>

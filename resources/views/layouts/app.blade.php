@@ -29,7 +29,7 @@
     <div id="app">
         @include('navbars.mainhorizontalbar')
         <div class="row justifiy-content-center">
-              <div class="bg-dark border-right col-md-2">
+            <div class="bg-dark border-right col-md-2">
                 <div class="list-group list-group-flush d-none d-md-block">
                     @auth('web')
                         {{-- If user is normal --}}
