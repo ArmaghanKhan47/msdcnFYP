@@ -59,6 +59,9 @@
             </div>
         @endforeach
     </form>
+@endsection
+
+@section('scripts')
     <script>
         window.onload = function()
         {

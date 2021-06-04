@@ -23,7 +23,7 @@ class OrderController extends Controller
         $result = InventoryDistributor::with(['distributor' => function($query){
             $query->where('Region', session('region'));
         }, 'medicine'])->get();
-        $result = $result->map(function($item, $key){
+        $result = $result->filter(function($item){
             if ($item->distributor != null)
             {
                 return $item;
@@ -228,6 +228,23 @@ class OrderController extends Controller
                 return redirect('/order/history')->with('success', 'Order#' . $request->input('orderid') . ' Marked as Payed');
                 break;
         }
+    }
+
+    public function quickOrder($medicineName)
+    {
+
+        $result = InventoryDistributor::with(['distributor' => function($query){
+            $query->where('Region', session('region'));
+        }, 'medicine' => function($query) use ($medicineName){
+            $query->where('MedicineName', 'LIKE', '%' . $medicineName . '%');
+        }])->get();
+        $result = $result->filter(function($item){
+            if ($item->distributor != null && $item->medicine != null)
+            {
+                return $item;
+            }
+        });
+        return view('testingViews.order')->with('data', $result);
     }
 }
 

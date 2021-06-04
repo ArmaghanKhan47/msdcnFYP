@@ -40,89 +40,11 @@
                     'enable' => true,
                     'data' => $data[3]
                 ],
-                'finalpayment' => $data[0]->sum('totalprice')
+                'finalpayment' => $data[0]->sum('totalprice'),
                 'formroute' => route('order.checkout')
             ])
 
         </div>
         {{-- Right Block End --}}
     </div>
-    {{-- <script>
-        window.onload = function()
-        {
-            //Custom JQuery Start
-
-            $('#radio-input-cod').change(function(){
-                //Cash on Delievery
-                $('#radio-input-credit').prop('checked', false);
-                $('#radio-input-mobile').prop('checked', false);
-
-                $('#submit-btn-credit').addClass('disabled');
-                $('#submit-btn-mobile').addClass('disabled');
-                $('#submit-btn-cod').removeClass('disabled');
-
-                $('#card-body-credit').fadeOut().removeClass('d-block').addClass('d-none');
-                $('#card-body-mobile').fadeOut().removeClass('d-block').addClass('d-none');
-                $('#card-body-cod').fadeIn().addClass('d-block').removeClass('d-none');
-
-                $('#submit-btn-cod').click(function(event){
-                    event.preventDefault();
-                    $('#shipping-cod').val($('#shipping1').val());
-                    $('#form-cod').submit();
-                });
-            });
-
-            $('#radio-input-credit').change(function(){
-                //Credit Card
-                $('#radio-input-cod').prop('checked', false);
-                $('#radio-input-mobile').prop('checked', false);
-
-                $('#submit-btn-cod').addClass('disabled');
-                $('#submit-btn-mobile').addClass('disabled');
-                $('#submit-btn-credit').removeClass('disabled');
-
-                $('#card-body-cod').fadeOut().removeClass('d-block').addClass('d-none');
-                $('#card-body-mobile').fadeOut().removeClass('d-block').addClass('d-none');
-                $('#card-body-credit').fadeIn().addClass('d-block').removeClass('d-none');
-
-                $('#submit-btn-credit').click(function(event){
-                    event.preventDefault();
-                    $('#shipping-credit').val($('#shipping1').val());
-                    $('#form-credit').submit();
-                });
-            });
-
-            $('#radio-input-mobile').change(function(){
-                //Mobile Payment
-                $('#radio-input-cod').prop('checked', false);
-                $('#radio-input-credit').prop('checked', false);
-
-                $('#submit-btn-cod').addClass('disabled');
-                $('#submit-btn-credit').addClass('disabled');
-                $('#submit-btn-mobile').removeClass('disabled');
-
-                $('#card-body-cod').fadeOut().removeClass('d-block').addClass('d-none');
-                $('#card-body-credit').fadeOut().removeClass('d-block').addClass('d-none');
-                $('#card-body-mobile').fadeIn().addClass('d-block').removeClass('d-none');
-
-                $('#submit-btn-mobile').click(function(event){
-                    event.preventDefault();
-                    $('#shipping-mobile').val($('#shipping1').val());
-
-                    //get TransactionsId
-                    let transactions_id = $('.input-transactions-id');
-                    let transactions_data = {};
-                    transactions_id.each(function(){
-                        let transaction_id = $(this).val();
-                        let distributor_id = $(this).prev().val();
-                        transactions_data[distributor_id] = transaction_id;
-                    });
-                    $('#transactions-ids').val(JSON.stringify(transactions_data));
-                    $('#form-mobile').submit();
-                });
-            });
-
-            //Custom JQuery End
-        }
-    </script> --}}
 @endsection
