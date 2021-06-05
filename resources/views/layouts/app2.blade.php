@@ -24,15 +24,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 </head>
 <body style="overflow: hidden">
-    <div id="app">
+    <div id="app" class="container-fluid h-100 pb-5 p-0 m-0">
         @include('navbars.mainhorizontalbar')
 
-        <div class="row justifiy-content-center m-0">
-            <div class="container-fluid mt-xl-3 overflow-auto" style="height: 38.5em;">
-                <div class="container mt-md-3">
+        <div class="row m-0 h-100 p-0">
+            <div class="col-md-12 m-0 p-0 h-100">
+                <div class="container-fluid overflow-auto p-1 m-0 h-100">
                     @include('inc.message')
                     @yield('content')
-                    <div class="jumbotron p-0 m-1 bg-transparent"></div>
                 </div>
             </div>
         </div>

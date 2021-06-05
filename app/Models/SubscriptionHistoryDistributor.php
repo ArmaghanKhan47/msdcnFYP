@@ -9,6 +9,8 @@ class SubscriptionHistoryDistributor extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'HistoryId';
+
     protected $fillable = [
         'SubscriptionPackageId',
         'DistributorId',
