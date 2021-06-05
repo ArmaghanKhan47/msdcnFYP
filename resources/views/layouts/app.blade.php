@@ -51,9 +51,6 @@
                     @endauth
                   {{-- end --}}
                 </div>
-                <div class="container text-center" style="margin-top: 100%">
-                    <span class="fs-6 text-muted">Developed with Passion</span>
-                </div>
             </div>
             <div class="col-md-10">
                 <div class="container-fluid mt-xl-3 overflow-auto" style="height: 38.5em;">
