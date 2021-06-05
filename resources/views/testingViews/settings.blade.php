@@ -196,12 +196,82 @@
         </div>
 
         <div class="row mt-2">
-            <div class="col-md-12 pl-4">
-                <button class="btn btn-danger float-right disabled">Remove</button>
+            <div class="col-md-12">
+                <button id="credit-card-show-form-btn" class="btn btn-success float-left">@if($user->creditcard){{__('Update')}}@else{{__('Add New')}}@endif</button>
+                <form action="{{route('settings.creditcard')}}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-danger float-right" type="submit">Remove</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
+{{-- Form for uploading Credit Card Info Start --}}
+<div id="credit-card-upload-settings" class="jumbotron p-3 mb-3 d-none">
+    <span class="h2 d-block">@if($user->creditcard){{__('Update')}}@else{{__('Add')}}@endif Credit Card Info</span>
+
+    <form method="POST" action="{{route('settings.creditcard')}}">
+        @csrf
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="d-block p-2"><strong>Card Holder Name</strong></span>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" name="holdername" maxlength="26" value="@if($user->creditcard){{$user->creditcard->CardHolderName}}@endif">
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-6">
+                    <span class="d-block p-2"><strong>Card#</strong></span>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" pattern="[0-9]{16}" maxlength="16" name="cardnumber" value="@if($user->creditcard){{$user->creditcard->CardNumber}}@endif">
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-6">
+                    <span class="d-block p-2"><strong>Expiry Month (mm)</strong></span>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" pattern="[0-9]{2}" maxlength="2" name="expirymonth" value="@if($user->creditcard){{$user->creditcard->ExpiryMonth}}@endif">
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-6">
+                    <span class="d-block p-2"><strong>Expiry Year (yy)</strong></span>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" pattern="[0-9]{2}" maxlength="2" name="expiryyear" value="@if($user->creditcard){{$user->creditcard->ExpiryYear}}@endif">
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-6">
+                    <span class="d-block p-2"><strong>CVV Code</strong></span>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" pattern="[0-9]{4}" maxlength="4" name="cvv" value="@if($user->creditcard){{$user->creditcard->cvv}}@endif">
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-3">
+            <div class="row mt-2">
+                <div class="col-md-12">
+                    <button class="btn btn-success float-left" type="submit">Save</button>
+                    <button id="credit-card-discard-btn" class="btn btn-danger float-right" type="button">Discard</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{{-- Form for uploading Credit Card Info End --}}
 {{-- Credit Card Info Block End --}}
 
 {{-- Only For Distributor --}}
@@ -240,7 +310,11 @@
             <div class="row mt-2">
                 <div class="col-md-12">
                     <button id="mobile-account-show-form-btn" class="btn btn-success float-left">@if($user->mobilebank){{__('Update')}}@else{{__('Add New')}}@endif</button>
-                    <button class="btn btn-danger float-right disabled" disabled>Remove</button>
+                    <form action="{{route('setting.mobileaccountsave')}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger float-right" type="submit">Remove</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -287,7 +361,7 @@
                 <div class="row mt-2">
                     <div class="col-md-12">
                         <button class="btn btn-success float-left" type="submit">Save</button>
-                        <button id="mobile-account-discard-btn" class="btn btn-danger float-right">Discard</button>
+                        <button id="mobile-account-discard-btn" class="btn btn-danger float-right" type="button">Discard</button>
                     </div>
                 </div>
             </div>
@@ -464,6 +538,14 @@
 
             $('#mobile-account-discard-btn').click(function(){
                 $('#mobile-account-upload-settings').fadeOut().removeClass('d-block').addClass('d-none');
+            });
+
+            $('#credit-card-show-form-btn').click(function(){
+                $('#credit-card-upload-settings').fadeIn().removeClass('d-none').addClass('d-block');
+            });
+
+            $('#credit-card-discard-btn').click(function(){
+                $('#credit-card-upload-settings').fadeOut().removeClass('d-block').addClass('d-none');
             });
 
             //Custom JQuery End

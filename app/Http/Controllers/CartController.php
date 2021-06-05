@@ -6,6 +6,7 @@ use App\Classes\Cart;
 use App\Models\DistributorShop;
 use App\Models\Medicine;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CartController extends Controller
 {
@@ -16,6 +17,7 @@ class CartController extends Controller
      */
     public function index()
     {
+        Gate::authorize('retailerAccessOnly');
         //create cart object
         $cart = new Cart();
         $cartData = $cart->getCart();
@@ -54,6 +56,7 @@ class CartController extends Controller
     public function store(Request $request)
     {
         //
+        Gate::authorize('retailerAccessOnly');
         $this->validate($request, [
             'medicineid' => 'required|string',
             'distributorid' => 'required|string',
@@ -117,6 +120,7 @@ class CartController extends Controller
     public function destroy($id)
     {
         //
+        Gate::authorize('retailerAccessOnly');
         $cart = new Cart();
         $cart->removeItem($id);
         return redirect()->back()->with('success', 'Item removed from cart');

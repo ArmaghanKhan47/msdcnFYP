@@ -10,6 +10,7 @@ use App\Models\RetailerShop;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -107,6 +108,8 @@ class SettingController extends Controller
     //To Show Page for upload or add mobile bank account detail
     public function saveMobileAccountSettings(Request $request)
     {
+        //Distributor Only
+        Gate::authorize('distributorAccessOnly');
 
         $this->validate($request, [
             'mobileaccountprovider' => 'numeric|min:0|max:1|required',

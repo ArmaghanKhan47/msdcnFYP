@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\MobileBank;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class MobileBankController extends Controller
 {
@@ -78,8 +82,18 @@ class MobileBankController extends Controller
      * @param  \App\Models\MobileBank  $mobileBank
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MobileBank $mobileBank)
+    public function destroy()
     {
-        //
+        //Distributor Only
+        Gate::authorize('distributorAccessOnly');
+
+        $user = User::select('id', 'mobilebankaccountid')->find(Auth::id());
+        $mobile = MobileBank::find($user->mobilebankaccountid);
+        Storage::delete('public/mobilebank/qrcode/' . $mobile->qr_code);
+        $user->mobilebankaccountid = null;
+        $user->save();
+        $mobile->delete();
+
+        return redirect()->back()->with('success', 'Mobile Account Deleted');
     }
 }

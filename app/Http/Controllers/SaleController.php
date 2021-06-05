@@ -10,6 +10,7 @@ use App\Models\Sale;
 use App\Models\SaleItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class SaleController extends Controller
 {
@@ -20,6 +21,8 @@ class SaleController extends Controller
      */
     public function index()
     {
+        //Retailer Only
+        Gate::authorize('retailerAccessOnly');
         $sales = RetailerShop::with(['pointofsale' => function($query){
             $query->where('created_at', 'LIKE', date('Y-m-d').'%');
         }, 'pointofsale.sales' => function($query){
@@ -49,6 +52,8 @@ class SaleController extends Controller
      */
     public function create()
     {
+        //Retailer Only
+        Gate::authorize('retailerAccessOnly');
         return view('sales.newsale');
     }
 
@@ -60,6 +65,9 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
+        //Retailer Only
+        Gate::authorize('retailerAccessOnly');
+
         $this->validate($request, [
             'total' => 'numeric|required',
             'discount' => 'numeric|required',
