@@ -5,8 +5,8 @@
     <span class="h1 d-block">Admin Dashboard</span>
 </div>
 
-<div class="container-fluid p-0 m-0">
-    <div class="row">
+<div class="container p-0 m-0">
+    <div class="row m-0">
         <div class="col-md-4">
             <div class="jumbotron text-center p-3">
                 <span class="d-block h3">{{session('pendingcount')}}</span>
@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row m-0">
         <div class="col-md-4">
             <div class="jumbotron text-center p-3">
                 <span class="d-block h3">{{$retailers}}</span>
