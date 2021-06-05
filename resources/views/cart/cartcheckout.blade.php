@@ -43,7 +43,7 @@
                     'enable' => true,
                     'data' => $data[3]
                 ],
-                'finalpayment' => $data[0]->sum('totalprice')
+                'finalpayment' => $data[0]->sum('totalprice'),
                 'formroute' => route('order.checkout')
             ])
 

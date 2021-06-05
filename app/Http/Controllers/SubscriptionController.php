@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\CreditCardController;
+use App\Models\AdminUser;
 use App\Models\SubscriptionHistoryDistributor;
 use App\Models\SubscriptionHistoryRetailer;
 use App\Models\SubscriptionPackage;
@@ -93,14 +94,15 @@ class SubscriptionController extends Controller
         $details = SubscriptionPackage::find($id);
         $test = new CreditCardController();
         $card = $test->index();
+        $mobile = AdminUser::select('account_provider', 'qr_code')->first();
         //TestQrCode
         $qrcode = (object) [
             "distributorshopname" => 'MSDCN Official Account',
             "amount" => $details->PackagePrice,
             "distributorshopid" => 0,
             "mobilebank" => (object) [
-                "qr_code" => "",
-                "acount_provider" => "EasyPaisa"
+                "qr_code" => $mobile->qr_code,
+                "acount_provider" => $mobile->account_provider
             ],
         ];
         // return $card;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DistributorShop;
 use App\Models\Medicine;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use SebastianBergmann\Environment\Console;
 
 class SearchController extends Controller
@@ -12,6 +13,9 @@ class SearchController extends Controller
 
     public function search(Request $request)
     {
+        //Retailer Only
+        Gate::authorize('retailerAccessOnly');
+        
         $this->validate($request, [
             'query' => 'string|required|alpha_num',
             'option' => 'numeric|required'

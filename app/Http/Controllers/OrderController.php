@@ -12,6 +12,7 @@ use App\Models\OrderItem;
 use App\Models\RetailerShop;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 
 class OrderController extends Controller
 {
@@ -19,11 +20,12 @@ class OrderController extends Controller
     //
     public function index()
     {
+        Gate::authorize('retailerAccessOnly');
         //Show Medicine to Retailer, avalible to Buy
         $result = InventoryDistributor::with(['distributor' => function($query){
             $query->where('Region', session('region'));
         }, 'medicine'])->get();
-        $result = $result->map(function($item, $key){
+        $result = $result->filter(function($item){
             if ($item->distributor != null)
             {
                 return $item;
@@ -34,6 +36,7 @@ class OrderController extends Controller
 
     public function create()
     {
+        Gate::authorize('retailerAccessOnly');
         //Show Cart Checkout View to Retailer
         $cart = new Cart();
         $cartData = $cart->getCart();
@@ -59,6 +62,7 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+        Gate::authorize('retailerAccessOnly');
         //Storing Order Details in Database
         $this->validate($request, [
             'retailerid' => 'string|required',
@@ -175,6 +179,8 @@ class OrderController extends Controller
 
     public function update(Request $request)
     {
+        //Distributor Only
+        Gate::authorize('distributorAccessOnly');
         //For Distributor to Change Order Status
         $this->validate($request, [
             'orderid' => 'string|required',
@@ -228,6 +234,24 @@ class OrderController extends Controller
                 return redirect('/order/history')->with('success', 'Order#' . $request->input('orderid') . ' Marked as Payed');
                 break;
         }
+    }
+
+    public function quickOrder($medicineName)
+    {
+        Gate::authorize('retailerAccessOnly');
+
+        $result = InventoryDistributor::with(['distributor' => function($query){
+            $query->where('Region', session('region'));
+        }, 'medicine' => function($query) use ($medicineName){
+            $query->where('MedicineName', 'LIKE', '%' . $medicineName . '%');
+        }])->get();
+        $result = $result->filter(function($item){
+            if ($item->distributor != null && $item->medicine != null)
+            {
+                return $item;
+            }
+        });
+        return view('testingViews.order')->with('data', $result);
     }
 }
 

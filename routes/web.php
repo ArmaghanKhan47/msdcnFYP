@@ -5,10 +5,12 @@ use App\Http\Controllers\AdminControllers\AdminDashboardController;
 use App\Http\Controllers\AdminControllers\AdminSettingController;
 use App\Http\Controllers\AdminControllers\RequestController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventorySearchController;
+use App\Http\Controllers\MobileBankController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RequestController as FeedbackController;
@@ -39,57 +41,68 @@ Route::middleware('guest')->get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => ['auth', 'subcheck', 'noticount']], function () {
-    Route::get('/onlineorder', [OrderController::class, 'index']);
-    Route::get('/ordercheckout', [OrderController::class, 'create'])->name('order.checkout');
-    Route::put('/ordercheckout', [OrderController::class, 'store']);
-    Route::get('/order/history',[OrderController::class, 'show']);
-    Route::post('order/status', [OrderController::class, 'update']);
 
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/medicine/{id}/detail/{distributorid}', [MedicineController::class, 'show'])->whereNumber(['id', 'distributorid']);
-    Route::resource('/inventory', InventoryController::class);
-
-    Route::post('/search', [SearchController::class, 'search']);
-
-    Route::resource('/shopregistration', ShopRegistrationController::class);
-
-    Route::resource('/subscription', SubscriptionController::class)->withoutMiddleware('subcheck')->middleware('subselect');
-
-    Route::get('/subscriptionhistory', [SubscriptionHistoryController::class, 'index'])->withoutMiddleware('subcheck');
-
+    //Retailer Specific Routes Start
     Route::get('/cart', [CartController::class, 'index']);
     Route::put('/cart', [CartController::class, 'store']);
     Route::delete('/cart/{itemid}', [CartController::class, 'destroy'])->whereNumber('itemid')->name('cart.remove');
 
-    Route::get('/settings', [SettingController::class, 'index'])->withoutMiddleware('subcheck');
-    Route::post('/settings/api/token/regenerate', [SettingController::class, 'regenerateApiToken'])->name('api.token.regenerate');
-    Route::post('/settings/shopaddress', [SettingController::class, 'updateShopAddress'])->name('setting.shopaddress');
+    Route::post('/inventory/search/retailer', [InventorySearchController::class, 'retailerInventorySearch'])->name('inventory.search.retailer');
+
+    Route::get('/onlineorder', [OrderController::class, 'index']);
+    Route::get('/ordercheckout', [OrderController::class, 'create'])->name('order.checkout');
+    Route::put('/ordercheckout', [OrderController::class, 'store']);
+    Route::get('/quickorder/{medicineName}', [OrderController::class, 'quickOrder'])->name('order.quick');
+
+    Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
+    Route::get('/sales/newsale', [SaleController::class, 'create'])->name('sales.newsale');
+    Route::post('/sales/newsale', [SaleController::class, 'store']);
+    Route::post('/search', [SearchController::class, 'search']);
+    //Retailer Specific Routes End
+
+    //Distributor Specific Routes Start
+    Route::post('order/status', [OrderController::class, 'update']);
+
     Route::post('/settings/mobileaccount', [SettingController::class, 'saveMobileAccountSettings'])->name('setting.mobileaccountsave');
-    Route::post('/settings/reapplied', [SettingController::class, 'reapply'])->withoutMiddleware('subcheck')->name('settings.reapply');
+    Route::delete('/settings/mobileaccount', [MobileBankController::class, 'destroy']);
+    //Distributor Specific Routes End
+
+    //Common Routes Start
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    Route::resource('/inventory', InventoryController::class);
+
+    Route::get('/medicine/{id}/detail/{distributorid}', [MedicineController::class, 'show'])->whereNumber(['id', 'distributorid']);
 
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notification.index');
     Route::put('/notification/read/{id}', [NotificationController::class, 'update'])->name('notification.read');
     Route::delete('/notification/delete/{id}', [NotificationController::class, 'destroy'])->name('notification.delete');
 
-    Route::post('/inventory/search/retailer', [InventorySearchController::class, 'retailerInventorySearch'])->name('inventory.search.retailer');
-
-
-    Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
-    Route::get('/sales/newsale', [SaleController::class, 'create'])->name('sales.newsale');
-    Route::post('/sales/newsale', [SaleController::class, 'store']);
+    Route::get('/order/history',[OrderController::class, 'show']);
 
     Route::get('/reports', [ReportController::class, 'index'])->name('report.index');
     Route::post('/reports/daily', [ReportController::class, 'reportsByDaily'])->name('reports.daily');
     Route::post('/reports/weekly', [ReportController::class, 'reportsByWeekly'])->name('reports.weekly');
     Route::post('/reports/monthly', [ReportController::class, 'reportsByMonthly'])->name('reports.monthly');
     Route::post('/reports/yearly', [ReportController::class, 'reportsByYearly'])->name('reports.yearly');
-
     Route::resource('/request', FeedbackController::class)->except(['index', 'edit', 'destroy', 'update']);
     Route::put('/request/{id}', [FeedbackController::class, 'updateUser'])->name('request.update');
+
+    Route::resource('/shopregistration', ShopRegistrationController::class);
+    Route::resource('/subscription', SubscriptionController::class)->withoutMiddleware('subcheck')->middleware('subselect');
+    Route::get('/subscriptionhistory', [SubscriptionHistoryController::class, 'index'])->withoutMiddleware('subcheck');
+    Route::get('/settings', [SettingController::class, 'index'])->withoutMiddleware('subcheck');
+    Route::post('/settings/api/token/regenerate', [SettingController::class, 'regenerateApiToken'])->name('api.token.regenerate');
+    Route::post('/settings/shopaddress', [SettingController::class, 'updateShopAddress'])->name('setting.shopaddress');
+    Route::post('/settings/reapplied', [SettingController::class, 'reapply'])->withoutMiddleware('subcheck')->name('settings.reapply');
+    Route::post('/settings/changepassword', [SettingController::class, 'changePassword'])->name('settings.changepassword');
+    Route::post('/settings/creditcard', [CreditCardController::class, 'update'])->name('settings.creditcard');
+    Route::delete('/settings/creditcard', [CreditCardController::class, 'destroy']);
+    Route::post('/settings/contactnumber', [SettingController::class, 'updateContactNumber'])->name('setting.contactnumber');
+    //Common Routes End
 });
 
 //Defining Admin Routes
-
 Route::prefix('/admin')->name('admin.')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
@@ -117,6 +130,10 @@ Route::prefix('/admin')->name('admin.')->group(function () {
         Route::put('/feedback/{id}/completed', [FeedbackController::class, 'changeStatus'])->name('feedback.completed');
         Route::put('/request/accepted/{userid}', [RequestController::class, 'update'])->name('request.accepte');
         Route::delete('/request/rejected/{userid}', [RequestController::class, 'destroy'])->name('request.rejected');
-        Route::resource('/settings', AdminSettingController::class)->only('index');
+        Route::get('/settings', [AdminSettingController::class, 'index'])->name('settings.index');
+        Route::post('/settings/changepassword', [AdminSettingController::class, 'updatePassword'])->name('settings.changepassword');
+        Route::post('/settings/mobileaccount', [AdminSettingController::class, 'saveMobileAccountSettings'])->name('settings.mobileaccountsave');
     });
 });
+
+?>

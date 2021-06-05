@@ -7,12 +7,16 @@ use App\Models\Medicine;
 use App\Models\RetailerShop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class InventorySearchController extends Controller
 {
     //
     public function retailerInventorySearch(Request $request)
     {
+        //Retailer Only
+        Gate::authorize('retailerAccessOnly');
+        
         if ($request->header('accept') == 'application/json')
         {
             $retailerid = RetailerShop::select('RetailerShopId')->where('UserId', Auth::id())->first()->RetailerShopId;

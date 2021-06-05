@@ -55,6 +55,9 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
     <script>
         console.log('{{$sales}}');
         window.onload = function(){

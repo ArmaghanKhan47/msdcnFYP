@@ -51,7 +51,7 @@ class QrCodeEventListerner
         if($user->mobilebank)
         {
             //Means Record Exist, So update Existing Record
-            Storage::delete($user->mobilebank->qr_code);
+            Storage::delete('public/mobilebank/qrcode/' . $user->mobilebank->qr_code);
             $user->mobilebank->qr_code = $qrcodefilename;
             $user->mobilebank->acount_provider = $mobilebankprovider[$additional_parameter[0]];
             $user->mobilebank->save();

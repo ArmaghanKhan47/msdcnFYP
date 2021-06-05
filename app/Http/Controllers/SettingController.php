@@ -10,8 +10,11 @@ use App\Models\RetailerShop;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class SettingController extends Controller
 {
@@ -87,14 +90,14 @@ class SettingController extends Controller
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                $shop = RetailerShop::where('UserId', Auth::id())->first();
+                $shop = RetailerShop::select('RetailerShopId', 'shopAddress')->where('UserId', Auth::id())->first();
                 $shop->shopAddress = $request->input('value');
                 $shop->save();
                 return 'Changes Saved';
                 break;
 
             case 'Distributor':
-                $shop = DistributorShop::where('UserId', Auth::id())->first();
+                $shop = DistributorShop::select('DistributorShopId', 'shopAddress')->where('UserId', Auth::id())->first();
                 $shop->shopAddress = $request->input('value');
                 $shop->save();
                 return 'Changes Saved';
@@ -105,7 +108,9 @@ class SettingController extends Controller
     //To Show Page for upload or add mobile bank account detail
     public function saveMobileAccountSettings(Request $request)
     {
-        
+        //Distributor Only
+        Gate::authorize('distributorAccessOnly');
+
         $this->validate($request, [
             'mobileaccountprovider' => 'numeric|min:0|max:1|required',
             'qrcode' => 'image|mimes:jpg,png,jpeg|max:1999|required'
@@ -122,5 +127,61 @@ class SettingController extends Controller
         event(new QrCodeEvent($request->file('qrcode'), $user, $additional_parameters));
 
         return redirect()->back()->with('success', 'Mobile Account details saved Successfully');
+    }
+
+    public function changePassword(Request $request)
+    {
+        //Validate and change the password
+        $this->validate($request, [
+            'currentpassword' => 'required|password:web',
+            'newpassword1' => 'required|alpha_dash|max:10',
+            'newpassword2' => 'required|alpha_dash|max:10'
+        ]);
+
+        if(strcmp($request->newpassword1, $request->newpassword2))
+        {
+            //When newpassword1 and newpassword2 doesnot match
+            throw ValidationException::withMessages([
+                'newpassword1' => 'New Password Doesnot match',
+                'newpassword2' => 'Retype New Password Doesnot match'
+            ]);
+        }
+
+        if(!strcmp($request->newpassword1, $request->currentpassword))
+        {
+            //When new password matches with current password
+            throw ValidationException::withMessages([
+                'newpassword1' => 'New Password must not match with the current password',
+                'newpassword2' => 'New Password must not match with the current password'
+            ]);
+        }
+
+        $user = User::find(Auth::id());
+        $user->password = Hash::make($request->newpassword1);
+        $user->save();
+
+        return redirect()->back()->with('success', 'Password Changed');
+    }
+
+    public function updateContactNumber(Request $request)
+    {
+        $this->validate($request, [
+            'value' => 'string|required'
+        ]);
+
+        switch(Auth::user()->UserType)
+        {
+            case 'Retailer':
+                $shop = RetailerShop::select('RetailerShopId', 'ContactNumber')->where('UserId', Auth::id())->first();
+                break;
+
+            case 'Distributor':
+                $shop = DistributorShop::select('DistributorShopId', 'ContactNumber')->where('UserId', Auth::id())->first();
+                break;
+        }
+
+        $shop->ContactNumber = $request->input('value');
+        $shop->save();
+        return 'Changes Saved';
     }
 }

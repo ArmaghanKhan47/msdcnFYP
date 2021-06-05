@@ -24,6 +24,31 @@
                         @endforeach
                     </select>
                 </div>
+            </div>
+        @endforeach
+    </form>
+@endsection
+
+@section('scripts')
+    <script>
+        window.onload = function()
+        {
+            //Write Custom Jquery here
+
+            var item_list = {};
+
+            function addToList(ref)
+            {
+                var parent2 = $(ref).parent().parent();
+                var key = parent2.find('input[name=id]').val();
+                var quantity = parent2.find('input[name=quantity]').val();
+                var unitprice = parent2.find('input[name=unitprice]').val();
+                var item = [
+                    quantity > 0 ? quantity : 0,
+                    unitprice > 0 ? unitprice : 0
+                ];
+                item_list[key] = item;
+            }
 
                 <div class="input-group mt-2">
                     <div class="input-group-prepend">

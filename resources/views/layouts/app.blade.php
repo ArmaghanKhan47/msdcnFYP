@@ -56,9 +56,12 @@
                 <div class="container-fluid mt-xl-3 overflow-auto" style="height: 41em;">
                     @include('inc.message')
                     @yield('content')
+                    <div class="jumbotron p-1 mb-1 bg-transparent">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    @yield('scripts')
 </body>
 </html>
