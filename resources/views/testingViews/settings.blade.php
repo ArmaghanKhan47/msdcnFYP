@@ -56,7 +56,7 @@
                 </span>
             </div>
             <div class="col-md-6 d-none">
-                <img class="rounded" src="{{asset('storage/cnic/front/' . $user->CnicFrontPic)}}" height="200px" width="400px">
+                <img class="rounded" src="{{asset('storage/cnic/front/' . $user->CnicFrontPic)}}" height="200px" width="100%">
             </div>
         </div>
         {{-- Cnic Front Pic End --}}
@@ -70,7 +70,7 @@
                 </span>
             </div>
             <div class="col-md-6 d-none">
-                <img class="rounded" src="{{asset('storage/cnic/back/' . $user->CnicBackPic)}}" height="200px" width="400px">
+                <img class="rounded" src="{{asset('storage/cnic/back/' . $user->CnicBackPic)}}" height="200px" width="100%">
             </div>
         </div>
         {{-- Cnic Back Pic End --}}
@@ -155,7 +155,7 @@
                 </span>
             </div>
             <div class="col-md-6 d-none">
-                <img class="rounded" src="@user('Retailer'){{asset('storage/retailer/liscence/' . $user->retailershop->LiscenceFrontPic)}}@elseuser('Distributor'){{asset('storage/distributor/liscence/' . $user->distributorshop->LiscenceFrontPic)}}@enduser" height="200px" width="400px">
+                <img class="rounded" src="@user('Retailer'){{asset('storage/retailer/liscence/' . $user->retailershop->LiscenceFrontPic)}}@elseuser('Distributor'){{asset('storage/distributor/liscence/' . $user->distributorshop->LiscenceFrontPic)}}@enduser" height="200px" width="100%">
             </div>
         </div>
         {{-- Liscence Pic End --}}
@@ -302,7 +302,7 @@
                     </span>
                 </div>
                 <div class="col-md-6 d-none">
-                    <img class="rounded" src="@if($user->mobilebank){{asset('storage/mobilebank/qrcode/' . $user->mobilebank->qr_code)}}@endif" alt="Opps! No Pic Found" height="200px" width="400px">
+                    <img class="rounded" src="@if($user->mobilebank){{asset('storage/mobilebank/qrcode/' . $user->mobilebank->qr_code)}}@endif" alt="Opps! No Pic Found" height="200px" width="100%">
                 </div>
             </div>
             {{-- QR Code Pic End --}}
