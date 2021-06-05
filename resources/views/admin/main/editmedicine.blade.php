@@ -6,65 +6,69 @@
 </div>
 
 <div class="container-fluid p-3 overflow-auto">
-        <div class="row mb-2">
-                <div class="col-md-6 pl-0">
-                    <img class="rounded" src="/storage/medicines/{{$medicine->MedicinePic}}" height="300px" width="400px">
-                </div>
-                <div class="col-md-6 pr-0">
-                    <form id="form1" method="POST" action="{{route('admin.medicine.edit', [$medicine->MedicineId])}}" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <div class="jumbotron p-2">
-                            <label for="medname">Medicine Name</label>
-                            <input id="medname" name="medname" class="form-control" value="{{$medicine->MedicineName}}">
-
-                            <label class="mt-2" for="medcompnay">Company Name</label>
-                            <input id="medcompany" name="medcompany" class="form-control" value="{{$medicine->MedicineCompany}}">
-
-                            <label class="mt-2" for="medtype">Company Type</label>
-                            <select id="medtype" name="medtype" class="form-control custom-select @error('medtype'){{'is-invalid'}}@enderror" value="{{old('medtype')}}">
-                                <option value="0" @if($medicine->MedicineType == 'Vial'){{'selected'}}@endif>Vial</option>
-                                <option value="1" @if($medicine->MedicineType == 'Tablets'){{'selected'}}@endif>Tablets</option>
-                                <option value="2" @if($medicine->MedicineType == 'Syrup'){{'selected'}}@endif>Syrup</option>
-                                <option value="3" @if($medicine->MedicineType == 'Drips'){{'selected'}}@endif>Drips</option>
-                                <option value="4" @if($medicine->MedicineType == 'Cream'){{'selected'}}@endif>Cream</option>
-                                <option value="5" @if($medicine->MedicineType == 'Gel'){{'selected'}}@endif>Gel</option>
-                                <option value="6" @if($medicine->MedicineType == 'Elixir'){{'selected'}}@endif>Elixir</option>
-                            </select>
-
-                            <label class="mt-2" for="medformula">Formula</label>
-                            <input id="medformula" class="form-control" name="medformula" value="{{implode(',', json_decode($medicine->MedicineFormula))}}">
-
-                            <label class="mt-2" for="medpic">Picture</label>
-                            <input id="medpic" type="file" name="coverimg" class="form-control">
-
-                            <input type="hidden" name="meddiscription" value="" id="hiddendiscription">
+    <div class="row justify-content-center">
+        <div class="col-md-6 pr-0">
+            <form method="POST" action="{{route('admin.medicine.edit', [$medicine->MedicineId])}}" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="jumbotron p-2 bg-transparent border border-secondary">
+                    <span class="d-block h5">Basic Details</span>
+                    <hr>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Medicine Name</span>
                         </div>
-                    </form>
-                </div>
-        </div>
+                        <input type="text" name="medname" class="form-control @error('medname'){{'is-invalid'}}@enderror" value="{{$medicine->MedicineName}}">
+                    </div>
 
-        <div class="row">
-            <div class="col-md-12 p-0">
-                <div class="jumbotron p-3">
-                    <span class="h1 d-block">Discription</span>
-                    <textarea id="discription" class="form-control" rows="1">{{$medicine->MedicineDiscription}}</textarea>
-                </div>
-            </div>
-        </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Medicine Company</span>
+                        </div>
+                        <input type="text" name="medcompany" class="form-control @error('medcompany'){{'is-invalid'}}@enderror" value="{{$medicine->MedicineCompany}}">
+                    </div>
 
-        <div class="row">
-            <div class="col-md-12 p-0">
-                <button id="submitbtn" class="btn btn-success">Save Changes</button>
-                <a href="{{route('admin.medicine.index')}}" class="btn btn-danger float-right">Discard</a>
-            </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Medicine Type</span>
+                        </div>
+                        <select name="medtype" class="form-control custom-select @error('medtype'){{'is-invalid'}}@enderror" value="{{$medicine->MedicineType}}">
+                            <option value="0" @if($medicine->MedicineType == 'Vial'){{'selected'}}@endif>Vial</option>
+                            <option value="1" @if($medicine->MedicineType == 'Tablets'){{'selected'}}@endif>Tablets</option>
+                            <option value="2" @if($medicine->MedicineType == 'Syrup'){{'selected'}}@endif>Syrup</option>
+                            <option value="3" @if($medicine->MedicineType == 'Drips'){{'selected'}}@endif>Drips</option>
+                            <option value="4" @if($medicine->MedicineType == 'Cream'){{'selected'}}@endif>Cream</option>
+                            <option value="5" @if($medicine->MedicineType == 'Gel'){{'selected'}}@endif>Gel</option>
+                            <option value="6" @if($medicine->MedicineType == 'Elixir'){{'selected'}}@endif>Elixir</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Formula</span>
+                        </div>
+                        <input type="text" name="medformula" class="form-control @error('medformula'){{'is-invalid'}}@enderror" placeholder="separate each element by ," value="{{implode(',', json_decode($medicine->MedicineFormula))}}">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Medicine Picture</span>
+                        </div>
+                        <input type="file" name="coverimg" class="form-control @error('coverimg'){{'is-invalid'}}@enderror" placeholder="fuck">
+                    </div>
+                    <label class="text-muted">Maximium image size: 1.9MB | Supported formats: jpg, png, jpeg</label>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Discription</span>
+                        </div>
+                        <textarea rows="6" name="meddiscription" class="form-control @error('meddiscription'){{'is-invalid'}}@enderror" value="">{{$medicine->MedicineDiscription}}</textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-block">Update Medicine</button>
+                </div>
+            </form>
         </div>
+    </div>
 </div>
-<script>
-    document.getElementById('submitbtn').addEventListener('click', function(){
-        var disel = document.getElementById('discription').value;
-        document.getElementById('hiddendiscription').value = disel;
-        document.getElementById('form1').submit();
-    });
-</script>
 @endsection

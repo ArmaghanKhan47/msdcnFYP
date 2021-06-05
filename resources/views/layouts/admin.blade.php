@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="col-md-10 m-0 p-0 h-100">
-                <div class="container-fluid overflow-auto p-1 m-0 h-100">
+                <div class="container-fluid overflow-x-auto p-1 m-0 h-100">
                     @include('inc.message')
                     @yield('content')
                 </div>

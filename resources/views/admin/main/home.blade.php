@@ -5,7 +5,7 @@
     <span class="h1 d-block">Admin Dashboard</span>
 </div>
 
-<div class="container p-0">
+<div class="container-fluid p-0 m-0">
     <div class="row">
         <div class="col-md-4">
             <div class="jumbotron text-center p-3">
