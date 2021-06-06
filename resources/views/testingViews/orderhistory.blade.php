@@ -125,19 +125,13 @@
                         {{-- If order is preparing show this as a status of accepted order --}}
                         <button class="btn btn-success btn-block">Accepted</button>
                         @user('Distributor')
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 02925ac88674e0a124237d9b05d720cfc061194d
+
                             <form method="POST" action="/order/status">
                                 @csrf
                                 <input type="hidden" name="orderid" value="{{$order->OrderId}}">
                                 <input type="hidden" name="status" value="dispatched">
                                 <button type="submit" class="btn btn-primary mt-2">Dispatch</button>
                             </form>
-<<<<<<< HEAD
-=======
-=======
                             @if (strstr($order->OrderStatus, 'Unpayed'))
                                 <form method="POST" action="/order/status">
                                     @csrf
@@ -153,8 +147,6 @@
                                     <button type="submit" class="btn btn-primary mt-2">Dispatch</button>
                                 </form>
                             @endif
->>>>>>> master
->>>>>>> 02925ac88674e0a124237d9b05d720cfc061194d
                         @enduser
                     </div>
                 @elseif(strstr($order->OrderStatus, 'Dispatched'))
@@ -505,66 +497,6 @@
 {{-- To Display Cancelled type of Orders End --}}
 @endsection
 
-<<<<<<< HEAD
-<script>
-    //Adding event listener to #btn-all
-    document.getElementById('btn-all').addEventListener('click', function(){
-        //Playing with buttons
-        $('#btn-all').removeClass('btn-secondary').addClass('btn-primary');
-        $('#btn-pending').removeClass('btn-info').addClass('btn-secondary');
-        $('#btn-cancelled').removeClass('btn-danger').addClass('btn-secondary');
-        $('#btn-completed').removeClass('btn-success').addClass('btn-secondary');
-
-        //playing with containers
-        $('#all').removeClass('d-none').addClass('d-block');
-        $('#completed').removeClass('d-block').addClass('d-none');
-        $('#pending').removeClass('d-block').addClass('d-none');
-        $('#cancelled').removeClass('d-block').addClass('d-none');
-    });
-
-    //Adding event listener to #btn-completed
-    document.getElementById('btn-completed').addEventListener('click', function(){
-        $('#btn-all').removeClass('btn-primary').addClass('btn-secondary');
-        $('#btn-pending').removeClass('btn-info').addClass('btn-secondary');
-        $('#btn-cancelled').removeClass('btn-danger').addClass('btn-secondary');
-        $('#btn-completed').removeClass('btn-secondary').addClass('btn-success');
-
-        //playing with containers
-        $('#all').removeClass('d-block').addClass('d-none');
-        $('#completed').removeClass('d-none').addClass('d-block');
-        $('#pending').removeClass('d-block').addClass('d-none');
-        $('#cancelled').removeClass('d-block').addClass('d-none');
-    });
-
-    //Adding event listener to #btn-pending
-    document.getElementById('btn-pending').addEventListener('click', function(){
-        $('#btn-all').removeClass('btn-primary').addClass('btn-secondary');
-        $('#btn-pending').removeClass('btn-secondary').addClass('btn-info');
-        $('#btn-cancelled').removeClass('btn-danger').addClass('btn-secondary');
-        $('#btn-completed').removeClass('btn-success').addClass('btn-secondary');
-
-        //playing with containers
-        $('#all').removeClass('d-block').addClass('d-none');
-        $('#completed').removeClass('d-block').addClass('d-none');
-        $('#pending').removeClass('d-none').addClass('d-block');
-        $('#cancelled').removeClass('d-block').addClass('d-none');
-    });
-
-    //Adding event listener to #btn-cancelled
-    document.getElementById('btn-cancelled').addEventListener('click', function(){
-        $('#btn-all').removeClass('btn-primary').addClass('btn-secondary');
-        $('#btn-pending').removeClass('btn-info').addClass('btn-secondary');
-        $('#btn-cancelled').removeClass('btn-secondary').addClass('btn-danger');
-        $('#btn-completed').removeClass('btn-success').addClass('btn-secondary');
-
-        //playing with containers
-        $('#all').removeClass('d-block').addClass('d-none');
-        $('#completed').removeClass('d-block').addClass('d-none');
-        $('#pending').removeClass('d-block').addClass('d-none');
-        $('#cancelled').removeClass('d-none').addClass('d-block');
-    });
-</script>
-=======
 @section('scripts')
     <script>
         window.onload = function(){
@@ -629,7 +561,6 @@
                 $('#pending').removeClass('d-block').addClass('d-none');
                 $('#cancelled').removeClass('d-none').addClass('d-block');
             });
-        }
+        };
     </script>
->>>>>>> master
 @endsection

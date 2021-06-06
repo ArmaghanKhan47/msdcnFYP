@@ -1,25 +1,21 @@
 @extends('layouts.app')
 @section('content')
-
-<div class="jumbotron p-3 row">
-    <span class="col-md-10 h2 pt-2 d-block"><strong>DASHBOARD</strong></span>
-    <span class="col-md-2 pt-3">
-        <a href="{{route('inventory.create')}}" class="btn btn-success float-right mb-1">Add Item</a>
-    </span>
-
-
+<div class="jumbotron p-3 mb-3">
+    <div class="row">
+        <div class="col-md-10">
+            <span class="h1 d-block">Medicine Inventory</span>
+        </div>
+        <div class="p-2 col-md-2 d-flex align-items-middle justify-content-end">
+            <span>
+                <a href="{{route('inventory.create')}}" class="btn btn-success">Add Item</a>
+            </span>
+        </div>
+    </div>
 </div>
-<table class="table table-striped">
-    <tr>
-        <th>Medicine Name</th>
-        <th>Medicine Formula</th>
-        <th>Medicine Company</th>
-        <th>Medicine Type</th>
-        <th>Quantity</th>
-        <th>Unit Price</th>
-        <th>Action</th>
-    </tr>
-    @if (count($info->inventories) > 0)
+
+@include('svgarts.empty', ['count' => !count($info->inventories)])
+
+<div class="container-fluid p-0 m-0">
         @foreach ($info->inventories as $row)
             <div class="jumbotron p-2 mb-1">
                 <div class="row p-1">
@@ -86,8 +82,5 @@
                 </div>
             </div>
         @endforeach
-    @else
-        <p>No Record Found</p>
-    @endif
-</table>
+</div>
 @endsection

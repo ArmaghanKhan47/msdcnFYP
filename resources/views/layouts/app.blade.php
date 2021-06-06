@@ -26,10 +26,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 </head>
 <body style="overflow: hidden ">
-    <div id="app">
+    <div id="app" class="container-fluid h-100 pb-5 p-0 m-0">
         @include('navbars.mainhorizontalbar')
-        <div class="row justifiy-content-center">
-            <div class="bg-dark border-right col-md-2">
+        <div class="row m-0 h-100 p-0">
+            <div class="bg-dark border-right m-0 p-0 col-md-2">
                 <div class="list-group list-group-flush d-none d-md-block">
                     @auth('web')
                         {{-- If user is normal --}}

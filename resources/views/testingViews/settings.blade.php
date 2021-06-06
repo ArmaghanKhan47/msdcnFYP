@@ -56,7 +56,7 @@
                 </span>
             </div>
             <div class="col-md-6 d-none">
-                <img class="rounded" src="{{asset('storage/cnic/front/' . $user->CnicFrontPic)}}" height="200px" width="400px">
+                <img class="rounded" src="{{asset('storage/cnic/front/' . $user->CnicFrontPic)}}" height="200px" width="100%">
             </div>
         </div>
         {{-- Cnic Front Pic End --}}
@@ -70,7 +70,7 @@
                 </span>
             </div>
             <div class="col-md-6 d-none">
-                <img class="rounded" src="{{asset('storage/cnic/back/' . $user->CnicBackPic)}}" height="200px" width="400px">
+                <img class="rounded" src="{{asset('storage/cnic/back/' . $user->CnicBackPic)}}" height="200px" width="100%">
             </div>
         </div>
         {{-- Cnic Back Pic End --}}
@@ -155,7 +155,7 @@
                 </span>
             </div>
             <div class="col-md-6 d-none">
-                <img class="rounded" src="@user('Retailer'){{asset('storage/retailer/liscence/' . $user->retailershop->LiscenceFrontPic)}}@elseuser('Distributor'){{asset('storage/distributor/liscence/' . $user->distributorshop->LiscenceFrontPic)}}@enduser" height="200px" width="400px">
+                <img class="rounded" src="@user('Retailer'){{asset('storage/retailer/liscence/' . $user->retailershop->LiscenceFrontPic)}}@elseuser('Distributor'){{asset('storage/distributor/liscence/' . $user->distributorshop->LiscenceFrontPic)}}@enduser" height="200px" width="100%">
             </div>
         </div>
         {{-- Liscence Pic End --}}
@@ -302,7 +302,7 @@
                     </span>
                 </div>
                 <div class="col-md-6 d-none">
-                    <img class="rounded" src="@if($user->mobilebank){{asset('storage/mobilebank/qrcode/' . $user->mobilebank->qr_code)}}@endif" alt="Opps! No Pic Found" height="200px" width="400px">
+                    <img class="rounded" src="@if($user->mobilebank){{asset('storage/mobilebank/qrcode/' . $user->mobilebank->qr_code)}}@endif" alt="Opps! No Pic Found" height="200px" width="100%">
                 </div>
             </div>
             {{-- QR Code Pic End --}}
@@ -421,6 +421,25 @@
 
         </div>
     </div>
+
+    {{-- Change Password Start --}}
+    <div class="jumbotron p-2">
+        <div class="row">
+            <div class="col-md-6">
+                <span class="d-block p-2"><strong>Change Password</strong></span>
+            </div>
+            <div class="col-md-6">
+                <form action="{{route('settings.changepassword')}}" method="POST">
+                    @csrf
+                    <input type="password" class="form-control mb-1 @error('currentpassword'){{ 'is-invalid' }}@enderror" name="currentpassword" placeholder="Current Password">
+                    <input type="password" class="form-control mb-1 @error('newpassword1'){{ 'is-invalid' }}@enderror" name="newpassword1" placeholder="New Password - Can contains alpha, numerics, dashes, underscores">
+                    <input type="password" class="form-control mb-1 @error('newpassword2'){{ 'is-invalid' }}@enderror" name="newpassword2" placeholder="Re-type New Password">
+                    <button class="btn btn-success float-right" type="submit">Change Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{-- Change Password End --}}
 
     {{-- Change Password Start --}}
     <div class="jumbotron p-2">

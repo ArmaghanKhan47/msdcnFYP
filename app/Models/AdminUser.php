@@ -12,7 +12,10 @@ class AdminUser extends Authenticatable
     protected $primaryKey = 'AdminId';
 
     protected $fillable = [
-        'Username',
+        'name',
+        'email',
+        'account_provider',
+        'qr_code',
         'password'
     ];
 

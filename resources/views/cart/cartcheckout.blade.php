@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     @include('navbars.navbar2')
-    <div class="row">
+    <div class="row m-0">
         {{-- Left Block Start --}}
         <div class="col-md-6">
             <div class="jumbotron p-3">

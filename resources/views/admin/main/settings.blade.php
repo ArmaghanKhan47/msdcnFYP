@@ -29,7 +29,7 @@
                 </span>
             </div>
             <div class="col-md-6 d-none">
-                <img class="rounded" src="{{asset('storage/admin/mobilebank/qrcode/' . $user->qr_code)}}" alt="Opps! No Pic Found" height="200px" width="400px">
+                <img class="rounded" src="{{asset('storage/admin/mobilebank/qrcode/' . $user->qr_code)}}" alt="Opps! No Pic Found" height="200px" width="100%">
             </div>
         </div>
         {{-- QR Code Pic End --}}

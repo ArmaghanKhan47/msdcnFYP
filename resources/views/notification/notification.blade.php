@@ -3,6 +3,8 @@
 <div class="jumbotron p-3">
     <span class="h1 d-block">Notifications</span>
 </div>
+<div class="container-fluid p-0 mb-1">
+    <span class="h1 d-block">New Notifications</span>
     @if ($notifications->count() > 0)
         @foreach ($notifications as $notification)
             <div class="jumbotron p-3 mb-1">
@@ -70,8 +72,9 @@
             <span>No New Notification</span>
         </div>
     @endif
+</div>
 
-    <hr>
+<div class="container-fluid p-0 mb-1">
     <span class="h1 d-block">Old Notifications</span>
     @if ($readNotifications->count() > 0)
         @foreach ($readNotifications as $readNotification)
@@ -127,5 +130,6 @@
             <span>No Old Notification</span>
         </div>
     @endif
+</div>
 @endsection
 

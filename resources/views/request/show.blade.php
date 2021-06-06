@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends((Auth::guard('web')->check()) ? 'layouts.app' : 'layouts.admin')
 
 @section('content')
     <div class="jumbotron p-3">
@@ -25,7 +25,7 @@
     </div>
 
     {{-- Message Area Start --}}
-    <div class="container-md overflow-scroll" style="height: 70%">
+    <div class="container overflow-scroll h-50">
         @foreach (json_decode($request->message)->comments as $item)
             @if ($item[2] == 'admin')
                 <div class="row mb-1 @auth('admin'){{'justify-content-end'}}@endauth">
