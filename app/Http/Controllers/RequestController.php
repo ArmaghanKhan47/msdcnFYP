@@ -22,8 +22,22 @@ class RequestController extends Controller
     public function index()
     {
         //For Admin
-        $feedbacks = RequestModel::where('status', 'ACTIVE')->with('user')->get();
-        return view('admin.main.showfeedbacks', compact('feedbacks'));
+        $feedbacks = RequestModel::with('user')->latest()->get();
+
+        $active = $feedbacks->filter(function($item){
+            if (strstr($item->status, 'Active'))
+            {
+                return $item;
+            }
+        });
+
+        $completed = $feedbacks->filter(function($item){
+            if (strstr($item->status, 'Completed'))
+            {
+                return $item;
+            }
+        });
+        return view('admin.main.showfeedbacks', compact('active', 'completed'));
     }
 
     /**
