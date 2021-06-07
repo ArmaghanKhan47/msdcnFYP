@@ -386,6 +386,15 @@
                         <span class="btn btn-success disabled">{{$user->AccountStatus}}</span>
                     @elseif ($user->AccountStatus == "DEACTIVE")
                         <span class="btn btn-danger disabled">{{$user->AccountStatus}}</span>
+                        <form class="d-inline" action="{{route('settings.reapply')}}" method="POST">
+                            @csrf
+                            <button class="btn btn-outline-primary" title="Reapply">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                                    <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+                                    <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+                                  </svg>
+                            </button>
+                        </form>
                     @elseif($user->AccountStatus == 'PENDING')
                         <span class="btn btn-warning disabled">{{$user->AccountStatus}}</span>
                     @endif
@@ -418,28 +427,9 @@
                         </div>
                     </div>
                 </div>
-
-        </div>
-    </div>
-
-    {{-- Change Password Start --}}
-    <div class="jumbotron p-2">
-        <div class="row">
-            <div class="col-md-6">
-                <span class="d-block p-2"><strong>Change Password</strong></span>
-            </div>
-            <div class="col-md-6">
-                <form action="{{route('settings.changepassword')}}" method="POST">
-                    @csrf
-                    <input type="password" class="form-control mb-1 @error('currentpassword'){{ 'is-invalid' }}@enderror" name="currentpassword" placeholder="Current Password">
-                    <input type="password" class="form-control mb-1 @error('newpassword1'){{ 'is-invalid' }}@enderror" name="newpassword1" placeholder="New Password - Can contains alpha, numerics, dashes, underscores">
-                    <input type="password" class="form-control mb-1 @error('newpassword2'){{ 'is-invalid' }}@enderror" name="newpassword2" placeholder="Re-type New Password">
-                    <button class="btn btn-success float-right" type="submit">Change Password</button>
-                </form>
             </div>
         </div>
     </div>
-    {{-- Change Password End --}}
 
     {{-- Change Password Start --}}
     <div class="jumbotron p-2">
@@ -494,7 +484,6 @@
     <script type="text/javascript">
         window.onload = function(){
             //Write Custom JQuery Here
-
             $(':input').click(function(){
                 $(this).removeAttr('readonly');
                 $(this).next().children('button').removeClass('disabled').click(function(){
@@ -517,17 +506,12 @@
                         });
                     }
                 });
-
             });
-
-
-
             $('#apiShowBtn').click(function(){
                 $('#apiShowBtn').addClass('d-none');
                 $('#apiKey').removeClass('d-none');
                 $('#apiReBtn').removeClass('d-none');
             });
-
             $('.pictures').click(function(){
                 let el = $(this).children().last();
                 switch(el.hasClass('d-none'))
@@ -535,29 +519,23 @@
                     case true:
                         el.fadeIn('slow').addClass('d-block').removeClass('d-none');
                         break;
-
                     case false:
                         el.fadeOut('slow').removeClass('d-block').addClass('d-none');
                         break;
                 }
             });
-
             $('#mobile-account-show-form-btn').click(function(){
                 $('#mobile-account-upload-settings').fadeIn().removeClass('d-none').addClass('d-block');
             });
-
             $('#mobile-account-discard-btn').click(function(){
                 $('#mobile-account-upload-settings').fadeOut().removeClass('d-block').addClass('d-none');
             });
-
             $('#credit-card-show-form-btn').click(function(){
                 $('#credit-card-upload-settings').fadeIn().removeClass('d-none').addClass('d-block');
             });
-
             $('#credit-card-discard-btn').click(function(){
                 $('#credit-card-upload-settings').fadeOut().removeClass('d-block').addClass('d-none');
             });
-
             //Custom JQuery End
         }
     </script>

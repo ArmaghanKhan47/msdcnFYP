@@ -17,13 +17,13 @@
                                 <input type="email" placeholder="Email" class="mt-3 form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autofocus>
                                 {{-- <input id="email" placeholder="Email" type="email" class="form-control"> --}}
 
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
+                        </div>
 
                         <div class="form-group row justify-content-center">
 
@@ -31,13 +31,13 @@
                             <div class="col-md-6">
                                 <input placeholder="Password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
+                        </div>
 
                         <div class="form-group row justify-content-center ">
                             <div class="col-md-6  justify-content-center ">
@@ -49,6 +49,7 @@
                                     </label>
                                 </div>
                             </div>
+                        </div>
 
                         <div class="form-group row justify-content-center ">
                             <div class="col-md-8 justify-content-center">

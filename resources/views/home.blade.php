@@ -3,9 +3,11 @@
 @section('content')
 <div class="jumbotron p-3 row">
     <span class="h1 d-block">@user('Retailer'){{__('Retailer')}}@elseuser('Distributor'){{__('Distributor')}}@enduser Dashboard</span>
+    @user('Retailer')
     <span class="col-md-2 pt-3">
         <a class="m-0 float-right btn btn-danger p-1" href="{{route('sales.newsale')}}">Make a Sale</a>
     </span>
+    @enduser
 </div>
 <div class="jumbotron p-3 mb-1">
     <span class="h2 d-block">Sales Graph</span>
@@ -148,3 +150,4 @@ var myChart = new Chart(ctx, {
 </script>
 @endif
 @endsection
+

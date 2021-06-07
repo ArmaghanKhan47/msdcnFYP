@@ -100,7 +100,7 @@
                                 <form class="d-block mt-2" method="POST" action="/order/status">
                                     @csrf
                                     <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                    <input type="hidden" name="status" value="cancelled">
+                                    <input type="hidden" name="status" value=1>
                                     <button type="submit" class="btn btn-danger">Cancel</button>
                                 </form>
                         @enduser --}}
@@ -109,13 +109,13 @@
                             <form class="d-inline" method="POST" action="/order/status">
                                 @csrf
                                 <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                <input type="hidden" name="status" value="accepted">
+                                <input type="hidden" name="status" value=0>
                                 <button type="submit" class="btn btn-success">Accept</button>
                             </form>
                             <form class="d-inline" method="POST" action="/order/status">
                                 @csrf
                                 <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                <input type="hidden" name="status" value="cancelled">
+                                <input type="hidden" name="status" value=1>
                                 <button type="submit" class="btn btn-danger float-right">Cancel</button>
                             </form>
                         @enduser
@@ -125,13 +125,6 @@
                         {{-- If order is preparing show this as a status of accepted order --}}
                         <button class="btn btn-success btn-block">Accepted</button>
                         @user('Distributor')
-
-                            <form method="POST" action="/order/status">
-                                @csrf
-                                <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                <input type="hidden" name="status" value="dispatched">
-                                <button type="submit" class="btn btn-primary mt-2">Dispatch</button>
-                            </form>
                             @if (strstr($order->OrderStatus, 'Unpayed'))
                                 <form method="POST" action="/order/status">
                                     @csrf
@@ -157,7 +150,7 @@
                             <form method="POST" action="/order/status">
                                 @csrf
                                 <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                <input type="hidden" name="status" value="completed">
+                                <input type="hidden" name="status" value=3>
                                 <button type="submit" class="btn btn-primary mt-2">Mark as Complete</button>
                             </form>
                         @enduser
@@ -360,7 +353,7 @@
                                     <form class="d-block" method="POST" action="/order/status">
                                         @csrf
                                         <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                        <input type="hidden" name="status" value="cancelled">
+                                        <input type="hidden" name="status" value=1>
                                         <button type="submit" class="btn btn-danger">Cancel</button>
                                     </form>
                                 </div>
@@ -370,13 +363,13 @@
                                 <form class="d-inline" method="POST" action="/order/status">
                                     @csrf
                                     <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                    <input type="hidden" name="status" value="accepted">
+                                    <input type="hidden" name="status" value=0>
                                     <button type="submit" class="btn btn-success">Accept</button>
                                 </form>
                                 <form class="d-inline" method="POST" action="/order/status">
                                     @csrf
                                     <input type="hidden" name="orderid" value="{{$order->OrderId}}">
-                                    <input type="hidden" name="status" value="cancelled">
+                                    <input type="hidden" name="status" value=1>
                                     <button type="submit" class="btn btn-danger float-right">Cancel</button>
                                 </form>
                             @enduser
@@ -501,7 +494,6 @@
     <script>
         window.onload = function(){
             //Write Custom JQuery Here
-
             //Adding event listener to #btn-all
             $('#btn-all').click(function(){
                 //Playing with buttons
@@ -509,14 +501,12 @@
                 $('#btn-pending').removeClass('btn-info').addClass('btn-secondary');
                 $('#btn-cancelled').removeClass('btn-danger').addClass('btn-secondary');
                 $('#btn-completed').removeClass('btn-success').addClass('btn-secondary');
-
                 //Playing with containers
                 $('#all').removeClass('d-none').addClass('d-block');
                 $('#completed').removeClass('d-block').addClass('d-none');
                 $('#pending').removeClass('d-block').addClass('d-none');
                 $('#cancelled').removeClass('d-block').addClass('d-none');
             });
-
             //Adding event listener to #btn-completed
             $('#btn-completed').click(function(){
                 //Playing with buttons
@@ -524,14 +514,12 @@
                 $('#btn-pending').removeClass('btn-info').addClass('btn-secondary');
                 $('#btn-cancelled').removeClass('btn-danger').addClass('btn-secondary');
                 $('#btn-completed').removeClass('btn-secondary').addClass('btn-success');
-
                 //Playing with containers
                 $('#all').removeClass('d-block').addClass('d-none');
                 $('#completed').removeClass('d-none').addClass('d-block');
                 $('#pending').removeClass('d-block').addClass('d-none');
                 $('#cancelled').removeClass('d-block').addClass('d-none');
             });
-
             //Adding event listener to #btn-pending
             $('#btn-pending').click(function(){
                 //Playing with buttons
@@ -539,14 +527,12 @@
                 $('#btn-pending').removeClass('btn-secondary').addClass('btn-info');
                 $('#btn-cancelled').removeClass('btn-danger').addClass('btn-secondary');
                 $('#btn-completed').removeClass('btn-success').addClass('btn-secondary');
-
                 //Playing with containers
                 $('#all').removeClass('d-block').addClass('d-none');
                 $('#completed').removeClass('d-block').addClass('d-none');
                 $('#pending').removeClass('d-none').addClass('d-block');
                 $('#cancelled').removeClass('d-block').addClass('d-none');
             });
-
             //Adding event listener to #btn-cancelled
             $('#btn-cancelled').click(function(){
                 //Playing with buttons
@@ -554,13 +540,12 @@
                 $('#btn-pending').removeClass('btn-info').addClass('btn-secondary');
                 $('#btn-cancelled').removeClass('btn-secondary').addClass('btn-danger');
                 $('#btn-completed').removeClass('btn-success').addClass('btn-secondary');
-
                 //Playing with containers
                 $('#all').removeClass('d-block').addClass('d-none');
                 $('#completed').removeClass('d-block').addClass('d-none');
                 $('#pending').removeClass('d-block').addClass('d-none');
                 $('#cancelled').removeClass('d-none').addClass('d-block');
             });
-        };
+        }
     </script>
 @endsection

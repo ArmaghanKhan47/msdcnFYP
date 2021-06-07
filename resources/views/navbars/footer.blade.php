@@ -5,7 +5,7 @@
             <p id="detail">We create awesome code for our FYP Project FA17 </p>
         </div>
         <div id="explore">
-            <p id="txt1">Explore</p> <a class="link" href="#">Home</a> <a class="link" href="#">About</a> <a class="link" href="#">Snippet</a> <a class="link" href="#">Careers</a>
+            <p id="txt1">Explore</p> <a class="link" href="#">Home</a> <a class="link" href="#">About</a> <a class="link" href="#">Careers</a>
         </div>
         <div id="visit">
             <p id="txt2">Visit</p>
@@ -15,9 +15,7 @@
             <p class="text">Phone: +923409314148</p>
             <p class="text">Email: MSDCN@gmail.com </p>
         </div>
-        <div id="legal">
-            <p id="txt3">Legal</p> <a class="link1" href="#">Terms and Conditions</a> <a class="link1" href="#">Private Policy</a>
-        </div>
+
 
     </div>
     <div id="part2">

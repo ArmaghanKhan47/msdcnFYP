@@ -24,6 +24,7 @@
                                     </span>
                                 @enderror
                             </div>
+                        </div>
 
                         <div class="form-group row justify-content-center" >
 
@@ -31,13 +32,13 @@
                             <div class="col-md-6">
                                 <input placeholder="Password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
+                        </div>
 
                         <div class="form-group row justify-content-center" >
                             <div class="col-md-7 justify-content-center text-center">
@@ -45,8 +46,8 @@
                                     {{ __('Login') }}
                                 </button>
                             </div>
-                        </form>
-                </div>
+                        </div>
+                    </form>
             </div>
         </div>
     </div>
