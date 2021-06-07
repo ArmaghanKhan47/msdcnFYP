@@ -44,13 +44,13 @@ Auth::routes();
 Route::group(['middleware' => ['auth', 'subcheck', 'noticount']], function () {
 
     //Retailer Specific Routes Start
-    Route::get('/cart', [CartController::class, 'index']);
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::put('/cart', [CartController::class, 'store']);
     Route::delete('/cart/{itemid}', [CartController::class, 'destroy'])->whereNumber('itemid')->name('cart.remove');
 
     Route::post('/inventory/search/retailer', [InventorySearchController::class, 'retailerInventorySearch'])->name('inventory.search.retailer');
 
-    Route::get('/onlineorder', [OrderController::class, 'index']);
+    Route::get('/onlineorder', [OrderController::class, 'index'])->name('order.index');
     Route::get('/ordercheckout', [OrderController::class, 'create'])->name('order.checkout');
     Route::put('/ordercheckout', [OrderController::class, 'store']);
     Route::get('/quickorder/{medicineName}', [OrderController::class, 'quickOrder'])->name('order.quick');
@@ -79,7 +79,7 @@ Route::group(['middleware' => ['auth', 'subcheck', 'noticount']], function () {
     Route::put('/notification/read/{id}', [NotificationController::class, 'update'])->name('notification.read');
     Route::delete('/notification/delete/{id}', [NotificationController::class, 'destroy'])->name('notification.delete');
 
-    Route::get('/order/history',[OrderController::class, 'show']);
+    Route::get('/order/history',[OrderController::class, 'show'])->name('orderhistory.show');
 
     Route::get('/reports', [ReportController::class, 'index'])->name('report.index');
     Route::post('/reports/daily', [ReportController::class, 'reportsByDaily'])->name('reports.daily');
@@ -91,8 +91,8 @@ Route::group(['middleware' => ['auth', 'subcheck', 'noticount']], function () {
 
     Route::resource('/shopregistration', ShopRegistrationController::class);
     Route::resource('/subscription', SubscriptionController::class)->withoutMiddleware('subcheck')->middleware('subselect');
-    Route::get('/subscriptionhistory', [SubscriptionHistoryController::class, 'index'])->withoutMiddleware('subcheck');
-    Route::get('/settings', [SettingController::class, 'index'])->withoutMiddleware('subcheck');
+    Route::get('/subscriptionhistory', [SubscriptionHistoryController::class, 'index'])->withoutMiddleware('subcheck')->name('subscriptionhistory.index');
+    Route::get('/settings', [SettingController::class, 'index'])->withoutMiddleware('subcheck')->name('settings.index');
     Route::post('/settings/api/token/regenerate', [SettingController::class, 'regenerateApiToken'])->name('api.token.regenerate');
     Route::post('/settings/shopaddress', [SettingController::class, 'updateShopAddress'])->name('setting.shopaddress');
     Route::post('/settings/reapplied', [SettingController::class, 'reapply'])->withoutMiddleware('subcheck')->name('settings.reapply');
