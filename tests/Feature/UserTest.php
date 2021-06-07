@@ -14,6 +14,76 @@ class UserTest extends TestCase
      *
      * @return void
      */
+    public function testAuthenticatedButSubscriptionEndedGetDashboard()
+    {
+        $user = User::find(3);
+        $responce = $this->actingAs($user)->get(route('home'));
+        $responce->assertStatus(302)->assertRedirect('/subscription');
+    }
+
+    public function testAuthenticatedButSubscriptionEndedGetSettings()
+    {
+        $user = User::find(3);
+        $responce = $this->actingAs($user)->get(route('settings.index'));
+        $responce->assertStatus(200);
+    }
+
+    public function testAuthenticatedButSubscriptionEndedGetOrderHistory()
+    {
+        $user = User::find(3);
+        $responce = $this->actingAs($user)->get(route('orderhistory.show'));
+        $responce->assertStatus(302)->assertRedirect('/subscription');
+    }
+
+    public function testAuthenticatedButSubscriptionEndedGetReports()
+    {
+        $user = User::find(3);
+        $responce = $this->actingAs($user)->get(route('report.index'));
+        $responce->assertStatus(302)->assertRedirect('/subscription');
+    }
+
+    public function testAuthenticatedButSubscriptionEndGetSubscriptionHistory()
+    {
+        $user = User::find(3);
+        $responce = $this->actingAs($user)->get(route('subscriptionhistory.index'));
+        $responce->assertStatus(200);
+    }
+
+    public function testAuthenticatedButSubscriptionEndGetCart()
+    {
+        $user = User::find(3);
+        $responce = $this->actingAs($user)->get(route('cart.index'));
+        $responce->assertStatus(302)->assertRedirect('/subscription');
+    }
+
+    public function testAuthenticatedButSubscriptionEndGetOrderOnline()
+    {
+        $user = User::find(3);
+        $responce = $this->actingAs($user)->get(route('order.index'));
+        $responce->assertStatus(302)->assertRedirect('/subscription');
+    }
+
+    public function testAuthenticatedButSubscriptionEndGetOrderCheckout()
+    {
+        $user = User::find(3);
+        $responce = $this->actingAs($user)->get(route('order.checkout'));
+        $responce->assertStatus(302)->assertRedirect('/subscription');
+    }
+
+    public function testAuthenticatedButSubscriptionEndGetSales()
+    {
+        $user = User::find(3);
+        $responce = $this->actingAs($user)->get(route('sales.index'));
+        $responce->assertStatus(302)->assertRedirect('/subscription');
+    }
+
+    public function testAuthenticatedButSubscriptionEndGetNewSale()
+    {
+        $user = User::find(3);
+        $responce = $this->actingAs($user)->get(route('sales.newsale'));
+        $responce->assertStatus(302)->assertRedirect('/subscription');
+    }
+
     public function testUnauthenticatedGetDashboard()
     {
         $responce = $this->get(route('home'));
