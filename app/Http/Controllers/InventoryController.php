@@ -9,6 +9,7 @@ use App\Models\Medicine;
 use Illuminate\Http\Request;
 use App\Models\RetailerShop;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class InventoryController extends Controller
 {
@@ -182,6 +183,11 @@ class InventoryController extends Controller
                     $query->where('InventoryId', $id);
                 },'inventories.medicine'])->where('UserId', Auth::id())->first();
                 break;
+        }
+
+        if(!$data->inventories->count())
+        {
+            abort(404);
         }
 
         return view('testingViews.inventoryedit')->with('data', $data);
