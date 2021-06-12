@@ -27,8 +27,25 @@ class Cart
     {
         //Adding item to cart
         $this->cart = session('cart');
-        $this->cart->put($this->getNewId(), $item);
-        session(['cart' => $this->cart]);
+        $common = $this->cart->map(function($value, $key) use ($item){
+            if($value['distributorid'] == $item['distributorid'] && $value['medicineid'] == $item['medicineid'])
+            {
+                return [$key, $value];
+            }
+        })[0];
+        if($common)
+        {
+            $common[1]['totalprice'] += $item['totalprice'];
+            $common[1]['quantity'] += $item['quantity'];
+            $item = $common[1];
+            $this->cart->put($common[0], $item);
+            session(['cart' => $this->cart]);
+        }
+        else
+        {
+            $this->cart->put($this->getNewId(), $item);
+            session(['cart' => $this->cart]);
+        }
     }
 
     public function removeItem($id)

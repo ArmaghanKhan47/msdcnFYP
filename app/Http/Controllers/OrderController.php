@@ -13,6 +13,7 @@ use App\Models\RetailerShop;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Redirect;
 
 class OrderController extends Controller
 {
@@ -187,7 +188,8 @@ class OrderController extends Controller
             'status' => 'numeric|required|min:0|max:4'
         ]);
 
-        $order = Order::find($request->input('orderid'));
+        $order = Order::with('orderitems')->find($request->input('orderid'));
+
         switch($request->input('status'))
         {
             /*
@@ -199,6 +201,24 @@ class OrderController extends Controller
             */
             case 0:
                 //Order is accepted, changing status from Pending -> Preparing
+                $order_items = $order->orderitems->map(function($item){
+                    return $item->MedicineId;
+                });
+                $order_items_2 = $order->orderitems;
+                $inventories = InventoryDistributor::whereIn('MedicineId', $order_items)->get();
+                foreach($inventories as $key => $inventory)
+                {
+                    if ($inventory->MedicineId === $order_items_2[$key]->MedicineId)
+                    {
+                        $inventory->Quantity -= $order_items_2[$key]->Quantity;
+                        if ($inventory->Quantity < 0)
+                        {
+                            return redirect('/order/history')->with('error', 'Not Enough Inventory');
+                        }
+                        $inventory->save();
+                    }
+                }
+
                 $order->OrderStatus = str_replace('Pending', 'Preparing', $order->OrderStatus);
                 $order->save();
                 return redirect('/order/history')->with('success', 'Order#' . $request->input('orderid') . ' Accepted');
