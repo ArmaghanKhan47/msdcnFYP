@@ -32,13 +32,13 @@ class Cart
             {
                 return [$key, $value];
             }
-        })[0];
-        if($common)
+        });
+        if($common->isNotEmpty())
         {
-            $common[1]['totalprice'] += $item['totalprice'];
-            $common[1]['quantity'] += $item['quantity'];
-            $item = $common[1];
-            $this->cart->put($common[0], $item);
+            $common[0][1]['totalprice'] += $item['totalprice'];
+            $common[0][1]['quantity'] += $item['quantity'];
+            $item = $common[0][1];
+            $this->cart->put($common[0][0], $item);
             session(['cart' => $this->cart]);
         }
         else
