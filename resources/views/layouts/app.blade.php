@@ -25,7 +25,7 @@
     {{-- Chart.js CDN --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 </head>
-<body style="overflow: hidden ">
+<body style="overflow: hidden">
     <div id="app" class="container-fluid h-100 pb-5 p-0 m-0">
         @include('navbars.mainhorizontalbar')
         <div class="row m-0 h-100 p-0">
@@ -52,12 +52,10 @@
                   {{-- end --}}
                 </div>
             </div>
-            <div class="col-md-10 " style="background-color: #d9d9d9">
-                <div class="container-fluid mt-xl-3 overflow-auto" style="height: 41em;">
+            <div class="col-md-10 m-0 p-0 h-100" style="background-color: #d9d9d9">
+                <div class="container-fluid overflow-auto p-1 m-0 h-100">
                     @include('inc.message')
                     @yield('content')
-                    <div class="jumbotron p-1 mb-1 bg-transparent">
-                    </div>
                 </div>
             </div>
         </div>

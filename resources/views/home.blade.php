@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="jumbotron p-3 row">
+<div class="jumbotron p-3">
     <span class="h1 d-block col-md-10">@user('Retailer'){{__('Retailer')}}@elseuser('Distributor'){{__('Distributor')}}@enduser Dashboard</span>
     @user('Retailer')
     <span class="col-md-2 pt-3">

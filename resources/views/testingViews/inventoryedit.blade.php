@@ -1,16 +1,16 @@
 @extends('layouts.app')
 @section('content')
-<div class="jumbotron p-3   ">
+<div class="jumbotron p-3">
     <span class="h1 d-block">Update Medicine</span>
 </div>
 <form action="/inventory/{{$data->inventories[0]->InventoryId}}" method="POST">
     @method('PUT')
     @csrf
-    <div class="container">
+    <div class="container mb-1">
         <div class="row">
             <div class="col-md-6">
-                <div class="jumbotron p-0 ">
-                    <div class="card bg-transparent ">
+                <div class="jumbotron p-0">
+                    <div class="card bg-transparent">
                         <img src="/storage/medicines/{{$data->inventories[0]->medicine->MedicinePic}}">
                         <div class="card-body">
                             <span class="h5 d-block  ">{{$data->inventories[0]->medicine->MedicineName}} - {{$data->inventories[0]->medicine->MedicineType}}</span>
@@ -25,7 +25,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-6">
+            <div class="col-md-6">
                 <div class="jumbotron p-4 ">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -50,7 +50,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xl-12">
+            <div class="col-md-12">
 
                     <button class="btn btn-success" type="submit">Save Changes</button>
 

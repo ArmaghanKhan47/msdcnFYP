@@ -29,9 +29,21 @@ class NotificationsCount
         {
             //For admin users
             $pendings = User::where('AccountStatus', 'Pending')->with(['retailershop', 'distributorshop'])->get()->filter(function($item){
-                if($item->retailershop || $item->distributorshop)
+                switch($item->UserType)
                 {
-                    return $item;
+                    case 'Retailer':
+                        if ($item->retailershop && $item->retailershop->subscription)
+                        {
+                            return $item;
+                        }
+                        break;
+
+                    case 'Distributor':
+                        if ($item->distributorshop && $item->distributorshop->subscription)
+                        {
+                            return $item;
+                        }
+                        break;
                 }
             })->count();
             session(['pendingcount' => $pendings]);

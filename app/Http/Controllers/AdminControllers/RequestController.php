@@ -22,9 +22,21 @@ class RequestController extends Controller
     {
         //
         $pendings = User::where('AccountStatus', 'PENDING')->with(['retailershop.subscription:HistoryId,SubscriptionPackageId,RetailerId,TransactionId,PaymentMethod', 'retailershop.subscription.package:PackageId,PackageName', 'distributorshop.subscription:HistoryId,SubscriptionPackageId,DistributorId,TransactionId,PaymentMethod', 'distributorshop.subscription.package:PackageId,PackageName'])->get()->filter(function($item){
-            if ($item->retailershop || $item->distributorshop)
+            switch($item->UserType)
             {
-                    return $item;
+                case 'Retailer':
+                    if ($item->retailershop && $item->retailershop->subscription)
+                    {
+                        return $item;
+                    }
+                    break;
+
+                case 'Distributor':
+                    if ($item->distributorshop && $item->distributorshop->subscription)
+                    {
+                        return $item;
+                    }
+                    break;
             }
         });
         // return $pendings;
