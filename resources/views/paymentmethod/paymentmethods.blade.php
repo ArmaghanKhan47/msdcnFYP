@@ -160,7 +160,7 @@
                             <div class="row">
                                 <div class="col-md-12 text-center">
                                     <span class="h5 mb-1">{{ $qrcode->distributorshopname }}</span>
-                                    <img class="d-block m-auto rounded" src="@if($qrcode->mobilebank)@if(strstr($purpose, 'cartcheckout')){{asset('storage/mobilebank/qrcode/' . $qrcode->mobilebank->qr_code)}}@elseif(strstr($purpose, 'subscriptioncheckout')){{asset('storage/admin/mobilebank/qrcode/' . $qrcode->mobilebank->qr_code)}}@endif @endif" alt="No Image Found" height="200px" width="100%">
+                                    <img class="d-block m-auto rounded" src="@if($qrcode->mobilebank)@if(strstr($purpose, 'cartcheckout')){{asset('storage/mobilebank/qrcode/' . $qrcode->mobilebank->qr_code)}}@elseif(strstr($purpose, 'subscriptioncheckout')){{asset('storage/admin/mobilebank/qrcode/' . $qrcode->mobilebank->qr_code)}}@endif @endif" alt="No Image Found" height="200px" width="200px">
                                     <span class="h6 mt-1 text-muted">Scan the QR Code on @if($qrcode->mobilebank){{$qrcode->mobilebank->acount_provider}}@endif</span>
                                 </div>
                             </div>

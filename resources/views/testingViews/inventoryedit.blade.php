@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="jumbotron p-3 text-white jumbotron_apnd text-center  ">
+<div class="jumbotron p-3   ">
     <span class="h1 d-block">Update Medicine</span>
 </div>
 <form action="/inventory/{{$data->inventories[0]->InventoryId}}" method="POST">
@@ -8,14 +8,14 @@
     @csrf
     <div class="container">
         <div class="row">
-            <div class="col-xl-6">
-                <div class="jumbotron  jumbotron_apnd">
-                    <div class="card bg-transparent text-white">
+            <div class="col-md-6">
+                <div class="jumbotron p-0 ">
+                    <div class="card bg-transparent ">
                         <img src="/storage/medicines/{{$data->inventories[0]->medicine->MedicinePic}}">
                         <div class="card-body">
-                            <span class="h5 d-block text-white ">{{$data->inventories[0]->medicine->MedicineName}} - {{$data->inventories[0]->medicine->MedicineType}}</span>
-                            <span class="h6 d-block text-white">By {{$data->inventories[0]->medicine->MedicineCompany}}</span>
-                            <span class="h6 d-block text-white">
+                            <span class="h5 d-block  ">{{$data->inventories[0]->medicine->MedicineName}} - {{$data->inventories[0]->medicine->MedicineType}}</span>
+                            <span class="h6 d-block ">By {{$data->inventories[0]->medicine->MedicineCompany}}</span>
+                            <span class="h6 d-block ">
                                 Contains
                                 @foreach (json_decode($data->inventories[0]->medicine->MedicineFormula) as $item)
                                     {{$item}},
