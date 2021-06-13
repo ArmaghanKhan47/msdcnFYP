@@ -94,7 +94,15 @@ class UserApiController extends Controller
                         {
                             return $item;
                         }
-                    })->values()->first()->sales;
+                    })->values()->first();
+                }
+                if($today)
+                {
+                        $today = $today->sales;
+                }
+                else
+                {
+                    $today = null;
                 }
 
                 return response()->json([
