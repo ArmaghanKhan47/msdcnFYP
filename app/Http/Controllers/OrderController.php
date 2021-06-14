@@ -25,7 +25,7 @@ class OrderController extends Controller
         //Show Medicine to Retailer, avalible to Buy
         $result = InventoryDistributor::with(['distributor' => function($query){
             $query->where('Region', session('region'));
-        }, 'medicine'])->get();
+        }, 'medicine'])->where('Quantity', '>', 5)->get();
         $result = $result->filter(function($item){
             if ($item->distributor != null)
             {
