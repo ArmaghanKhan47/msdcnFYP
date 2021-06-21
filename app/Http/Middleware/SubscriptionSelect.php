@@ -25,15 +25,21 @@ class SubscriptionSelect
             switch(Auth::user()->UserType)
             {
                 case 'Retailer':
-                    $subscriptions = User::with(['retailershop.subscriptions' => function($query){
-                        $query->latest();
-                    }, 'retailershop.subscriptions.package'])->find(Auth::id())->retailershop->subscriptions;
+                    $subscriptions = User::with([
+                        'retailershop.subscriptions' => function($query){
+                            $query->latest();
+                    },
+                    'retailershop.subscriptions.package'])
+                    ->find(Auth::id())->retailershop->subscriptions;
                     break;
 
                 case 'Distributor':
-                    $subscriptions = User::with(['distributorshop.subscriptions' => function($query){
-                        $query->latest();
-                    }, 'distributorshop.subscriptions.package'])->find(Auth::id())->distributorshop->subscriptions;
+                    $subscriptions = User::with([
+                        'distributorshop.subscriptions' => function($query){
+                            $query->latest();
+                    },
+                    'distributorshop.subscriptions.package'])
+                    ->find(Auth::id())->distributorshop->subscriptions;
                     break;
             }
         }

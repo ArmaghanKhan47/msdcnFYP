@@ -75,9 +75,11 @@ class SaleController extends Controller
             'medicine' => 'string|required',
         ]);
 
-        $retailerId = RetailerShop::select('RetailerShopId')->where('UserId', Auth::id())->first()->RetailerShopId;
+        $retailerId = RetailerShop::select('RetailerShopId')
+        ->where('UserId', Auth::id())->first()->RetailerShopId;
         //Step:1 Find or Create a record in PointOfSale Table
-        $pos = PointOfSaleRetailerRecord::where('RetailerShopId', $retailerId)->where('created_at', 'LIKE', date('Y-m-d').'%')->firstOr(function() use ($retailerId){
+        $pos = PointOfSaleRetailerRecord::where('RetailerShopId', $retailerId)
+        ->where('created_at', 'LIKE', date('Y-m-d').'%')->firstOr(function() use ($retailerId){
             //Create New Point Of Sale
             return PointOfSaleRetailerRecord::create([
                 'RetailerShopId' => $retailerId,
@@ -92,7 +94,8 @@ class SaleController extends Controller
             if ($inventory->Quantity < $medicine->quantity)
             {
                 //Retailer is short of stock to server
-                $medicinename = Medicine::select('MedicineName')->where('MedicineId', $medicine->medicineid)->first()->MedicineName;
+                $medicinename = Medicine::select('MedicineName')
+                ->where('MedicineId', $medicine->medicineid)->first()->MedicineName;
                 return redirect()->back()->with('error', 'You are out of stock, for medicine ' . $medicinename . ' is ' . $inventory->Quantity);
             }
             //Update Inventory Values

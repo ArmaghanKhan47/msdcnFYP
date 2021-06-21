@@ -30,7 +30,8 @@ class UserApiController extends Controller
         //if given credentials exits, api_token will be returned
         if ($request->has('email') && $request->has('password'))
         {
-            $user = User::select('id', 'email', 'password', 'api_token')->where('email', $request->input('email'))->first();
+            $user = User::select('id', 'email', 'password', 'api_token')
+            ->where('email', $request->input('email'))->first();
             if ($user)
             {
                 $user->makeVisible(['password']);
@@ -81,9 +82,13 @@ class UserApiController extends Controller
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                $retailer = RetailerShop::with(['pointofsale.sales', 'inventories' => function($query){
-                    $query->where('Quantity', '<', 6);
-                }, 'inventories.medicine:MedicineId,MedicineName'])->where('UserId', Auth::id())->first();
+                $retailer = RetailerShop::with([
+                    'pointofsale.sales',
+                    'inventories' => function($query){
+                        $query->where('Quantity', '<', 6);
+                    },
+                    'inventories.medicine:MedicineId,MedicineName'])
+                    ->where('UserId', Auth::id())->first();
 
                 $pointofsale = $retailer->pointofsale;
                 $today = null;
@@ -112,9 +117,12 @@ class UserApiController extends Controller
             case 'Distributor':
                 $distributor = DistributorShop::with(['orders' => function($query){
                     $query->where('OrderStatus', 'LIKE', 'Completed%');
-                }, 'inventories' => function($query){
+                },
+                'inventories' => function($query){
                     $query->where('Quantity', '<', 6);
-                }, 'inventories.medicine:MedicineId,MedicineName'])->where('UserId', Auth::id())->first();
+                },
+                'inventories.medicine:MedicineId,MedicineName'])
+                ->where('UserId', Auth::id())->first();
 
                 $today = $distributor->orders->filter(function($item, $key){
                     if (date('Y-m-d', strtotime($item['updated_at'])) == date('Y-m-d'))

@@ -24,10 +24,12 @@ class InventoryController extends Controller
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                $info = RetailerShop::with('inventories','inventories.medicine')->select('RetailerShopId')->where('UserId', Auth::id())->first();
+                $info = RetailerShop::with('inventories','inventories.medicine')
+                ->select('RetailerShopId')->where('UserId', Auth::id())->first();
                 break;
             case 'Distributor':
-                $info = DistributorShop::with('inventories', 'inventories.medicine')->select('DistributorShopId')->where('UserId', Auth::id())->first();
+                $info = DistributorShop::with('inventories', 'inventories.medicine')
+                ->select('DistributorShopId')->where('UserId', Auth::id())->first();
                 break;
         }
         // return $info;
@@ -42,9 +44,16 @@ class InventoryController extends Controller
     public function create()
     {
         //
-        $medicines = Medicine::select('MedicineId', 'MedicineName', 'MedicineType', 'MedicineCompany', 'MedicineFormula')->orderBy('MedicineCompany', 'asc')->get()->mapToGroups(function($item, $key){
-            return [$item->MedicineCompany => $item];
-        });
+        $medicines = Medicine::select(
+            'MedicineId',
+            'MedicineName',
+            'MedicineType',
+            'MedicineCompany',
+            'MedicineFormula')
+            ->orderBy('MedicineCompany', 'asc')->get()
+            ->mapToGroups(function($item, $key){
+                return [$item->MedicineCompany => $item];
+            });
         return view('testingViews.inventoryadd')->with('medicines', $medicines);
     }
 
@@ -66,7 +75,8 @@ class InventoryController extends Controller
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                $retailershopid = RetailerShop::select('RetailerShopId')->where('UserId', '=', Auth::id())->first()->RetailerShopId;
+                $retailershopid = RetailerShop::select('RetailerShopId')
+                ->where('UserId', '=', Auth::id())->first()->RetailerShopId;
                 foreach($medicine_list as $key => $value)
                 {
                     //Check for ensuring the data type of variables
@@ -76,7 +86,8 @@ class InventoryController extends Controller
                         return redirect()->back()->with('error', 'Invalid Values Entered');
                     }
 
-                    $record = InventoryRetailer::where('RetailerShopId', $retailershopid)->where('MedicineId', $key)->first();
+                    $record = InventoryRetailer::where('RetailerShopId', $retailershopid)
+                    ->where('MedicineId', $key)->first();
                     if ($record)
                     {
                         //Medicine exist in inventory
@@ -97,7 +108,8 @@ class InventoryController extends Controller
                 }
                 break;
             case 'Distributor':
-                $distributorshop = DistributorShop::select(['DistributorShopId', 'Region'])->where('UserId', '=', Auth::id())->first();
+                $distributorshop = DistributorShop::select(['DistributorShopId', 'Region'])
+                ->where('UserId', '=', Auth::id())->first();
                 foreach($medicine_list as $key => $value)
                 {
                     //Check for ensuring the data type of variables
@@ -109,9 +121,14 @@ class InventoryController extends Controller
 
                     //Check if this medicine is being sold by other distributor or not
                     //In Same Region only one distributor can sell particular medicine, different distributors in same region cannot sell same medicine
-                    $otherDistributorsRecord = DistributorShop::select(['DistributorShopId', 'Region', 'UserId'])->with(['inventories' => function($query) use ($key){
-                        $query->where('MedicineId', $key);
-                    }])->where('Region', $distributorshop->Region)->where('UserId', '!=', Auth::id())->get();
+                    $otherDistributorsRecord = DistributorShop::select(
+                        'DistributorShopId',
+                        'Region',
+                        'UserId')
+                        ->with(['inventories' => function($query) use ($key){
+                            $query->where('MedicineId', $key);
+                        }])->where('Region', $distributorshop->Region)
+                        ->where('UserId', '!=', Auth::id())->get();
 
                     foreach($otherDistributorsRecord as $dist)
                     {
@@ -125,7 +142,10 @@ class InventoryController extends Controller
                     }
 
 
-                    $record = InventoryDistributor::where('DistributorShopId', $distributorshop->DistributorShopId)->where('MedicineId', $key)->first();
+                    $record = InventoryDistributor::where(
+                        'DistributorShopId',
+                        $distributorshop->DistributorShopId)
+                        ->where('MedicineId', $key)->first();
                     if ($record)
                     {
                         //Medicine exist in inventory
@@ -173,15 +193,19 @@ class InventoryController extends Controller
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                $data = RetailerShop::select('RetailerShopId')->with(['inventories' => function($query) use ($id){
+                $data = RetailerShop::select('RetailerShopId')
+                ->with(['inventories' => function($query) use ($id){
                     $query->where('InventoryId', $id);
-                },'inventories.medicine'])->where('UserId', Auth::id())->first();
+                },
+                'inventories.medicine'])->where('UserId', Auth::id())->first();
                 break;
 
             case 'Distributor':
-                $data = DistributorShop::select('DistributorShopId')->with(['inventories' => function($query) use ($id){
+                $data = DistributorShop::select('DistributorShopId')
+                ->with(['inventories' => function($query) use ($id){
                     $query->where('InventoryId', $id);
-                },'inventories.medicine'])->where('UserId', Auth::id())->first();
+                },
+                'inventories.medicine'])->where('UserId', Auth::id())->first();
                 break;
         }
 

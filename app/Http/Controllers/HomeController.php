@@ -49,9 +49,12 @@ class HomeController extends Controller
                 //Get POS data of Retailer to display on Home
                 $sales = RetailerShop::with(['pointofsale' => function($query){
                     $query->where('created_at', 'LIKE', date('Y-m-d').'%');
-                }, 'pointofsale.sales' => function($query){
+                },
+                'pointofsale.sales' => function($query){
                     $query->orderBy('updated_at', 'asc');
-                }, 'pointofsale.sales.saleitems'])->where('UserId', Auth::id())->first()->pointofsale;
+                },
+                'pointofsale.sales.saleitems'])
+                ->where('UserId', Auth::id())->first()->pointofsale;
                 if($sales->count() > 0)
                 {
                     $sales = $sales[0]->sales;
@@ -60,7 +63,8 @@ class HomeController extends Controller
 
             case 'Distributor':
                 $sales = DistributorShop::with(['orders' => function($query){
-                    $query->where('OrderStatus', 'LIKE', 'Completed%')->where('updated_at', 'LIKE', date('Y-m-d') . '%');
+                    $query->where('OrderStatus', 'LIKE', 'Completed%')
+                    ->where('updated_at', 'LIKE', date('Y-m-d') . '%');
                 }])->where('UserId', Auth::id())->first()->orders;
                 break;
         }
@@ -73,12 +77,14 @@ class HomeController extends Controller
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                $userData = User::with('retailershop', 'retailershop.subscriptions')->find(Auth::id());
+                $userData = User::with('retailershop', 'retailershop.subscriptions')
+                ->find(Auth::id());
                 return $userData;
                 break;
 
             case 'Distributor':
-                $userData = User::with('distributorshop', 'distributorshop.subscriptions')->find(Auth::id());
+                $userData = User::with('distributorshop', 'distributorshop.subscriptions')
+                ->find(Auth::id());
                 return $userData;
                 break;
 
@@ -96,7 +102,8 @@ class HomeController extends Controller
             case 'Retailer':
                 if ($userData->retailershop == null)
                 {
-                    return redirect(route('shopregistration.index'))->with('error', 'Please complete registration process, in order to continue');
+                    return redirect(route('shopregistration.index'))
+                    ->with('error', 'Please complete registration process, in order to continue');
                 }
                 return null;
                 break;
@@ -104,7 +111,8 @@ class HomeController extends Controller
             case 'Distributor':
                 if ($userData->distributorshop == null)
                 {
-                    return redirect(route('shopregistration.index'))->with('error', 'Please complete registration process, in order to continue');
+                    return redirect(route('shopregistration.index'))
+                    ->with('error', 'Please complete registration process, in order to continue');
                 }
                 return null;
                 break;

@@ -25,10 +25,12 @@ class SettingController extends Controller
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                $user = User::with(['retailershop', 'creditcard', 'mobilebank'])->where('id', Auth::id())->first();
+                $user = User::with(['retailershop', 'creditcard', 'mobilebank'])
+                ->where('id', Auth::id())->first();
                 break;
             case 'Distributor':
-                $user = User::with(['distributorshop', 'creditcard', 'mobilebank'])->where('id', Auth::id())->first();
+                $user = User::with(['distributorshop', 'creditcard', 'mobilebank'])
+                ->where('id', Auth::id())->first();
                 break;
         }
 
@@ -41,17 +43,25 @@ class SettingController extends Controller
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                $user = User::select('id', 'api_token')->with(['retailershop' => function($query){
-                    $query->select('RetailerShopId', 'UserId')->with('subscription:HistoryId,SubscriptionPackageId,RetailerId','subscription.package:PackageId,supportApi');
-                }])->find(Auth::id());
+                $user = User::select('id', 'api_token')
+                ->with(['retailershop' => function($query){
+                    $query->select('RetailerShopId', 'UserId')
+                    ->with(
+                        'subscription:HistoryId,SubscriptionPackageId,RetailerId',
+                        'subscription.package:PackageId,supportApi');
+                    }])->find(Auth::id());
 
                 $subscription_api_support = $user->retailershop->subscription->package->supportApi;
                 break;
 
             case 'Distributor':
-                $user = User::select('id', 'api_token')->with(['distributorshop' => function($query){
-                    $query->select('DistributorShopId', 'UserId')->with('subscription:HistoryId,SubscriptionPackageId,DistributorId','subscription.package:PackageId,supportApi');
-                }])->find(Auth::id());
+                $user = User::select('id', 'api_token')
+                ->with(['distributorshop' => function($query){
+                    $query->select('DistributorShopId', 'UserId')
+                    ->with(
+                        'subscription:HistoryId,SubscriptionPackageId,DistributorId',
+                        'subscription.package:PackageId,supportApi');
+                    }])->find(Auth::id());
 
                 $subscription_api_support = $user->distributorshop->subscription->package->supportApi;
                 break;
@@ -90,14 +100,16 @@ class SettingController extends Controller
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                $shop = RetailerShop::select('RetailerShopId', 'shopAddress')->where('UserId', Auth::id())->first();
+                $shop = RetailerShop::select('RetailerShopId', 'shopAddress')
+                ->where('UserId', Auth::id())->first();
                 $shop->shopAddress = $request->input('value');
                 $shop->save();
                 return 'Changes Saved';
                 break;
 
             case 'Distributor':
-                $shop = DistributorShop::select('DistributorShopId', 'shopAddress')->where('UserId', Auth::id())->first();
+                $shop = DistributorShop::select('DistributorShopId', 'shopAddress')
+                ->where('UserId', Auth::id())->first();
                 $shop->shopAddress = $request->input('value');
                 $shop->save();
                 return 'Changes Saved';
@@ -116,7 +128,11 @@ class SettingController extends Controller
             'qrcode' => 'image|mimes:jpg,png,jpeg|max:1999|required'
         ]);
 
-        $user = User::select(['id', 'mobilebankaccountid'])->with('distributorshop:DistributorShopId,UserId,DistributorShopName,Region' ,'mobilebank')->where('id', Auth::id())->first();
+        $user = User::select(['id', 'mobilebankaccountid'])
+        ->with(
+            'distributorshop:DistributorShopId,UserId,DistributorShopName,Region',
+            'mobilebank')
+            ->where('id', Auth::id())->first();
 
         $additional_parameters = [
             $request->input('mobileaccountprovider'),
@@ -172,11 +188,13 @@ class SettingController extends Controller
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                $shop = RetailerShop::select('RetailerShopId', 'ContactNumber')->where('UserId', Auth::id())->first();
+                $shop = RetailerShop::select('RetailerShopId', 'ContactNumber')
+                ->where('UserId', Auth::id())->first();
                 break;
 
             case 'Distributor':
-                $shop = DistributorShop::select('DistributorShopId', 'ContactNumber')->where('UserId', Auth::id())->first();
+                $shop = DistributorShop::select('DistributorShopId', 'ContactNumber')
+                ->where('UserId', Auth::id())->first();
                 break;
         }
 

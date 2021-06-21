@@ -33,8 +33,11 @@ class ReportController extends Controller
 
             case 'Distributor':
                 //Daily
-                $sales = DistributorShop::select('DistributorShopId')->with(['orders' => function($query){
-                    $query->select('OrderId', 'PayableAmount', 'DistributorId')->where('updated_at', 'LIKE', date('Y-m-d') . '%')->where('OrderStatus', 'LIKE', 'Completed%');
+                $sales = DistributorShop::select('DistributorShopId')
+                ->with(['orders' => function($query){
+                    $query->select('OrderId', 'PayableAmount', 'DistributorId')
+                    ->where('updated_at', 'LIKE', date('Y-m-d') . '%')
+                    ->where('OrderStatus', 'LIKE', 'Completed%');
                 }])->where('UserId', Auth::id())->first()->orders;
                 break;
         }
@@ -68,8 +71,11 @@ class ReportController extends Controller
                 break;
 
             case 'Distributor':
-                $sales = DistributorShop::select('DistributorShopId')->with(['orders' => function($query){
-                    $query->select('OrderId', 'PayableAmount', 'DistributorId')->where('created_at', 'LIKE', date('Y-m-d') . '%')->where('OrderStatus', 'LIKE', 'Completed%');
+                $sales = DistributorShop::select('DistributorShopId')
+                ->with(['orders' => function($query){
+                    $query->select('OrderId', 'PayableAmount', 'DistributorId')
+                    ->where('created_at', 'LIKE', date('Y-m-d') . '%')
+                    ->where('OrderStatus', 'LIKE', 'Completed%');
                 }])->where('UserId', Auth::id())->first()->orders;
 
                 $labels = $sales->map(function($item, $key){
@@ -104,9 +110,12 @@ class ReportController extends Controller
                 break;
 
             case 'Distributor':
-                $sales = DistributorShop::select('DistributorShopId')->with(['orders' => function($query){
-                    $query->select('OrderId', 'PayableAmount', 'DistributorId')->where('OrderStatus', 'LIKE', 'Completed%')->latest()->limit(7);
-                }])->where('UserId', Auth::id())->first()->orders->reverse()->mapToGroups(function($item, $key){
+                $sales = DistributorShop::select('DistributorShopId')
+                ->with(['orders' => function($query){
+                    $query->select('OrderId', 'PayableAmount', 'DistributorId')
+                    ->where('OrderStatus', 'LIKE', 'Completed%')->latest()->limit(7);
+                }])->where('UserId', Auth::id())->first()->orders->reverse()
+                ->mapToGroups(function($item, $key){
                     $dat = date('Y-m-d', strtotime($item['created_at']));
                     return [$dat => $item];
                 })->map(function($item, $key){
@@ -144,10 +153,13 @@ class ReportController extends Controller
                 break;
 
             case 'Distributor':
-                $sales = DistributorShop::select('DistributorShopId')->with(['orders' => function($query){
+                $sales = DistributorShop::select('DistributorShopId')
+                ->with(['orders' => function($query){
                     //Here only Completed Orders are being selected for futher procecssing
-                    $query->select('OrderId', 'PayableAmount', 'DistributorId')->where('OrderStatus', 'LIKE', 'Completed%');
-                }])->where('UserId', Auth::id())->first()->orders->mapToGroups(function($item, $key){
+                    $query->select('OrderId', 'PayableAmount', 'DistributorId')
+                    ->where('OrderStatus', 'LIKE', 'Completed%');
+                }])->where('UserId', Auth::id())->first()->orders
+                ->mapToGroups(function($item, $key){
                     //Here fetched results are being grouped on the basis of their Month
                     $dat = date('M', strtotime($item['created_at']));
                     return [$dat => $item];
@@ -171,7 +183,9 @@ class ReportController extends Controller
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                $sales = RetailerShop::with(['pointofsale'])->where('UserId', Auth::id())->first()->pointofsale->mapToGroups(function($item, $key){
+                $sales = RetailerShop::with(['pointofsale'])
+                ->where('UserId', Auth::id())->first()->pointofsale
+                ->mapToGroups(function($item, $key){
                     //Here Retailer point of sale records are being grouped on the basis of their Year
                     $dat = date('Y', strtotime($item['created_at']));
                     return [$dat => $item];
@@ -185,10 +199,13 @@ class ReportController extends Controller
                 break;
 
             case 'Distributor':
-                $sales = DistributorShop::select('DistributorShopId')->with(['orders' => function($query){
+                $sales = DistributorShop::select('DistributorShopId')
+                ->with(['orders' => function($query){
                     //Here Only Completed Orders are being selected for further processing
-                    $query->select('OrderId', 'PayableAmount', 'DistributorId')->where('OrderStatus', 'LIKE', 'Completed%');
-                }])->where('UserId', Auth::id())->first()->orders->mapToGroups(function($item, $key){
+                    $query->select('OrderId', 'PayableAmount', 'DistributorId')
+                    ->where('OrderStatus', 'LIKE', 'Completed%');
+                }])->where('UserId', Auth::id())->first()->orders
+                ->mapToGroups(function($item, $key){
                     //Here fetched results are being grouped on the basis of their Year
                     $dat = date('Y', strtotime($item['created_at']));
                     return [$dat => $item];

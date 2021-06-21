@@ -28,7 +28,9 @@ class NotificationsCount
         elseif (Auth::guard('admin')->check())
         {
             //For admin users
-            $pendings = User::where('AccountStatus', 'Pending')->with(['retailershop', 'distributorshop'])->get()->filter(function($item){
+            $pendings = User::where('AccountStatus', 'Pending')
+            ->with(['retailershop', 'distributorshop'])->get()
+            ->filter(function($item){
                 switch($item->UserType)
                 {
                     case 'Retailer':

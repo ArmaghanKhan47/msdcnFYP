@@ -41,24 +41,33 @@ class OrderController extends Controller
         //Show Cart Checkout View to Retailer
         $cart = new Cart();
         $cartData = $cart->getCart();
-        $retailerData = RetailerShop::select('RetailerShopId', 'shopAddress')->where('UserId','=', Auth::id())->first();
+        $retailerData = RetailerShop::select('RetailerShopId', 'shopAddress')
+        ->where('UserId','=', Auth::id())->first();
         $creditCard = CreditCard::find(Auth::user()->CreditCardId);
 
-        $distributors = $cartData->groupBy('distributorid')->map(function($item){
+        $distributors = $cartData->groupBy('distributorid')
+        ->map(function($item){
             return $item->sum('totalprice');
         });
-        $mobilebanks = DistributorShop::select(['DistributorShopId', 'UserId', 'DistributorShopName'])->with(['user' => function($query){
-            $query->select(['id', 'mobilebankaccountid'])->with('mobilebank');
-        }])->whereIn('DistributorShopId', $distributors->keys())->get()->map(function($item) use ($distributors){
-            // return $item->user->mobilebank;
-            return (object)[
-                'distributorshopid' => $item->DistributorShopId,
-                'distributorshopname' => $item->DistributorShopName,
-                'amount' => $distributors[$item->DistributorShopId],
-                'mobilebank' => $item->user->mobilebank
-            ];
-        });
-        return view('cart.cartcheckout')->with('data', [$cartData, $retailerData, $creditCard, $mobilebanks]);
+        $mobilebanks = DistributorShop::select([
+            'DistributorShopId',
+            'UserId',
+            'DistributorShopName'])
+            ->with(['user' => function($query){
+                $query->select(['id', 'mobilebankaccountid'])->with('mobilebank');
+            }])
+            ->whereIn('DistributorShopId', $distributors->keys())->get()
+            ->map(function($item) use ($distributors){
+                // return $item->user->mobilebank;
+                return (object)[
+                    'distributorshopid' => $item->DistributorShopId,
+                    'distributorshopname' => $item->DistributorShopName,
+                    'amount' => $distributors[$item->DistributorShopId],
+                    'mobilebank' => $item->user->mobilebank
+                ];
+            });
+        return view('cart.cartcheckout')
+        ->with('data',[$cartData, $retailerData, $creditCard, $mobilebanks]);
     }
 
     public function store(Request $request)
@@ -75,7 +84,8 @@ class OrderController extends Controller
         $paymentStatus = 'Unpayed';
 
         //Check if Retailer has an address if not save given address
-        $retailerData = RetailerShop::select('RetailerShopId', 'shopAddress')->where('UserId','=', Auth::id())->first();
+        $retailerData = RetailerShop::select('RetailerShopId', 'shopAddress')
+        ->where('UserId','=', Auth::id())->first();
         if($retailerData->shopAddress == null)
         {
             // $retailer = RetailerShop::select('RetailerShopId', 'shopAddress')->where('UserId','=', Auth::id())->first();
@@ -163,17 +173,29 @@ class OrderController extends Controller
         //Reterive Order History based on $id and order by placing date
         if (Auth::user()->UserType == 'Retailer')
         {
-            $orderRecord = RetailerShop::select('RetailerShopId')->with(['orders' => function($query){
-                $query->with('orderitems', 'distributor:DistributorShopId,DistributorShopName', 'orderitems.medicine:MedicineId,MedicineName,MedicineType', 'retailer:RetailerShopId')->orderBy('OrderId', 'desc')->get();
-            }])->where('UserId', Auth::id())->first()->orders;
+            $orderRecord = RetailerShop::select('RetailerShopId')
+            ->with(['orders' => function($query){
+                $query->with(
+                    'orderitems',
+                    'distributor:DistributorShopId,DistributorShopName',
+                    'orderitems.medicine:MedicineId,MedicineName,MedicineType',
+                    'retailer:RetailerShopId')
+                    ->orderBy('OrderId', 'desc')->get();
+                }])->where('UserId', Auth::id())->first()->orders;
             // return $orderRecord;
             return view('testingViews.orderhistory')->with('orders', $orderRecord);
         }
         else if(Auth::user()->UserType == 'Distributor')
         {
-            $orderRecord = DistributorShop::select('DistributorShopId')->with(['orders' => function($query){
-                $query->with('orderitems', 'retailer:RetailerShopId,RetailerShopName', 'orderitems.medicine:MedicineId,MedicineName,MedicineType', 'distributor:DistributorShopId')->orderBy('OrderId', 'desc')->get();
-            }])->where('UserId', Auth::id())->first()->orders;
+            $orderRecord = DistributorShop::select('DistributorShopId')
+            ->with(['orders' => function($query){
+                $query->with(
+                    'orderitems',
+                    'retailer:RetailerShopId,RetailerShopName',
+                    'orderitems.medicine:MedicineId,MedicineName,MedicineType',
+                    'distributor:DistributorShopId')
+                    ->orderBy('OrderId', 'desc')->get();
+                }])->where('UserId', Auth::id())->first()->orders;
             return view('testingViews.orderhistory')->with('orders', $orderRecord);
         }
     }

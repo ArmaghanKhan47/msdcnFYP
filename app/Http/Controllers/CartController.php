@@ -26,8 +26,18 @@ class CartController extends Controller
         foreach($cartData as $item)
         {
             $newItem = collect();
-            $newItem->put('medicine', (object)Medicine::select(['MedicineName', 'MedicineCompany', 'MedicineType'])->find($item->get('medicineid')));
-            $newItem->put('distributor', (object)DistributorShop::select('DistributorShopName')->find($item->get('distributorid')));
+            $newItem->put('medicine', (object)Medicine::select([
+                'MedicineName',
+                'MedicineCompany',
+                'MedicineType'
+                ])
+                ->find($item->get('medicineid')));
+
+            $newItem->put('distributor', (object)DistributorShop::select(
+                'DistributorShopName'
+                )
+                ->find($item->get('distributorid')));
+
             $newItem->put('unitprice', $item->get('unitprice'));
             $newItem->put('totalprice', $item->get('totalprice'));
             $newItem->put('quantity', $item->get('quantity'));
