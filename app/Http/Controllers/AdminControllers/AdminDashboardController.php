@@ -33,9 +33,15 @@ class AdminDashboardController extends Controller
     public function index()
     {
         //Total Registered Retailers
-        $retailers = User::select('id', 'AccountStatus', 'UserType')->where('AccountStatus','Active')->where('UserType','Retailer')->get()->count();
+        $retailers = User::select('id', 'AccountStatus', 'UserType')
+        ->where('AccountStatus','Active')
+        ->where('UserType','Retailer')
+        ->get()->count();
         //Total Registered Distributors
-        $distributors = User::select('id', 'AccountStatus', 'UserType')->where('AccountStatus','Active')->where('UserType','Distributor')->get()->count();
+        $distributors = User::select('id', 'AccountStatus', 'UserType')
+        ->where('AccountStatus','Active')
+        ->where('UserType','Distributor')
+        ->get()->count();
         //Total Medicines
         $medicines = Medicine::get()->count();
         return view('admin.main.home', compact('retailers', 'distributors', 'medicines'));

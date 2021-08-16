@@ -24,4 +24,9 @@ class InventoryRetailer extends Model
     {
         return $this->belongsTo(Medicine::class, 'MedicineId');
     }
+
+    public function scopeLow($query)
+    {
+        return $query->where('Quantity', '<=', '5');
+    }
 }

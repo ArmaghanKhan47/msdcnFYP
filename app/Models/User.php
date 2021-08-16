@@ -69,4 +69,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(MobileBank::class, 'id', 'mobilebankaccountid');
     }
+
+    public function routeNotificationForMail($notification)
+    {
+        // Return email address only...
+        return $this->email;
+    }
 }

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MedicineMail;
 use Illuminate\Http\Request;
 use App\Models\Medicine;
 use App\Models\User;
 use App\Notifications\MedicineNotification;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class MedicineController extends Controller
@@ -77,8 +79,21 @@ class MedicineController extends Controller
             'MedicineFormula' => json_encode(explode(',', $request->input('medformula')))
         ])->MedicineId;
 
+        $users = User::all();
         $message = 'New Medicine is added(' . $request->input('medname') . ' by ' . $request->input('medcompany') . ')';
-        Notification::send(User::all(), new MedicineNotification($message));
+        Notification::send($users, new MedicineNotification($message));
+
+        foreach($users as $user){
+            $mail = (
+                new MedicineMail(
+                    $user,
+                    'New Medicine Added',
+                    $message
+                )
+            )
+            ->onQueue('email');
+            Mail::later(now()->addSeconds(5), $mail);
+        }
 
         return redirect()->back()->with('success', 'Medicine created with id '. $id);
     }
@@ -92,10 +107,13 @@ class MedicineController extends Controller
     public function show($id, $distributorid)
     {
         ////$id = Medicine Id
-        $data = Medicine::with(['inventorydistributor' => function($query) use ($distributorid)
-        {
-            $query->where('DistributorShopId', $distributorid);
-        }, 'inventorydistributor.distributor:DistributorShopId,DistributorShopName'])->find($id);
+        $data = Medicine::with([
+            'inventorydistributor' => function($query) use ($distributorid)
+            {
+                $query->where('DistributorShopId', $distributorid);
+            },
+            'inventorydistributor.distributor:DistributorShopId,DistributorShopName'
+        ])->find($id);
         return view('testingViews.medicinedetail')->with('data', $data);
         return $data;
     }
@@ -149,8 +167,21 @@ class MedicineController extends Controller
         $medicine->MedicineFormula = json_encode(explode(',', $request->input('medformula')));
         $medicine->save();
 
+        $users = User::all();
         $message = $request->input('medname') . ' by ' . $request->input('medcompany') . ' details has been updated';
-        Notification::send(User::all(), new MedicineNotification($message));
+        Notification::send($users, new MedicineNotification($message));
+
+        foreach($users as $user){
+            $mail = (
+                new MedicineMail(
+                    $user,
+                    'Medicine Updated',
+                    $message
+                )
+            )
+            ->onQueue('email');
+            Mail::later(now()->addSeconds(5), $mail);
+        }
 
         return redirect(route('admin.medicine.index'))->with('success', 'Medicine#' . $id . ' changes saved');
     }

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\UserAccountMail;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Notifications\UserAccountNotification;
+use Illuminate\Support\Facades\Mail;
 
 class RequestController extends Controller
 {
@@ -21,24 +23,33 @@ class RequestController extends Controller
     public function index()
     {
         //
-        $pendings = User::where('AccountStatus', 'PENDING')->with(['retailershop.subscription:HistoryId,SubscriptionPackageId,RetailerId,TransactionId,PaymentMethod', 'retailershop.subscription.package:PackageId,PackageName', 'distributorshop.subscription:HistoryId,SubscriptionPackageId,DistributorId,TransactionId,PaymentMethod', 'distributorshop.subscription.package:PackageId,PackageName'])->get()->filter(function($item){
-            switch($item->UserType)
-            {
-                case 'Retailer':
-                    if ($item->retailershop && $item->retailershop->subscription)
-                    {
-                        return $item;
-                    }
-                    break;
+        $pendings = User::where('AccountStatus', 'PENDING')
+        ->with(
+            [
+                'retailershop.subscription:HistoryId,SubscriptionPackageId,RetailerId,TransactionId,PaymentMethod',
+                'retailershop.subscription.package:PackageId,PackageName',
+                'distributorshop.subscription:HistoryId,SubscriptionPackageId,DistributorId,TransactionId,PaymentMethod',
+                'distributorshop.subscription.package:PackageId,PackageName'
+            ])
+            ->get()
+            ->filter(function($item){
+                switch($item->UserType)
+                {
+                    case 'Retailer':
+                        if ($item->retailershop && $item->retailershop->subscription)
+                        {
+                            return $item;
+                        }
+                        break;
 
-                case 'Distributor':
-                    if ($item->distributorshop && $item->distributorshop->subscription)
-                    {
-                        return $item;
-                    }
-                    break;
-            }
-        });
+                    case 'Distributor':
+                        if ($item->distributorshop && $item->distributorshop->subscription)
+                        {
+                            return $item;
+                        }
+                        break;
+                }
+            });
         // return $pendings;
         return view('admin.main.pendingrequest', compact('pendings'));
     }
@@ -100,6 +111,9 @@ class RequestController extends Controller
         $user->AccountStatus = 'ACTIVE';
         $user->save();
         $user->notify(new UserAccountNotification('good'));
+        $mail = (new UserAccountMail($user, 'Account Approved', 'Congratulation! Your account is now ACTIVE.<br>We are glad to have you aboad'))
+        ->onQueue('email');
+        Mail::later(now()->addSeconds(5), $mail);
         return redirect()->back()->with('success', 'User#' . $id . ' is ACTIVE');
     }
 
@@ -116,6 +130,15 @@ class RequestController extends Controller
         $user->AccountStatus = 'DEACTIVE';
         $user->save();
         $user->notify(new UserAccountNotification('bad'));
+        $mail = (
+            new UserAccountMail(
+                $user,
+                'Account Disapproved',
+                'We regret to inform you that, your account is not approved<br>For any query contact us'
+            )
+        )
+        ->onQueue('email');
+        Mail::later(now()->addSeconds(5), $mail);
         return redirect()->back()->with('error', 'User#' . $id . ' is DEACTIVE');
     }
 }
