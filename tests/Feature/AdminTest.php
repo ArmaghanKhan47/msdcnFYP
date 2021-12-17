@@ -22,7 +22,7 @@ class AdminTest extends TestCase
 
     public function testAdminGetDashboard()
     {
-        $user = AdminUser::find(1);
+        $user = AdminUser::factory()->create();
         $response = $this->actingAs($user, 'admin')->get(route('admin.dashboard'));
         $response->assertStatus(200);
     }
