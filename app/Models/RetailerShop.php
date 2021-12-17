@@ -9,40 +9,37 @@ class RetailerShop extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'RetailerShopId';
-
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 
     protected $fillable = [
-        'RetailerShopName',
-        'LiscenceNo',
-        'Region',
-        'UserId',
-        'ContactNumber',
-        'LiscenceFrontPic'
+        'shop_name',
+        'liscence_no',
+        'region',
+        'user_id',
+        'contact_no',
+        'liscence_front_pic'
     ];
 
     public function inventories(){
-            return $this->hasMany(InventoryRetailer::class, 'RetailerShopId');
+            return $this->hasMany(InventoryRetailer::class, 'retailer_id');
     }
 
-    public function subscriptions()
-    {
-        return $this->hasMany(SubscriptionHistoryRetailer::class, 'RetailerId')->latest();
+    public function subscriptions(){
+        return $this->hasMany(SubscriptionHistoryRetailer::class, 'retailer_id')->latest();
     }
 
-    public function subscription()
-    {
-        return $this->hasOne(SubscriptionHistoryRetailer::class, 'RetailerId')->latest();
+    public function subscription(){
+        return $this->hasOne(SubscriptionHistoryRetailer::class, 'retailer_id')->latest();
     }
 
-    public function pointofsale()
-    {
-        return $this->hasMany(PointOfSaleRetailerRecord::class, 'RetailerShopId');
+    public function pointofsale(){
+        return $this->hasMany(PointOfSaleRetailerRecord::class, 'retailer_id');
     }
 
-    public function orders()
-    {
-        return $this->hasMany(Order::class, 'RetailerId');
+    public function orders(){
+        return $this->hasMany(Order::class, 'retailer_id');
     }
 }

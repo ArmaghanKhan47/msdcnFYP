@@ -10,13 +10,13 @@ class Request extends Model
     use HasFactory;
 
     protected $fillable = [
-        'userid',
+        'user_id',
         'message',
         'status'
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'userid');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

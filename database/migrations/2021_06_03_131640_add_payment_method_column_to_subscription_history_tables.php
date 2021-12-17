@@ -15,12 +15,12 @@ class AddPaymentMethodColumnToSubscriptionHistoryTables extends Migration
     {
         Schema::table('subscription_history_distributors', function (Blueprint $table) {
             //Adding Payment Method Column to Subscription History Distributors Table
-            $table->string('PaymentMethod')->after('TransactionId');
+            $table->string('payment_method')->after('transaction_id');
         });
 
         Schema::table('subscription_history_retailers', function (Blueprint $table) {
             //Adding Payment Method Column to Subscription History Retailer Table
-            $table->string('PaymentMethod')->after('TransactionId');
+            $table->string('payment_method')->after('transaction_id');
         });
     }
 
@@ -33,12 +33,12 @@ class AddPaymentMethodColumnToSubscriptionHistoryTables extends Migration
     {
         Schema::table('subscription_history_distributors', function (Blueprint $table) {
             //Removing Payment Method Column from Subscription History Distributors Table
-            $table->dropColumn('PaymentMethod');
+            $table->dropColumn('payment_method');
         });
 
         Schema::table('subscription_history_retailers', function (Blueprint $table) {
             //Removing Payment Method Column from Subscription History Retailer Table
-            $table->dropColumn('PaymentMethod');
+            $table->dropColumn('payment_method');
         });
     }
 }

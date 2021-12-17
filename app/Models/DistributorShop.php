@@ -9,40 +9,42 @@ class DistributorShop extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'DistributorShopId';
-
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 
     protected $fillable = [
-        'DistributorShopName',
-        'LiscenceNo',
-        'Region',
-        'UserId',
-        'ContactNumber',
-        'LiscenceFrontPic'
+        'shop_name',
+        'liscence_no',
+        'region',
+        'contact_no',
+        'liscence_front_pic'
     ];
 
     public function inventories(){
-            return $this->hasMany(InventoryDistributor::class, 'DistributorShopId');
+            return $this->hasMany(InventoryDistributor::class, 'distributor_id');
     }
 
     public function subscriptions()
     {
-        return $this->hasMany(SubscriptionHistoryDistributor::class, 'DistributorId')->latest();
+        return $this->hasMany(SubscriptionHistoryDistributor::class, 'distributor_id')
+        ->latest();
     }
 
     public function subscription()
     {
-        return $this->hasOne(SubscriptionHistoryDistributor::class, 'DistributorId')->latest();
+        return $this->hasOne(SubscriptionHistoryDistributor::class, 'distributor_id')
+        ->latest();
     }
 
     public function orders()
     {
-        return $this->hasMany(Order::class, 'DistributorId');
+        return $this->hasMany(Order::class, 'distributor_id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'UserId');
+        return $this->morphOne(User::class, 'userable');
     }
 }

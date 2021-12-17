@@ -9,23 +9,19 @@ class OrderItem extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'ItemId';
-
     protected $fillable = [
-        'OrderId',
-        'MedicineId',
-        'Quantity',
-        'Subtotal'
+        'order_id',
+        'medicine_id',
+        'quantity',
+        'sub_total'
     ];
 
-    public function order()
-    {
-        return $this->belongsTo(Order::class, 'OrderId');
+    public function order(){
+        return $this->belongsTo(Order::class, 'order_id');
     }
 
-    public function medicine()
-    {
-        return $this->belongsTo(Medicine::class, 'MedicineId');
+    public function medicine(){
+        return $this->belongsTo(Medicine::class, 'medicine_id');
     }
 
 }

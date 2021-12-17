@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateMedicinesTable extends Migration
 {
-    private $primaryKey = "MedicineId";
     /**
      * Run the migrations.
      *
@@ -15,13 +14,13 @@ class CreateMedicinesTable extends Migration
     public function up()
     {
         Schema::create('medicines', function (Blueprint $table) {
-            $table->integer('MedicineId')->autoIncrement();
-            $table->string('MedicineName');
-            $table->json('MedicineFormula');
-            $table->string('MedicineCompany');
-            $table->string('MedicineType');
-            $table->string('MedicinePic');
-            $table->longText('MedicineDiscription');
+            $table->id();
+            $table->string('name');
+            $table->json('formula');
+            $table->string('company');
+            $table->string('type');
+            $table->string('pic');
+            $table->longText('discription');
             $table->timestamps();
         });
     }

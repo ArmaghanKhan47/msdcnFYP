@@ -15,9 +15,11 @@ class AddMobileBankColumnToUser extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->integer('mobilebankaccountid')->nullable();
+            $table->integer('mobile_bank_id')->nullable();
 
-            $table->foreign('mobilebankaccountid')->references('id')->on('mobile_banks');
+            $table->foreign('mobile_bank_id')
+            ->references('id')
+            ->on('mobile_banks');
         });
     }
 
@@ -30,7 +32,7 @@ class AddMobileBankColumnToUser extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->dropColumn('mobile_bank_account_id');
+            $table->dropColumn('mobile_bank_id');
         });
     }
 }

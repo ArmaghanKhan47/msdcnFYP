@@ -9,18 +9,16 @@ class CreditCard extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'rowId';
-
     protected $hidden = [
         'created_at',
         'updated_at'
     ];
 
     protected $fillable = [
-        'CardHolderName',
-        'CardNumber',
-        'ExpiryMonth',
-        'ExpiryYear',
+        'card_holder_name',
+        'card_no',
+        'expiry_month',
+        'expiry_year',
         'cvv'
     ];
 

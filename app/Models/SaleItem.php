@@ -9,12 +9,10 @@ class SaleItem extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'SaleItemId';
-
     protected $fillable = [
-        'SaleId',
-        'MedicineId',
-        'Quantity',
-        'SubTotal'
+        'sale_id',
+        'medicine_id',
+        'quantity',
+        'sub_total'
     ];
 }

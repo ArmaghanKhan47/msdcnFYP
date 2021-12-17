@@ -9,23 +9,20 @@ class Sale extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'SaleId';
-
     protected $fillable = [
-        'PointOfSaleId',
-        'Total',
-        'Discount',
-        'Payed'
+        'point_of_sale_id',
+        'total',
+        'discount',
+        'payed'
     ];
 
     protected $hidden = [
         'created_at',
         'updated_at',
-        'PointOfSaleId'
+        'point_of_sale_id'
     ];
 
-    public function saleitems()
-    {
-        return $this->hasMany(SaleItem::class, 'SaleId');
+    public function saleitems(){
+        return $this->hasMany(SaleItem::class, 'sale_id');
     }
 }

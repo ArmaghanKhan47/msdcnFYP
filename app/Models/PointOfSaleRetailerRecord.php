@@ -7,22 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class PointOfSaleRetailerRecord extends Model
 {
-    protected $primaryKey = 'RecordId';
-
     protected $fillable = [
-        'RetailerShopId',
-        'DailyRevenue'
+        'retailer_id',
+        'daily_revenue'
     ];
 
     use HasFactory;
 
     public function record()
     {
-        return $this->belongsTo(RetailerShop::class, 'RetailerShopId');
+        return $this->belongsTo(RetailerShop::class, 'retailer_id');
     }
 
     public function sales()
     {
-        return $this->hasMany(Sale::class, 'PointOfSaleId');
+        return $this->hasMany(Sale::class, 'point_of_sale_id');
     }
 }

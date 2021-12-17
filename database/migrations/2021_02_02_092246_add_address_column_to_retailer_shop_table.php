@@ -15,7 +15,7 @@ class AddAddressColumnToRetailerShopTable extends Migration
     {
         Schema::table('retailer_shops', function (Blueprint $table) {
             //
-            $table->string('shopAddress')->nullable();
+            $table->string('shop_address')->nullable();
         });
     }
 
@@ -28,7 +28,7 @@ class AddAddressColumnToRetailerShopTable extends Migration
     {
         Schema::table('retailer_shops', function (Blueprint $table) {
             //
-            $table->dropColumn('shopAddress');
+            $table->dropColumn('shop_address');
         });
     }
 }

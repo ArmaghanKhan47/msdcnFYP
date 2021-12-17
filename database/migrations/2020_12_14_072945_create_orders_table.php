@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateOrdersTable extends Migration
 {
-    private $timestamp = false;
-    private $primaryKey = "OrderId";
     /**
      * Run the migrations.
      *
@@ -16,19 +14,24 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->integer('OrderId')->autoIncrement();
-            $table->integer('RetailerId');
-            $table->integer('DistributorId');
-            $table->string('OrderStatus');
-            $table->string('PaymentMethod');
-            $table->double('PayableAmount');
-            $table->date('PayedDate')->nullable();
-            $table->date('OrderPlacingDate');
-            $table->date('OrderCompletionDate')->nullable();
+            $table->id();
+            $table->integer('retailer_id');
+            $table->integer('distributor_id');
+            $table->string('order_status');
+            $table->string('payment_method');
+            $table->double('payable_amount');
+            $table->date('payed_date')->nullable();
+            $table->date('order_placing_date');
+            $table->date('order_completion_date')->nullable();
             $table->timestamps();
 
-            $table->foreign('RetailerId')->references('RetailerShopId')->on('retailer_shops');
-            $table->foreign('DistributorId')->references('DistributorShopId')->on('distributor_shops');
+            $table->foreign('retailer_id')
+            ->references('id')
+            ->on('retailer_shops');
+
+            $table->foreign('distributor_id')
+            ->references('id')
+            ->on('distributor_shops');
         });
     }
 

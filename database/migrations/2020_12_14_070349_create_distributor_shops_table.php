@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateDistributorShopsTable extends Migration
 {
-    private $primaryKey = "DistributorShopId";
     /**
      * Run the migrations.
      *
@@ -15,16 +14,13 @@ class CreateDistributorShopsTable extends Migration
     public function up()
     {
         Schema::create('distributor_shops', function (Blueprint $table) {
-            $table->integer('DistributorShopId')->autoIncrement();
-            $table->string('DistributorShopName');
-            $table->string('LiscenceNo')->unique();
-            $table->string('ContactNumber');
-            $table->string('LiscenceFrontPic');
-            $table->string('Region');
-            $table->bigInteger('UserId')->unsigned();
+            $table->id();
+            $table->string('shop_name');
+            $table->string('liscence_no')->unique();
+            $table->string('contact_no');
+            $table->string('liscence_front_pic');
+            $table->string('region');
             $table->timestamps();
-
-            $table->foreign('UserId')->references('id')->on('users');
         });
     }
 

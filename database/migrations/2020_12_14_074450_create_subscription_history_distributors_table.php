@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateSubscriptionHistoryDistributorsTable extends Migration
 {
-    private $primaryKey = 'HistoryId';
     /**
      * Run the migrations.
      *
@@ -15,14 +14,19 @@ class CreateSubscriptionHistoryDistributorsTable extends Migration
     public function up()
     {
         Schema::create('subscription_history_distributors', function (Blueprint $table) {
-            $table->integer('HistoryId')->autoIncrement();
-            $table->integer('SubscriptionPackageId');
-            $table->integer('DistributorId');
-            $table->date('startDate');
+            $table->id();
+            $table->integer('subscription_package_id');
+            $table->integer('distributor_id');
+            $table->date('start_date');
             $table->timestamps();
 
-            $table->foreign('SubscriptionPackageId')->references('PackageId')->on('subscription_packages');
-            $table->foreign('DistributorId')->references('DistributorShopId')->on('distributor_shops');
+            $table->foreign('subscription_package_id')
+            ->references('id')
+            ->on('subscription_packages');
+
+            $table->foreign('distributor_id')
+            ->references('id')
+            ->on('distributor_shops');
         });
     }
 

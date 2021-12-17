@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateCreditCardsTable extends Migration
 {
-    private $primaryKey = "rowId";
     /**
      * Run the migrations.
      *
@@ -15,11 +14,11 @@ class CreateCreditCardsTable extends Migration
     public function up()
     {
         Schema::create('credit_cards', function (Blueprint $table) {
-            $table->integer('rowId')->autoIncrement();
-            $table->string('CardHolderName');
-            $table->bigInteger('CardNumber');
-            $table->integer('ExpiryMonth');
-            $table->integer('ExpiryYear');
+            $table->id();
+            $table->string('card_holder_name');
+            $table->bigInteger('card_no');
+            $table->integer('expiry_month');
+            $table->integer('expiry_year');
             $table->integer('cvv');
             $table->timestamps();
         });

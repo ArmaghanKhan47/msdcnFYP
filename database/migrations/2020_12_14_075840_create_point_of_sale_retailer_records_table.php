@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePointOfSaleRetailerRecordsTable extends Migration
 {
-    private $primaryKey = 'RecordId';
     /**
      * Run the migrations.
      *
@@ -15,10 +14,14 @@ class CreatePointOfSaleRetailerRecordsTable extends Migration
     public function up()
     {
         Schema::create('point_of_sale_retailer_records', function (Blueprint $table) {
-            $table->integer('RecordId')->autoIncrement();
-            $table->integer('RetailerShopId');
-            $table->double('DailyRevenue');
+            $table->id();
+            $table->integer('retailer_id');
+            $table->double('daily_revenue');
             $table->timestamps();
+
+            $table->foreign('retailer_id')
+            ->references('id')
+            ->on('retailer_shops');
         });
     }
 

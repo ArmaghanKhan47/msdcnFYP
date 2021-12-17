@@ -8,9 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class AdminUser extends Authenticatable
 {
-
-    protected $primaryKey = 'AdminId';
-
+    use HasFactory;
+    
     protected $fillable = [
         'name',
         'email',
@@ -25,5 +24,4 @@ class AdminUser extends Authenticatable
         'updated_at'
     ];
 
-    use HasFactory;
 }

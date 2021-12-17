@@ -9,14 +9,12 @@ class SubscriptionHistoryRetailer extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'HistoryId';
-
     protected $fillable = [
-        'SubscriptionPackageId',
-        'RetailerId',
-        'startDate',
-        'TransactionId',
-        'PaymentMethod',
+        'subscription_package_id',
+        'retailer_id',
+        'start_date',
+        'transaction_id',
+        'payment_method',
     ];
 
     protected $hidden = [
@@ -25,16 +23,15 @@ class SubscriptionHistoryRetailer extends Model
     ];
 
     protected $appends = [
-        'endDate'
+        'end_date'
     ];
 
-    public function package()
-    {
-        return $this->belongsTo(SubscriptionPackage::class, 'SubscriptionPackageId');
+    public function package(){
+        return $this->belongsTo(SubscriptionPackage::class, 'subscription_package_id');
     }
 
     public function getEndDateAttribute()
     {
-        return date('Y-m-d', strtotime($this->startDate . "+".(string)$this->package->PackageDuration." months"));
+        return date('Y-m-d', strtotime($this->start_date . "+".(string)$this->package->duration." months"));
     }
 }

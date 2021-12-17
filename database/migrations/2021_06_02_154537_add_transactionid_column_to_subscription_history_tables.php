@@ -15,12 +15,12 @@ class AddTransactionidColumnToSubscriptionHistoryTables extends Migration
     {
         Schema::table('subscription_history_distributors', function (Blueprint $table) {
             //Adding Transaction Id Column to Subscription History Distributors Table
-            $table->bigInteger('TransactionId')->after('startDate');
+            $table->bigInteger('transaction_id')->after('start_date');
         });
 
         Schema::table('subscription_history_retailers', function (Blueprint $table) {
             //Adding Transaction Id Column to Subscription History Retailer Table
-            $table->bigInteger('TransactionId')->after('startDate');
+            $table->bigInteger('transaction_id')->after('start_date');
         });
     }
 
@@ -33,12 +33,12 @@ class AddTransactionidColumnToSubscriptionHistoryTables extends Migration
     {
         Schema::table('subscription_history_distributors', function (Blueprint $table) {
             //Removing Transaction Id Column from Subscription History Distributor Table
-            $table->dropColumn('TransactionId');
+            $table->dropColumn('transaction_id');
         });
 
         Schema::table('subscription_history_retailers', function (Blueprint $table) {
             //Removing Transaction Id Column from Subscription History Retailer Table
-            $table->dropColumn('TransactionId');
+            $table->dropColumn('transaction_id');
         });
     }
 }

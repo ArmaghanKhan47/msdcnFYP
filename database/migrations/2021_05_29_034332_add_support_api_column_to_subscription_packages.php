@@ -15,7 +15,7 @@ class AddSupportApiColumnToSubscriptionPackages extends Migration
     {
         Schema::table('subscription_packages', function (Blueprint $table) {
             //
-            $table->boolean('supportApi')->after('PackageDuration');
+            $table->boolean('support_api')->after('duration');
         });
     }
 
@@ -28,7 +28,7 @@ class AddSupportApiColumnToSubscriptionPackages extends Migration
     {
         Schema::table('subscription_packages', function (Blueprint $table) {
             //
-            $table->dropColumn('supportApi');
+            $table->dropColumn('support_api');
         });
     }
 }

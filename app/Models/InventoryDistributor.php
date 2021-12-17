@@ -9,24 +9,25 @@ class InventoryDistributor extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'InventoryId';
-
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 
     protected $fillable = [
-        'DistributorShopId',
-        'MedicineId',
-        'Quantity',
-        'UnitPrice'
+        'distributor_id',
+        'medicine_id',
+        'quantity',
+        'unit_price'
     ];
 
     public function medicine()
     {
-        return $this->belongsTo(Medicine::class, 'MedicineId');
+        return $this->belongsTo(Medicine::class, 'medicine_id');
     }
 
     public function distributor()
     {
-        return $this->belongsTo(DistributorShop::class, 'DistributorShopId');
+        return $this->belongsTo(DistributorShop::class, 'distributor_id');
     }
 }

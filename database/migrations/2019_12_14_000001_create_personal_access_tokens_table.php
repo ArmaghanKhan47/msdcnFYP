@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubscriptionPackagesTable extends Migration
+class CreatePersonalAccessTokensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateSubscriptionPackagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('subscription_packages', function (Blueprint $table) {
-            $table->id();
+        Schema::create('personal_access_tokens', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->morphs('tokenable');
             $table->string('name');
-            $table->double('price');
-            $table->integer('duration');
+            $table->string('token', 64)->unique();
+            $table->text('abilities')->nullable();
+            $table->timestamp('last_used_at')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class CreateSubscriptionPackagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subscription_packages');
+        Schema::dropIfExists('personal_access_tokens');
     }
 }

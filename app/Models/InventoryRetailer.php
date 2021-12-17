@@ -9,24 +9,25 @@ class InventoryRetailer extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'InventoryId';
-
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 
     protected $fillable = [
-        'RetailerShopId',
-        'MedicineId',
-        'Quantity',
-        'UnitPrice'
+        'retailer_id',
+        'medicine_id',
+        'quantity',
+        'unit_price'
     ];
 
     public function medicine()
     {
-        return $this->belongsTo(Medicine::class, 'MedicineId');
+        return $this->belongsTo(Medicine::class, 'medicine_id');
     }
 
     public function scopeLow($query)
     {
-        return $query->where('Quantity', '<=', '5');
+        return $query->where('quantity', '<=', '5');
     }
 }

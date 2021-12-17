@@ -9,33 +9,28 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'OrderId';
-
     protected $fillable = [
-        'RetailerId',
-        'DistributorId',
-        'OrderStatus',
-        'PaymentMethod',
-        'PayableAmount',
-        'PayedDate',
-        'OrderPlacingDate',
-        'OrderCompletionDate',
-        'deliveryAddress',
-        'TransactionId'
+        'retailer_id',
+        'distributor_id',
+        'order_status',
+        'payment_method',
+        'payable_amount',
+        'payed_date',
+        'order_placing_date',
+        'order_completion_date',
+        'delivery_address',
+        'transaction_id'
     ];
 
-    public function orderitems()
-    {
-        return $this->hasMany(OrderItem::class, 'OrderId');
+    public function orderitems(){
+        return $this->hasMany(OrderItem::class, 'order_id');
     }
 
-    public function distributor()
-    {
-        return $this->belongsTo(DistributorShop::class, 'DistributorId');
+    public function distributor(){
+        return $this->belongsTo(DistributorShop::class, 'distributor_id');
     }
 
-    public function retailer()
-    {
-        return $this->belongsTo(RetailerShop::class, 'RetailerId');
+    public function retailer(){
+        return $this->belongsTo(RetailerShop::class, 'retailer_id');
     }
 }

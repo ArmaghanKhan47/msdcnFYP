@@ -15,7 +15,7 @@ class AddAddressColumnToDistributorShopTable extends Migration
     {
         Schema::table('distributor_shops', function (Blueprint $table) {
             //
-            $table->string('shopAddress')->nullable();
+            $table->string('shop_address')->nullable();
         });
     }
 
@@ -28,7 +28,7 @@ class AddAddressColumnToDistributorShopTable extends Migration
     {
         Schema::table('distributor_shops', function (Blueprint $table) {
             //
-            $table->dropColumn('shopAddress');
+            $table->dropColumn('shop_address');
         });
     }
 }

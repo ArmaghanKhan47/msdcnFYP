@@ -15,7 +15,7 @@ class AddAddressColumnToOrdersTable extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             //
-            $table->string('deliveryAddress');
+            $table->string('delivery_address');
         });
     }
 
@@ -28,7 +28,7 @@ class AddAddressColumnToOrdersTable extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             //
-            $table->dropColumn('deliveryAddress');
+            $table->dropColumn('delivery_address');
         });
     }
 }

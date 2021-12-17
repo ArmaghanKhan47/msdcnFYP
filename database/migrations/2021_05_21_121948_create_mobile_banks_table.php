@@ -14,7 +14,7 @@ class CreateMobileBanksTable extends Migration
     public function up()
     {
         Schema::create('mobile_banks', function (Blueprint $table) {
-            $table->integer('id')->autoIncrement();
+            $table->id();
             $table->string('acount_provider');
             $table->string('qr_code');
             $table->timestamps();

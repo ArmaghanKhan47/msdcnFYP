@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateInventoryDistributorsTable extends Migration
 {
-    private $primaryKey = "InventoryId";
     /**
      * Run the migrations.
      *
@@ -15,15 +14,17 @@ class CreateInventoryDistributorsTable extends Migration
     public function up()
     {
         Schema::create('inventory_distributors', function (Blueprint $table) {
-            $table->integer('InventoryId')->autoIncrement();
-            $table->integer('DistributorShopId');
-            $table->integer('MedicineId');
-            $table->integer('Quantity');
-            $table->double('UnitPrice');
+            $table->id();
+            $table->integer('distributor_id');
+            $table->integer('medicine_id');
+            $table->integer('quantity');
+            $table->double('unit_price');
             $table->timestamps();
 
-            $table->foreign('DistributorShopId')->references('DistributorShopId')->on('distributor_shops');
-            $table->foreign('MedicineId')->references('MedicineId')->on('medicines');
+            $table->foreign('distributor_id')
+            ->references('id')
+            ->on('distributor_shops')
+            ->onDelete('cascade');
         });
     }
 
