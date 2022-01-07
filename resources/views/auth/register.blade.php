@@ -1,10 +1,10 @@
-@extends('layouts.app2')
+@extends('layouts.guest')
 
 @section('content')
-<div class="container overflow-show">
+<div class="container overflow-show py-1">
     <div class="row justify-content-center">
         <div class="col-xl-4">
-            <div class="jumbotron p-4" style="height: 100%">
+            <div class="border border-danger rounded p-4" style="height: 100%">
                 <span class="h1 d-block">Information</span>
                 <ul>
                     <li>Enter your <strong>Original Name</strong></li>
@@ -18,103 +18,157 @@
             </div>
         </div>
         <div class="col-xl-8">
-            <div class="jumbotron p-4" style="height: 100%">
+            <div class="p-5 border border-danger rounded" style="height: 100%">
                 <span class="h1 d-block">{{ __('Register') }}</span>
                 <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                     @csrf
-                    <div class="form-group row">
-                        <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+                    {{-- Name --}}
+                    <div class="form-group px-5 d-flex flex-column align-items-center justify-content-center py-1 my-1">
+                        <input
+                            id="name"
+                            type="text"
+                            class="form-control w-75 @error('name') is-invalid @enderror"
+                            name="name"
+                            value="{{ old('name') }}"
+                            required
+                            autocomplete="name"
+                            autofocus
+                            placeholder="Name"
+                        >
 
-                        <div class="col-md-6">
-                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                        @error('name')
+                            <span class="invalid-feedback w-75" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
 
-                            @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                    {{-- Email --}}
+                    <div class="form-group px-5 d-flex flex-column align-items-center justify-content-center py-1 my-1">
+                        <input
+                            id="email"
+                            type="email"
+                            class="form-control w-75 @error('email') is-invalid @enderror"
+                            name="email"
+                            value="{{ old('email') }}"
+                            required
+                            autocomplete="email"
+                            placeholder="Email"
+                        >
+
+                        @error('email')
+                            <span class="invalid-feedback w-75" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    {{-- Password --}}
+                    <div class="form-group px-5 d-flex flex-column align-items-center justify-content-center py-1 my-1">
+                        <input
+                            id="password"
+                            type="password"
+                            class="form-control w-75 @error('password') is-invalid @enderror"
+                            name="password"
+                            required
+                            autocomplete="new-password"
+                            placeholder="Password"
+                        >
+
+                        @error('password')
+                            <span class="invalid-feedback w-75" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    {{-- Confirm Password --}}
+                    <div class="form-group px-5 d-flex justify-content-center py-1 my-1">
+                        <input
+                            id="password-confirm"
+                            type="password"
+                            class="form-control w-75"
+                            name="password_confirmation"
+                            required
+                            autocomplete="new-password"
+                            placeholder="Confirm Password"
+                        >
+                    </div>
+
+                    {{-- User Role --}}
+                    <div class="form-group px-5 d-flex justify-content-center py-1 my-1">
+                        <select id="usertype" class="form-select w-75" name="usertype">
+                            <option disabled selected>Select User Role</option>
+                            <option value="Retailer">Retailer</option>
+                            <option value="Distributor">Distributor</option>
+                        </select>
+                    </div>
+
+                    {{-- Cnic Number --}}
+                    <div class="form-group px-5 d-flex justify-content-center py-1 my-1">
+                        <input
+                            type="text"
+                            pattern="[0-9]+"
+                            id="cnicnumber"
+                            name="cnicnumber"
+                            class="form-control w-75"
+                            required
+                            maxlength="13"
+                            minlength="13"
+                            autocomplete="false"
+                            placeholder="CNIC Number"
+                        >
+                    </div>
+
+                    {{-- Cnic Front Pic File` --}}
+                    <div class="form-group px-5 d-flex justify-content-center py-1 my-1">
+                        <div class="d-flex flex-column w-75">
+                            <label
+                                for="cnicfront"
+                                class="col-form-label text-md-right fw-bold"
+                            >
+                                {{ __('CNIC Front Pic') }}
+                            </label>
+
+                            <input
+                                type="file"
+                                id="cnicfront"
+                                name="cnicfrontpic"
+                                class="form-control @error('cnicfrontpic'){{'is-invalid'}}@enderror"
+                                required
+                                accept="image/jpeg, image/jpg, image/png, image/webp"
+                            >
+                            <label class="text-muted">Max image size:1.9 MB | Supported formats: jpeg,jpg,png,webp</label>
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                    {{-- Cnic Back Pic File --}}
+                    <div class="form-group px-5 d-flex justify-content-center py-1 my-1">
+                        <div class="d-flex flex-column w-75">
+                            <label
+                                for="cnicback"
+                                class="col-form-label text-md-right fw-bold"
+                            >
+                                {{ __('CNIC Back Pic') }}
+                            </label>
 
-                        <div class="col-md-6">
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                            @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                            <input
+                                type="file"
+                                id="cnicback"
+                                name="cnicbackpic"
+                                class="form-control @error('cnicfrontpic'){{'is-invalid'}}@enderror"
+                                required
+                                accept="image/jpeg, image/jpg, image/png, image/webp"
+                            >
+                            <label class="text-muted">Max image size:1.9 MB | Supported formats: jpeg,jpg,png,webp</label>
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                        <div class="col-md-6">
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                            @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                        <div class="col-md-6">
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('User Type') }}</label>
-
-                        <div class="col-md-6">
-                            <select id="usertype" class="form-select form-control" name="usertype">
-                                <option value="Retailer" selected>Retailer</option>
-                                <option value="Distributor">Distributor</option>
-                              </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="cnicnumber" class="col-md-4 col-form-label text-md-right">{{ __('CNIC Number') }}</label>
-
-                        <div class="col-md-6">
-                            <input type="text" pattern="[0-9]+" id="cnicnumber" name="cnicnumber" class="form-control" required maxlength="13" minlength="13" autocomplete="false">
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="cnicfront" class="col-md-4 col-form-label text-md-right">{{ __('CNIC Front Pic') }}</label>
-
-                        <div class="col-md-6">
-                            <input type="file" id="cnicfront" name="cnicfrontpic" class="form-control @error('cnicfrontpic'){{'is-invalid'}}@enderror" required>
-                            <label class="text-muted">Max image size:1.9 MB | Supported formats: jpeg,jpg,png</label>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="cnicback" class="col-md-4 col-form-label text-md-right">{{ __('CNIC Back Pic') }}</label>
-
-                        <div class="col-md-6">
-                            <input type="file" id="cnicback" name="cnicbackpic" class="form-control @error('cnicfrontpic'){{'is-invalid'}}@enderror" required>
-                            <label class="text-muted">Max image size:1.9 MB | Supported formats: jpeg,jpg,png</label>
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-0">
-                        <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-primary">
-                                {{ __('Register') }}
-                            </button>
-                        </div>
+                    {{-- Register Button --}}
+                    <div class="form-group px-5 d-flex justify-content-center py-1 my-1">
+                        <button type="submit" class="btn btn-primary w-75">
+                            {{ __('Register') }}
+                        </button>
                     </div>
                 </form>
             </div>

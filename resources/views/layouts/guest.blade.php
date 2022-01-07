@@ -23,18 +23,11 @@
     <!-- Bootstrap Icon CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 </head>
-<body style="overflow: hidden">
+<body>
+    @include('navbars.mainhorizontalbar')
     <div id="app" class="container-fluid h-100 pb-5 p-0 m-0">
-        @include('navbars.mainhorizontalbar')
-
-        <div class="row m-0 h-100 p-0">
-            <div class="col-md-12 m-0 p-0 h-100">
-                <div class="container-fluid overflow-auto p-1 m-0 h-100">
-                    @include('inc.message')
-                    @yield('content')
-                </div>
-            </div>
-        </div>
+            @include('inc.message')
+            @yield('content')
     </div>
 </body>
 </html>
