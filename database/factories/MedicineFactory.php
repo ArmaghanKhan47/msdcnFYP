@@ -21,12 +21,12 @@ class MedicineFactory extends Factory
     public function definition()
     {
         return [
-            "MedicineName" => $this->faker->name,
-            "MedicineFormula" => json_encode([$this->faker->name, $this->faker->name]),
-            "MedicineCompany" => $this->faker->name,
-            "MedicineType" => $this->faker->randomElement(["Tablets", "Drips", "Syrup", "Vial"]),
-            "MedicinePic" => $this->faker->image,
-            "MedicineDiscription" => $this->faker->paragraph()
+            "name" => $this->faker->name,
+            "formula" => json_encode([$this->faker->name, $this->faker->name]),
+            "company" => $this->faker->company(),
+            "type" => $this->faker->randomElement(["Tablets", "Drips", "Syrup", "Vial"]),
+            "pic" => $this->faker->image,
+            "discription" => $this->faker->paragraph()
         ];
     }
 }

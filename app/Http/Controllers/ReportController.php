@@ -14,7 +14,7 @@ class ReportController extends Controller
     {
         //Get POS data of Retailer to display on Home
         //On Daily Bases
-        $sales = null;
+        $sales = [];
 
         switch(Auth::user()->UserType)
         {
@@ -42,7 +42,7 @@ class ReportController extends Controller
                 break;
         }
 
-        return view('testingViews.reports', compact('sales'));
+        return view('partials.reports', compact('sales'));
     }
 
     public function reportsByDaily()

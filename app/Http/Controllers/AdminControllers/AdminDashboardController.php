@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\AdminControllers;
 
+use App\Enums\AccountStatus;
 use App\Models\PointOfSaleRetailerRecord;
 use App\Models\RetailerShop;
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Models\Distributor;
 use App\Models\DistributorShop;
 use App\Models\Medicine;
+use App\Models\Retailer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,17 +36,16 @@ class AdminDashboardController extends Controller
     public function index()
     {
         //Total Registered Retailers
-        $retailers = User::select('id', 'AccountStatus', 'UserType')
-        ->where('AccountStatus','Active')
-        ->where('UserType','Retailer')
-        ->get()->count();
+        $data['retailers'] = User::hasMorph('userable', [Retailer::class])
+        ->where('account_status', AccountStatus::$ACTIVE)
+        ->count();
         //Total Registered Distributors
-        $distributors = User::select('id', 'AccountStatus', 'UserType')
-        ->where('AccountStatus','Active')
-        ->where('UserType','Distributor')
-        ->get()->count();
+
+        $data['distributors'] = User::hasMorph('userable', [Distributor::class])
+        ->where('account_status', AccountStatus::$ACTIVE)
+        ->count();
         //Total Medicines
-        $medicines = Medicine::get()->count();
-        return view('admin.main.home', compact('retailers', 'distributors', 'medicines'));
+        $data['medicines'] = Medicine::count();
+        return view('admin.main.home', $data);
     }
 }

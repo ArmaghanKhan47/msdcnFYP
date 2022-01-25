@@ -15,13 +15,9 @@ class CreatePointOfSaleRetailerRecordsTable extends Migration
     {
         Schema::create('point_of_sale_retailer_records', function (Blueprint $table) {
             $table->id();
-            $table->integer('retailer_id');
+            $table->unsignedBigInteger('retailer_id');
             $table->double('daily_revenue');
             $table->timestamps();
-
-            $table->foreign('retailer_id')
-            ->references('id')
-            ->on('retailer_shops');
         });
     }
 

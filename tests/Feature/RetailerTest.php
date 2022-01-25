@@ -14,18 +14,14 @@ class RetailerTest extends TestCase
      *
      * @return void
      */
-    public function testRetailerGetLogin()
-    {
-        $response = $this->get('/login');
-        $response->assertStatus(200);
-    }
-
-    public function testRetailerGetDasboard()
-    {
+    public function test_retailer_dasboard_active(){
         //Retailer access Dashboard when authenticated
-        $user = User::find(1);
-        $response = $this->actingAs($user)->get('/home');
-        $response->assertOk();
+        $user = User::factory()->retailer()->active()->create();
+        $response = $this->actingAs($user, 'web')
+        ->get(route('home'));
+        $response->assertOk()
+        ->assertViewIs('home');
+        $this->assertAuthenticatedAs($user);
     }
 
     public function testRetailerGetNotifications()

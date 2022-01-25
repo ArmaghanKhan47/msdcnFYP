@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\QrCodeEvent;
-use App\Models\RetailerShop;
-use App\Models\DistributorShop;
+use App\Enums\Regions;
+use App\Models\Distributor;
+use App\Models\Retailer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,8 +18,8 @@ class ShopRegistrationController extends Controller
      */
     public function index()
     {
-        $data = Auth::user()->UserType;
-        return view('registration.shopRegistration')->with('type', $data);
+        $data['regions'] = Regions::list();
+        return view('registration.shop', $data);
     }
 
     /**
@@ -42,49 +42,46 @@ class ShopRegistrationController extends Controller
     {
 
         $this->validate($request, [
-            'shopname' => 'required|string',
-            'region' => 'required|string',
-            'liscenceno' => 'required|string',
+            'shopname' => 'required|string|max:191',
+            'region' => ['required', 'numeric', 'min:0', 'max:' . (Regions::length() - 1)],
+            'role' => 'required|numeric|min:0|max:1',
+            'liscenceno' => 'required|string|max:191',
             'contactnumber' => 'required|string|min:11|max:11',
-            'lispic' => 'required|image|mimes:jpg,png,jpeg|max:1999',
-            'mobilebankaccountprovider' => 'numeric|min:0|max:1',
-            'qrcode' => 'image|mimes:jpg,png,jpeg|max:1999'
+            'lispic' => 'required|image|mimes:jpg,png,jpeg,webp|max:1999',
         ]);
 
-        $filename = 'liscence_pic_' . str_replace(" ", "_", $request->input('shopname')) . '_' . Auth::user()->UserType . "_" . $request->input('region') . "_" . time(). '.' . $request->file('lispic')->getClientOriginalExtension();
+        $file_name = 'liscence_pic_' . str_replace(" ", "_", $request->input('shopname')) . '_' . $request->role . "_" . $request->input('region') . "_" . time(). '.' . $request->file('lispic')->getClientOriginalExtension();
 
-        if ($request->hasFile('qrcode'))
+        switch($request->role)
         {
-            $user = User::find(Auth::id());
-            event(new QrCodeEvent($request->file('qrcode'), $user, [$request->input('mobilebankaccountprovider'), $request->input('shopname'), $request->input('region')]));
-        }
+            case 0:
+                // Retailer
+                $request->file('lispic')->storePubliclyAs('public/retailer/liscence', $file_name);
 
-        switch(Auth::user()->UserType)
-        {
-            case 'Retailer':
-                $request->file('lispic')->storePubliclyAs('public/retailer/liscence', $filename);
-                //If user is Retailer
-                RetailerShop::create([
-                    'RetailerShopName' => $request->input('shopname'),
-                    'LiscenceNo' => $request->input('liscenceno'),
-                    'ContactNumber' => $request->input('contactnumber'),
-                    'Region' => $request->input('region'),
-                    'LiscenceFrontPic' => $filename,
-                    'UserId' => Auth::id(),
+                $retailer = Retailer::create([
+                    'shop_name' => $request->shopname,
+                    'liscence_no' => $request->liscenceno,
+                    'region' => Regions::list()[$request->region],
+                    'contact_no' => $request->contactnumber,
+                    'liscence_front_pic' => $file_name
                 ]);
+
+                $retailer->user()->save(Auth::user());
                 break;
 
-            case 'Distributor':
-                $request->file('lispic')->storePubliclyAs('public/distributor/liscence', $filename);
-                //If user is Distributor
-                DistributorShop::create([
-                    'DistributorShopName' => $request->input('shopname'),
-                    'LiscenceNo' => $request->input('liscenceno'),
-                    'ContactNumber' => $request->input('contactnumber'),
-                    'Region' => $request->input('region'),
-                    'LiscenceFrontPic' => $filename,
-                    'UserId' => Auth::id()
+            case 1:
+                // Distributor
+                $request->file('lispic')->storePubliclyAs('public/distributor/liscence', $file_name);
+
+                $distributor = Distributor::create([
+                    'shop_name' => $request->shopname,
+                    'liscence_no' => $request->liscenceno,
+                    'region' => Regions::list()[$request->region],
+                    'contact_no' => $request->contactnumber,
+                    'liscence_front_pic' => $file_name
                 ]);
+
+                $distributor->user()->save(Auth::user());
                 break;
         }
 

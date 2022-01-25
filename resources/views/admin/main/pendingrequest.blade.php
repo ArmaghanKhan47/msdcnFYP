@@ -1,19 +1,22 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="jumbotron p-3">
-        <span class="h1 d-block">Pending Requests</span>
+<div class="container overflow-show py-1 p-0">
+    <div class="border border-secondary p-3 rounded my-2">
+        <span class="h1 d-block m-0">Pending Requests</span>
     </div>
 
-    @include('svgarts.empty', ['count' => !count($pendings)])
+    @if ($pendings->isEmpty())
+        @include('svgarts.empty')
+    @endif
 
     <div class="container p-0">
         @foreach ($pendings as $pending)
-            <div class="jumbotron p-3 mb-1">
-                <div class="row">
+            <div class="border border-secondary rounded p-3 my-1">
+                <div class="row text-center">
                     <div class="col-md-2">
-                        <span class="h5 d-block">{{$pending->id}}</span>
-                        <span class="h6 d-block text-muted">User Id</span>
+                        <span class="fs-5 d-block">{{$pending->id}}</span>
+                        <span class="fs-6 d-block text-muted">User Id</span>
                     </div>
                     <div class="col-md-2">
                         <span class="h5 d-block">{{$pending->name}}</span>
@@ -24,11 +27,17 @@
                         <span class="h6 d-block text-muted">User Email</span>
                     </div>
                     <div class="col-md-2">
-                        <span class="h5 d-block">{{$pending->AccountStatus}}</span>
+                        <span class="h5 d-block">
+                            @if ($pending->account_status === App\Enums\AccountStatus::$PENDING)
+                            <span class="badge bg-info text-dark">
+                                {{$pending->account_status}}
+                            </span>
+                            @endif
+                        </span>
                         <span class="h6 d-block text-muted">Status</span>
                     </div>
                     <div class="col-md-2">
-                        <span class="h5 d-block">{{$pending->created_at}}</span>
+                        <span class="h5 d-block">{{date('d/m/Y', strtotime($pending->created_at))}}</span>
                         <span class="h6 d-block text-muted">Account Created</span>
                     </div>
                     <div class="col-md-1">
@@ -79,24 +88,26 @@
                                     </form>
                             </div>
                         </div>
-                </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-12">
-                        <button class="btn btn-secondary btn-block" id="detailbtn-{{$pending->id}}">Show Details</button>
                     </div>
                 </div>
-                <div class="row mt-2 d-none" id="list-{{$pending->id}}">
+                <div class="row mt-2 d-flex justify-content-center">
+                    <div class="col-md-8">
+                        <button class="btn btn-secondary w-100 detail-btn-toggle" id="detailbtn-{{$pending->id}}">
+                            <i class="bi fs-4 m-0 p-0 bi-chevron-compact-down"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row mt-2 d-none list-toggle" id="list-{{$pending->id}}">
                     <div class="col-md-6">
                         <div class="jumbotron p-2 text-center">
                             <span class="h5 mb-1">Cnic Front Picture</span>
-                            <img class="d-block m-auto rounded" src="{{asset('storage/cnic/front/' . $pending->CnicFrontPic)}}" alt="No Image Found" height="200px" width="400px">
+                            <img class="d-block m-auto rounded" src="{{ asset('storage/cnic/front/' . $pending->cnic_front_pic) }}" alt="No Image Found" height="200px" width="400px">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="jumbotron p-2 text-center">
                             <span class="h5 mb-1">Liscence Picture</span>
-                            <img class="d-block m-auto rounded" src="@if($pending->UserType == 'Retailer'){{asset('storage/retailer/liscence/' . $pending->retailershop->LiscenceFrontPic)}}@elseif($pending->UserType == 'Distributor'){{asset('storage/distributor/liscence/' . $pending->distributorshop->LiscenceFrontPic)}}@endif" alt="No Image Found" height="200px" width="400px">
+                            <img class="d-block m-auto rounded" src="{{ asset('storage/liscence/' . $pending->userable->liscence_front_pic) }}" alt="No Image Found" height="200px" width="400px">
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -105,97 +116,31 @@
                         <hr class="divider">
                         <span class="d-block">
                             <span class="h4">Cnic#</span>
-                            <span class="h5 float-right">{{$pending->CnicCardNumber}}</span>
+                            <span class="h5 float-right">{{$pending->cnic_card_no}}</span>
                             <hr class="divider">
                         </span>
-                        @if ($pending->UserType == 'Retailer')
-                            <span class="d-block">
-                                <span class="h4">Liscence#</span>
-                                <span class="h5 float-right">{{$pending->retailershop->LiscenceNo}}</span>
-                                <hr class="divider">
-                            </span>
-
-                            <span class="d-block">
-                                <span class="h4">Shop Name: </span>
-                                <span class="h5 float-right">{{$pending->retailershop->RetailerShopName}}</span>
-                                <hr class="divider">
-                            </span>
-
-                            <span class="d-block">
-                                <span class="h4">Shop Address: </span>
-                                <span class="h5 float-right">{{$pending->retailershop->shopAddress}}</span>
-                                <hr class="divider">
-                            </span>
-
-                            <span class="d-block">
-                                <span class="h4">Contact# </span>
-                                <span class="h5 float-right">{{$pending->retailershop->ContactNumber}}</span>
-                            </span>
-
-                            <span class="h3 d-block text-center">Subscription Details</span>
+                        <span class="d-block">
+                            <span class="h4">Liscence#</span>
+                            <span class="h5 float-right">{{$pending->userable->liscence_no}}</span>
                             <hr class="divider">
+                        </span>
 
-                            <span class="d-block">
-                                <span class="h4">Subscribed Package </span>
-                                <span class="h5 float-right">{{$pending->retailershop->subscription->package->PackageName}}</span>
-                                <hr class="divider">
-                            </span>
-
-                            <span class="d-block">
-                                <span class="h4">Transaction Id# </span>
-                                <span class="h5 float-right">{{$pending->retailershop->subscription->TransactionId}}</span>
-                                <hr class="divider">
-                            </span>
-
-                            <span class="d-block">
-                                <span class="h4">Payment Method </span>
-                                <span class="h5 float-right">{{$pending->retailershop->subscription->PaymentMethod}}</span>
-                            </span>
-                        @elseif($pending->UserType == 'Distributor')
-                            <span class="d-block">
-                                <span class="h4">Liscence#</span>
-                                <span class="h5 float-right">{{$pending->distributorshop->LiscenceNo}}</span>
-                                <hr class="divider">
-                            </span>
-
-                            <span class="d-block">
-                                <span class="h4">Shop Name: </span>
-                                <span class="h5 float-right">{{$pending->distributorshop->DistributorShopName}}</span>
-                                <hr class="divider">
-                            </span>
-
-                            <span class="d-block">
-                                <span class="h4">Shop Address: </span>
-                                <span class="h5 float-right">{{$pending->distributorshop->shopAddress}}</span>
-                                <hr class="divider">
-                            </span>
-
-                            <span class="d-block">
-                                <span class="h4">Contact# </span>
-                                <span class="h5 float-right">{{$pending->distributorshop->ContactNumber}}</span>
-                                <hr class="divider">
-                            </span>
-
-                            <span class="h3 d-block text-center">Subscription Details</span>
+                        <span class="d-block">
+                            <span class="h4">Shop Name: </span>
+                            <span class="h5 float-right">{{$pending->userable->shop_name}}</span>
                             <hr class="divider">
+                        </span>
 
-                            <span class="d-block">
-                                <span class="h4">Subscribed Package </span>
-                                <span class="h5 float-right">{{$pending->distributorshop->subscription->package->PackageName}}</span>
-                                <hr class="divider">
-                            </span>
+                        <span class="d-block">
+                            <span class="h4">Shop Address: </span>
+                            <span class="h5 float-right">{{$pending->userable->shop_address}}</span>
+                            <hr class="divider">
+                        </span>
 
-                            <span class="d-block">
-                                <span class="h4">Transaction Id# </span>
-                                <span class="h5 float-right">{{$pending->distributorshop->subscription->TransactionId}}</span>
-                                <hr class="divider">
-                            </span>
-
-                            <span class="d-block">
-                                <span class="h4">Payment Method </span>
-                                <span class="h5 float-right">{{$pending->distributorshop->subscription->PaymentMethod}}</span>
-                            </span>
-                        @endif
+                        <span class="d-block">
+                            <span class="h4">Contact# </span>
+                            <span class="h5 float-right">{{$pending->userable->contact_no}}</span>
+                        </span>
                     </div>
                 </div>
                 <script>
@@ -221,5 +166,7 @@
             </div>
         @endforeach
     </div>
+</div>
+
 
 @endsection

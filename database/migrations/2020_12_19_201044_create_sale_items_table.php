@@ -15,19 +15,11 @@ class CreateSaleItemsTable extends Migration
     {
         Schema::create('sale_items', function (Blueprint $table) {
             $table->id();
-            $table->integer('sale_id');
-            $table->integer('medicine_id');
+            $table->unsignedBigInteger('sale_id');
+            $table->unsignedBigInteger('medicine_id');
             $table->integer('quantity');
             $table->double('sub_total');
             $table->timestamps();
-
-            $table->foreign('sale_id')
-            ->references('id')
-            ->on('sales');
-
-            $table->foreign('medicine_id')
-            ->references('id')
-            ->on('medicines');
         });
     }
 

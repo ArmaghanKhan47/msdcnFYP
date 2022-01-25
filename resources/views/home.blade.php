@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="jumbotron p-3">
-    <span class="h1 d-block">@user('Retailer'){{__('Retailer')}}@elseuser('Distributor'){{__('Distributor')}}@enduser Dashboard</span>
+    <span class="h1 d-block">{{__(ucwords(Auth::user()->type))}} Dashboard</span>
 </div>
 <div class="jumbotron p-3 mb-1">
     <span class="h2 d-block">Sales Graph</span>

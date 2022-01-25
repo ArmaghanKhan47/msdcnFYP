@@ -13,10 +13,12 @@
     </div>
 </div>
 
-@include('svgarts.empty', ['count' => !count($info->inventories)])
+@if($user->userable->inventories->count() === 0)
+@include('svgarts.empty')
+@endif
 
 <div class="container-fluid p-0 m-0">
-        @foreach ($info->inventories as $row)
+        @foreach ($user->userable->inventories as $row)
             <div class="jumbotron p-2 mb-1">
                 <div class="row p-1">
                     <div class="col-md-2">

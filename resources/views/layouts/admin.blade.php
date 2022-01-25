@@ -19,9 +19,6 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <!-- Bootstrap Icon CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-
     {{-- Chart.js CDN --}}
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script> --}}
 </head>
@@ -34,9 +31,10 @@
                     {{-- If user is admin --}}
                     <a href="{{route('admin.dashboard')}}" class="list-group-item list-group-item-action bg-dark text-white">Dashboard</a>
                     <a href="{{route('admin.pending.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Pending Requests @if(session('pendingcount') > 0)<span class="badge badge-success">{{session('pendingcount')}}</span>@endif</a>
+                    <a href="{{route('admin.registered-users.index', ['type' => 'retailers'])}}" class="list-group-item list-group-item-action bg-dark text-white">Retailers</a>
+                    <a href="{{route('admin.registered-users.index', ['type' => 'distributors'])}}" class="list-group-item list-group-item-action bg-dark text-white">Distributors</a>
                     <a href="{{route('admin.feedback.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Feedbacks @if(session('feedbackcount') > 0)<span class="badge badge-success">{{session('feedbackcount')}}</span>@endif</a>
                     <a href="{{route('admin.medicine.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Medicine</a>
-                    <a href="{{route('admin.subscription.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Subscription Packages</a>
                     <a href="{{route('admin.settings.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Settings</a>
                   {{-- end --}}
                 </div>

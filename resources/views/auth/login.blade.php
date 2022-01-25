@@ -17,7 +17,7 @@
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
                             {{-- Email --}}
-                            <div class="form-group px-5 py-1 my-1">
+                            <div class="form-group px-5 py-1 my-1 d-flex flex-column align-items-center justify-content-center">
                                 <input
                                     id="email"
                                     type="email"
@@ -38,7 +38,7 @@
                             </div>
 
                             {{-- Password --}}
-                            <div class="form-group px-5 py-1 my-1">
+                            <div class="form-group px-5 py-1 my-1 d-flex flex-column align-items-center justify-content-center">
                                 <input
                                     id="password"
                                     type="password"

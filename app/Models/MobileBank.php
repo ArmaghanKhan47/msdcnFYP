@@ -11,6 +11,11 @@ class MobileBank extends Model
 
     protected $fillable = [
         'acount_provider',
-        'qr_code'
+        'qr_code',
+        'user_id'
     ];
+
+    public function owner(){
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

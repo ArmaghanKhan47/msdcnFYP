@@ -3,9 +3,8 @@
 use App\Http\Controllers\AdminAuth\LoginController;;
 use App\Http\Controllers\AdminControllers\AdminDashboardController;
 use App\Http\Controllers\AdminControllers\AdminSettingController;
+use App\Http\Controllers\AdminControllers\RegisteredUsersController;
 use App\Http\Controllers\AdminControllers\RequestController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\InventoryController;
@@ -15,11 +14,10 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RequestController as FeedbackController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ShopRegistrationController;
-use App\Http\Controllers\SubscriptionController;
-use App\Http\Controllers\SubscriptionHistoryController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,19 +32,16 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+Route::get('/test-components', TestController::class);
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 Auth::routes();
 
-Route::group(['middleware' => ['auth', 'subcheck', 'noticount']], function () {
-
+Route::group(['middleware' => ['auth', 'regcheck', 'noticount']], function () {
     //Retailer Specific Routes Start
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::put('/cart', [CartController::class, 'store']);
-    Route::delete('/cart/{itemid}', [CartController::class, 'destroy'])->whereNumber('itemid')->name('cart.remove');
-
     Route::post('/inventory/search/retailer', [InventorySearchController::class, 'retailerInventorySearch'])->name('inventory.search.retailer');
 
     Route::get('/onlineorder', [OrderController::class, 'index'])->name('order.index');
@@ -88,16 +83,12 @@ Route::group(['middleware' => ['auth', 'subcheck', 'noticount']], function () {
     Route::resource('/request', FeedbackController::class)->except(['index', 'edit', 'destroy', 'update']);
     Route::put('/request/{id}', [FeedbackController::class, 'updateUser'])->name('request.update');
 
-    Route::resource('/shopregistration', ShopRegistrationController::class);
-    Route::resource('/subscription', SubscriptionController::class)->withoutMiddleware('subcheck')->middleware('subselect');
-    Route::get('/subscriptionhistory', [SubscriptionHistoryController::class, 'index'])->withoutMiddleware('subcheck')->name('subscriptionhistory.index');
-    Route::get('/settings', [SettingController::class, 'index'])->withoutMiddleware('subcheck')->name('settings.index');
+    Route::resource('/shop-registration', ShopRegistrationController::class)->only(['index', 'store'])->withoutMiddleware('regcheck');
+    Route::get('/settings', [SettingController::class, 'index'])->withoutMiddleware('regcheck')->name('settings.index');
     Route::post('/settings/api/token/regenerate', [SettingController::class, 'regenerateApiToken'])->name('api.token.regenerate');
     Route::post('/settings/shopaddress', [SettingController::class, 'updateShopAddress'])->name('setting.shopaddress');
-    Route::post('/settings/reapplied', [SettingController::class, 'reapply'])->withoutMiddleware('subcheck')->name('settings.reapply');
+    Route::post('/settings/reapplied', [SettingController::class, 'reapply'])->name('settings.reapply');
     Route::post('/settings/changepassword', [SettingController::class, 'changePassword'])->name('settings.changepassword');
-    Route::post('/settings/creditcard', [CreditCardController::class, 'update'])->name('settings.creditcard');
-    Route::delete('/settings/creditcard', [CreditCardController::class, 'destroy']);
     Route::post('/settings/contactnumber', [SettingController::class, 'updateContactNumber'])->name('setting.contactnumber');
     //Common Routes End
 });
@@ -117,13 +108,7 @@ Route::prefix('/admin')->name('admin.')->group(function () {
         Route::put('/medicine/edit/{id}', [MedicineController::class, 'update']);
         Route::delete('/medicine/delete/{id}', [MedicineController::class, 'destroy'])->name('medicine.delete');
 
-        Route::get('/subscriptions', [SubscriptionController::class, 'adminindex'])->name('subscription.index');
-        Route::get('/subscriptions/create', [SubscriptionController::class, 'create'])->name('subscription.create');
-        Route::post('/subscriptions/create', [SubscriptionController::class, 'store']);
-        Route::get('/subscriptions/edit/{id}', [SubscriptionController::class, 'edit'])->name('subscription.edit');
-        Route::post('/subscriptions/edit/{id}', [SubscriptionController::class, 'adminUpdate']);
-
-        Route::get('/pendingrequests', [RequestController::class, 'index'])->name('pending.index');
+        Route::get('/pending-requests', [RequestController::class, 'index'])->name('pending.index');
         Route::get('/feedbacks', [FeedbackController::class, 'index'])->name('feedback.index');
         Route::get('/feedback/{id}', [FeedbackController::class, 'show'])->name('feedback.show');
         Route::put('/feedback/{id}', [FeedbackController::class, 'update'])->name('feedback.update');
@@ -133,6 +118,8 @@ Route::prefix('/admin')->name('admin.')->group(function () {
         Route::get('/settings', [AdminSettingController::class, 'index'])->name('settings.index');
         Route::post('/settings/changepassword', [AdminSettingController::class, 'updatePassword'])->name('settings.changepassword');
         Route::post('/settings/mobileaccount', [AdminSettingController::class, 'saveMobileAccountSettings'])->name('settings.mobileaccountsave');
+
+        Route::resource('registered-users', RegisteredUsersController::class);
     });
 });
 

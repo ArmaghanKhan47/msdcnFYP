@@ -31,18 +31,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // $userData = User::with('retailershop')->find(Auth::id());
-        $data = $this->getUserData();
+        $user = User::with('userable')->find(Auth::id());
 
-        $shop = $this->getUserShop($data);
-        if($shop != null)
-        {
+        $shop = $this->isShopRegistered($user);
+        if($shop != null){
             return $shop;
         }
 
         // $this->getSubscription($data);
 
-        $sales = null;
+        $sales = [];
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
@@ -68,85 +66,19 @@ class HomeController extends Controller
                 }])->where('UserId', Auth::id())->first()->orders;
                 break;
         }
-        return view('home', compact('data', 'sales'));
+        return view('home', compact('user', 'sales'));
     }
 
-    private function getUserData()
-    {
-        //Return User Data
-        switch(Auth::user()->UserType)
-        {
-            case 'Retailer':
-                $userData = User::with('retailershop', 'retailershop.subscriptions')
-                ->find(Auth::id());
-                return $userData;
-                break;
-
-            case 'Distributor':
-                $userData = User::with('distributorshop', 'distributorshop.subscriptions')
-                ->find(Auth::id());
-                return $userData;
-                break;
-
-            default:
-                return null;
-        }
-    }
-
-    private function getUserShop($userData)
+    private function isShopRegistered($userData)
     {
         //Check that shop exist or note
         //Meaning Registration is incomplete
-        switch(Auth::user()->UserType)
+        if ($userData->userable == null)
         {
-            case 'Retailer':
-                if ($userData->retailershop == null)
-                {
-                    return redirect(route('shopregistration.index'))
-                    ->with('error', 'Please complete registration process, in order to continue');
-                }
-                return null;
-                break;
-
-            case 'Distributor':
-                if ($userData->distributorshop == null)
-                {
-                    return redirect(route('shopregistration.index'))
-                    ->with('error', 'Please complete registration process, in order to continue');
-                }
-                return null;
-                break;
-
-            // default:
-            //     return null;
-            //     break;
+            return redirect(route('shopregistration.index'))
+            ->with('error', 'Please complete registration process, in order to continue');
         }
-    }
+        return null;
 
-    private function getSubscription($userData)
-    {
-        //Checks that user has 1st subscription or not
-        switch(Auth::user()->UserType)
-        {
-            case 'Retailer':
-                if ($userData->retailershop->subscriptions->count() == 0)
-                {
-                    //Not subscribed any offer
-                    // session(['error' => 'You Haven\'t Subscribed yet! <a href="/subscription" class="link-danger">Click Here</a>']);
-                    // Session::flash('error', 'You Haven\'t Subscribed yet! <a href="/subscription" class="link-danger">Click Here</a>');
-                    session()->now('error', 'You Haven\'t Subscribed yet! <a href="/subscription" class="link-danger">Click Here</a>');
-                }
-                break;
-
-            case 'Distributor':
-                if ($userData->distributorshop->subscriptions->count() == 0)
-                    {
-                        //Not subscribed any offer
-                        // session(['error' => 'You Haven\'t Subscribed yet! <a href="/subscription" class="link-danger">Click Here</a>']);
-                        // Session::flash('error', 'You Haven\'t Subscribed yet! <a href="/subscription" class="link-danger">Click Here</a>');
-                        session()->now('error', 'You Haven\'t Subscribed yet! <a href="/subscription" class="link-danger">Click Here</a>');
-                    }
-                break;
-        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\AccountStatus;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
@@ -56,10 +57,9 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'usertype' => 'required|string',
             'cnicnumber' => 'required|string|min:13|max:13',
-            'cnicfrontpic' => 'required|image|mimes:jpeg,png,jpg|max:1999',
-            'cnicbackpic' => 'required|image|mimes:jpeg,png,jpg|max:1999'
+            'cnicfrontpic' => 'required|image|mimes:jpeg,png,jpg,webp|max:1999',
+            'cnicbackpic' => 'required|image|mimes:jpeg,png,jpg,webp|max:1999'
         ]);
     }
 
@@ -73,8 +73,8 @@ class RegisterController extends Controller
     {
 
         //Storing Pictures
-        $cnicfrontfilename = 'cnic_front_' . str_replace(" ", "_", $data['name']) . '_' . $data['usertype'] . '_' . time() . '.' . $data['cnicfrontpic']->getClientOriginalExtension();
-        $cnicbackfilename = 'cnic_back_' . str_replace(" ", "_", $data['name']) . '_' . $data['usertype'] . '_' . time() . '.' . $data['cnicbackpic']->getClientOriginalExtension();
+        $cnicfrontfilename = 'cnic_front_' . str_replace(" ", "_", $data['name']) . '_' . time() . '.' . $data['cnicfrontpic']->getClientOriginalExtension();
+        $cnicbackfilename = 'cnic_back_' . str_replace(" ", "_", $data['name'])  . '_' . time() . '.' . $data['cnicbackpic']->getClientOriginalExtension();
         $data['cnicfrontpic']->storePubliclyAs('public/cnic/front', $cnicfrontfilename);
         $data['cnicbackpic']->storePubliclyAs('public/cnic/back', $cnicbackfilename);
 
@@ -82,11 +82,10 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'UserType' => $data['usertype'],
-            'AccountStatus' => 'PENDING',
-            'CnicCardNumber' => $data['cnicnumber'],
-            'CnicFrontPic' => $cnicfrontfilename,
-            'CnicBackPic' => $cnicbackfilename,
+            'account_status' => AccountStatus::$PENDING,
+            'cnic_card_no' => $data['cnicnumber'],
+            'cnic_front_pic' => $cnicfrontfilename,
+            'cnic_back_pic' => $cnicbackfilename,
         ]);
     }
 

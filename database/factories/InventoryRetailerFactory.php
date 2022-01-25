@@ -21,24 +21,7 @@ class InventoryRetailerFactory extends Factory
      */
     public function definition()
     {
-        $data = \App\Models\RetailerShop::select('RetailerShopId')->get()->toArray();
-        $retailersid = array();
-        foreach($data as $item)
-        {
-            array_push($retailersid, array_values($item)[0]);
-        }
-
-        $data = \App\Models\Medicine::select('MedicineId')->get()->toArray();
-        $medicinesid = array();
-        foreach($data as $item)
-        {
-            array_push($medicinesid, array_values($item)[0]);
-        }
         return [
-            'RetailerShopId' => $this->faker->randomElement($retailersid),
-            'MedicineId' => $this->faker->randomElement($medicinesid),
-            'Quantity' => $this->faker->randomNumber(3),
-            'UnitPrice' => $this->faker->randomFloat(2, 10, 1000)
         ];
     }
 }

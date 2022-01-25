@@ -24,7 +24,6 @@
                         @user('Retailer')
                             <li class="nav-item"><a href="/order/history" class="nav-link">Order History</a></li>
                         @enduser
-                        <li class="nav-item"><a href="/subscriptionhistory" class="nav-link">Subscription History</a></li>
                         <li class="nav-item"><a href="{{route('notification.index')}}" class="nav-link">Notifications @if(session('notificationscount') > 0)<span class="badge badge-success">{{session('notificationscount')}}</span>@endif</a></li>
                         <li class="nav-item"><a href="/settings" class="nav-link">Settings</a></li>
                     @endauth
@@ -32,7 +31,7 @@
             @endauth
 
             <!-- Right Side Of Navbar -->
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ms-auto">
                 <!-- Authentication Links -->
                 @guest
                     @if (Route::has('login'))
@@ -48,7 +47,7 @@
                     @endif
                 @else
                     <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }}
                         </a>
 

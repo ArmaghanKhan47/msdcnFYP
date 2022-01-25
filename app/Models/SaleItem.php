@@ -15,4 +15,8 @@ class SaleItem extends Model
         'quantity',
         'sub_total'
     ];
+
+    public function sale(){
+        return $this->belongsTo(Sales::class, 'sale_id');
+    }
 }

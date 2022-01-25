@@ -95,15 +95,6 @@
                         >
                     </div>
 
-                    {{-- User Role --}}
-                    <div class="form-group px-5 d-flex justify-content-center py-1 my-1">
-                        <select id="usertype" class="form-select w-75" name="usertype">
-                            <option disabled selected>Select User Role</option>
-                            <option value="Retailer">Retailer</option>
-                            <option value="Distributor">Distributor</option>
-                        </select>
-                    </div>
-
                     {{-- Cnic Number --}}
                     <div class="form-group px-5 d-flex justify-content-center py-1 my-1">
                         <input

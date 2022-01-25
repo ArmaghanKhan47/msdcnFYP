@@ -15,15 +15,11 @@ class CreateSalesTable extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->integer('point_of_sale_id');
+            $table->unsignedBigInteger('point_of_sale_id');
             $table->double('total');
             $table->double('discount');
             $table->double('payed');
             $table->timestamps();
-
-            $table->foreign('point_of_sale_id')
-            ->references('id')
-            ->on('point_of_sale_retailer_records');
         });
     }
 

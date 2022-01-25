@@ -15,23 +15,18 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->integer('retailer_id');
-            $table->integer('distributor_id');
-            $table->string('order_status');
+            $table->unsignedBigInteger('retailer_id');
+            $table->unsignedBigInteger('distributor_id');
+            $table->boolean('is_accepted')->default(false);
+            $table->boolean('is_cancelled')->default(false);
+            $table->boolean('is_dispatched')->default(false);
+            $table->boolean('is_completed')->default(false);
+            $table->boolean('is_paid')->default(false);
             $table->string('payment_method');
             $table->double('payable_amount');
             $table->date('payed_date')->nullable();
-            $table->date('order_placing_date');
-            $table->date('order_completion_date')->nullable();
+            $table->string('transaction_id')->nullable();
             $table->timestamps();
-
-            $table->foreign('retailer_id')
-            ->references('id')
-            ->on('retailer_shops');
-
-            $table->foreign('distributor_id')
-            ->references('id')
-            ->on('distributor_shops');
         });
     }
 

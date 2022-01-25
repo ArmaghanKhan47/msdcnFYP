@@ -15,14 +15,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(20)->create();
-        \App\Models\Medicine::factory(10)->create();
-        \App\Models\SubscriptionPackage::factory(5)->create();
-        \App\Models\RetailerShop::factory(10)->create();
-        \App\Models\DistributorShop::factory(10)->create();
-        \App\Models\SubscriptionHistoryRetailer::factory(20)->create();
-        \App\Models\SubscriptionHistoryDistributor::factory(20)->create();
-        \App\Models\InventoryRetailer::factory(30)->create();
-        \App\Models\InventoryDistributor::factory(30)->create();
+        \App\Models\User::factory(5)->distributor()->create();
+        \App\Models\User::factory(5)->retailer()->create();
+        $this->call(AdminUserSeeder::class);
+        // \App\Models\Medicine::factory(10)->create();
     }
 }

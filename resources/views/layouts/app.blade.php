@@ -45,7 +45,6 @@
                         @user ('Retailer')
                         <a href="/order/history" class="list-group-item list-group-item-action bg-dark text-white">Order History</a>
                         @enduser
-                        <a href="/subscriptionhistory" class="list-group-item list-group-item-action bg-dark text-white">Subscription History</a>
                         <a href="{{route('notification.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Notifications @if(session('notificationscount') > 0)<span class="badge badge-success">{{session('notificationscount')}}</span>@endif</a>
                         <a href="/settings" class="list-group-item list-group-item-action bg-dark text-white">Settings</a>
                     @endauth

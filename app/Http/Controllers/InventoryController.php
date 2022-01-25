@@ -8,6 +8,7 @@ use App\Models\InventoryRetailer;
 use App\Models\Medicine;
 use Illuminate\Http\Request;
 use App\Models\RetailerShop;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -20,20 +21,9 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        $info = null;
-        switch(Auth::user()->UserType)
-        {
-            case 'Retailer':
-                $info = RetailerShop::with('inventories','inventories.medicine')
-                ->select('RetailerShopId')->where('UserId', Auth::id())->first();
-                break;
-            case 'Distributor':
-                $info = DistributorShop::with('inventories', 'inventories.medicine')
-                ->select('DistributorShopId')->where('UserId', Auth::id())->first();
-                break;
-        }
+        $user = User::with('userable.inventories.medicine')->find(Auth::id());
         // return $info;
-        return view('inventory',compact('info'));
+        return view('inventory',compact('user'));
     }
 
     /**

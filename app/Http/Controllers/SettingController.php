@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CreditCard;
+use App\Enums\AccountStatus;
 use App\Events\QrCodeEvent;
-use App\Models\DistributorShop;
 use App\Models\MobileBank;
-use App\Models\RetailerShop;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,50 +20,17 @@ class SettingController extends Controller
     public function index()
     {
         //Fetch Shop Data
-        switch(Auth::user()->UserType)
-        {
-            case 'Retailer':
-                $user = User::with(['retailershop', 'creditcard', 'mobilebank'])
-                ->where('id', Auth::id())->first();
-                break;
-            case 'Distributor':
-                $user = User::with(['distributorshop', 'creditcard', 'mobilebank'])
-                ->where('id', Auth::id())->first();
-                break;
-        }
+        $user = User::with(['userable', 'mobilebank'])
+        ->where('id', Auth::id())->first();
 
-        return view('testingViews.settings', compact('user'));
+        return view('partials.settings', compact('user'));
     }
 
     //To Regenerate API Token
     public function regenerateApiToken()
     {
-        switch(Auth::user()->UserType)
-        {
-            case 'Retailer':
-                $user = User::select('id', 'api_token')
-                ->with(['retailershop' => function($query){
-                    $query->select('RetailerShopId', 'UserId')
-                    ->with(
-                        'subscription:HistoryId,SubscriptionPackageId,RetailerId',
-                        'subscription.package:PackageId,supportApi');
-                    }])->find(Auth::id());
-
-                $subscription_api_support = $user->retailershop->subscription->package->supportApi;
-                break;
-
-            case 'Distributor':
-                $user = User::select('id', 'api_token')
-                ->with(['distributorshop' => function($query){
-                    $query->select('DistributorShopId', 'UserId')
-                    ->with(
-                        'subscription:HistoryId,SubscriptionPackageId,DistributorId',
-                        'subscription.package:PackageId,supportApi');
-                    }])->find(Auth::id());
-
-                $subscription_api_support = $user->distributorshop->subscription->package->supportApi;
-                break;
-        }
+        $user = User::find(Auth::id());
+        $subscription_api_support = true;
         if(!$subscription_api_support)
         {
             //Means you can regenerate your api token
@@ -85,7 +50,7 @@ class SettingController extends Controller
     public function reapply()
     {
         $user = User::find(Auth::id());
-        $user->AccountStatus = 'PENDING';
+        $user->account_status = AccountStatus::$PENDING;
         $user->save();
         return redirect()->back()->with('success', 'Your have applied again and your application is under review');
     }
@@ -97,24 +62,12 @@ class SettingController extends Controller
             'value' => 'string|required'
         ]);
 
-        switch(Auth::user()->UserType)
-        {
-            case 'Retailer':
-                $shop = RetailerShop::select('RetailerShopId', 'shopAddress')
-                ->where('UserId', Auth::id())->first();
-                $shop->shopAddress = $request->input('value');
-                $shop->save();
-                return 'Changes Saved';
-                break;
+        $user = User::with('userable')->find(Auth::id());
 
-            case 'Distributor':
-                $shop = DistributorShop::select('DistributorShopId', 'shopAddress')
-                ->where('UserId', Auth::id())->first();
-                $shop->shopAddress = $request->input('value');
-                $shop->save();
-                return 'Changes Saved';
-                break;
-        }
+        $user->userable()->update([
+            'shop_address' => $request->value
+        ]);
+        return 'Changes Saved';
     }
 
     //To Show Page for upload or add mobile bank account detail
@@ -185,21 +138,12 @@ class SettingController extends Controller
             'value' => 'string|required'
         ]);
 
-        switch(Auth::user()->UserType)
-        {
-            case 'Retailer':
-                $shop = RetailerShop::select('RetailerShopId', 'ContactNumber')
-                ->where('UserId', Auth::id())->first();
-                break;
+        $user = User::with('userable')->find(Auth::id());
 
-            case 'Distributor':
-                $shop = DistributorShop::select('DistributorShopId', 'ContactNumber')
-                ->where('UserId', Auth::id())->first();
-                break;
-        }
+        $user->userable()->update([
+            'contact_no' => $request->value
+        ]);
 
-        $shop->ContactNumber = $request->input('value');
-        $shop->save();
         return 'Changes Saved';
     }
 }

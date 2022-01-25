@@ -12,7 +12,11 @@ class Order extends Model
     protected $fillable = [
         'retailer_id',
         'distributor_id',
-        'order_status',
+        'is_accepted',
+        'is_cancelled',
+        'is_dispatched',
+        'is_completed',
+        'is_paid',
         'payment_method',
         'payable_amount',
         'payed_date',
@@ -32,5 +36,9 @@ class Order extends Model
 
     public function retailer(){
         return $this->belongsTo(RetailerShop::class, 'retailer_id');
+    }
+
+    public function getStatusAttribute(){
+        
     }
 }

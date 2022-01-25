@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Request as RequestModel;
+use App\Models\Chat;
 use App\Models\User;
 use App\Notifications\FeedbackNotification;
 use Illuminate\Http\Request;
@@ -22,18 +22,16 @@ class RequestController extends Controller
     public function index()
     {
         //For Admin
-        $feedbacks = RequestModel::with('user')->latest()->get();
+        $feedbacks = Chat::with('user')->latest()->get();
 
         $active = $feedbacks->filter(function($item){
-            if (strstr($item->status, 'Active'))
-            {
+            if (strstr($item->status, 'Active')){
                 return $item;
             }
         });
 
         $completed = $feedbacks->filter(function($item){
-            if (strstr($item->status, 'Completed'))
-            {
+            if (strstr($item->status, 'Completed')){
                 return $item;
             }
         });
