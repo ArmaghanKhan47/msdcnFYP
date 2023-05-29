@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DistributorShop;
+use App\Models\Distributor;
 use App\Models\PointOfSaleRetailerRecord;
 use App\Models\RetailerShop;
 use App\Models\Sale;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Services\RetailerService;
 
 use function PHPUnit\Framework\assertEmpty;
 
@@ -45,14 +46,7 @@ class HomeController extends Controller
         {
             case 'Retailer':
                 //Get POS data of Retailer to display on Home
-                $sales = RetailerShop::with(['pointofsale' => function($query){
-                    $query->where('created_at', 'LIKE', date('Y-m-d').'%');
-                },
-                'pointofsale.sales' => function($query){
-                    $query->orderBy('updated_at', 'asc');
-                },
-                'pointofsale.sales.saleitems'])
-                ->where('UserId', Auth::id())->first()->pointofsale;
+                $sales = RetailerService::getTodaySales(Auth::id());
                 if($sales->count() > 0)
                 {
                     $sales = $sales[0]->sales;
@@ -60,7 +54,7 @@ class HomeController extends Controller
                 break;
 
             case 'Distributor':
-                $sales = DistributorShop::with(['orders' => function($query){
+                $sales = Distributor::with(['orders' => function($query){
                     $query->where('OrderStatus', 'LIKE', 'Completed%')
                     ->where('updated_at', 'LIKE', date('Y-m-d') . '%');
                 }])->where('UserId', Auth::id())->first()->orders;

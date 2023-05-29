@@ -16,7 +16,7 @@ class PointOfSaleRetailerRecord extends Model
 
 
     public function record(){
-        return $this->belongsTo(RetailerShop::class, 'retailer_id');
+        return $this->belongsTo(Retailer::class, 'retailer_id');
     }
 
     public function sales(){

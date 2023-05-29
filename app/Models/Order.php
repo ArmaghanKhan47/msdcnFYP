@@ -31,14 +31,14 @@ class Order extends Model
     }
 
     public function distributor(){
-        return $this->belongsTo(DistributorShop::class, 'distributor_id');
+        return $this->belongsTo(Distributor::class, 'distributor_id');
     }
 
     public function retailer(){
-        return $this->belongsTo(RetailerShop::class, 'retailer_id');
+        return $this->belongsTo(Retailer::class, 'retailer_id');
     }
 
     public function getStatusAttribute(){
-        
+
     }
 }
