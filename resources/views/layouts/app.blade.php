@@ -33,20 +33,23 @@
                 <div class="list-group list-group-flush d-none d-md-block">
                     @auth('web')
                         {{-- If user is normal --}}
-                        <a href="/home" class="list-group-item list-group-item-action bg-dark text-white">Dashboard</a>
-                        <a href="/inventory" class="list-group-item list-group-item-action bg-dark text-white">Inventory</a>
-                        @user ('Retailer')
-                            <a href="{{route('sales.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Sales</a>
+                        @user ('retailer')
+                        <a href="{{route('retailer.home')}}" class="list-group-item list-group-item-action bg-dark text-white">Dashboard</a>
+                        <a href="{{route('retailer.inventory.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Inventory</a>
+                            <a href="{{route('retailer.sales.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Sales</a>
                             <a href="/onlineorder" class="list-group-item list-group-item-action bg-dark text-white">Online Order</a>
-                        @elseuser('Distributor')
-                        <a href="/order/history" class="list-group-item list-group-item-action bg-dark text-white">Orders</a>
+                            <a href="{{route('retailer.report.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Reports</a>
+                            <a href="{{route('retailer.notification.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Notifications @if(session('notificationscount') > 0)<span class="badge badge-success">{{session('notificationscount')}}</span>@endif</a>
+                            <a href="/order/history" class="list-group-item list-group-item-action bg-dark text-white">Order History</a>
+                            <a href="{{route('retailer.settings.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Settings</a>
+                        @elseuser('distributor')
+                            <a href="{{route('distributor.home')}}" class="list-group-item list-group-item-action bg-dark text-white">Dashboard</a>
+                            <a href="{{route('distributor.inventory.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Inventory</a>
+                            <a href="/order/history" class="list-group-item list-group-item-action bg-dark text-white">Orders</a>
+                            <a href="{{route('distributor.report.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Reports</a>
+                            <a href="{{route('distributor.notification.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Notifications @if(session('notificationscount') > 0)<span class="badge badge-success">{{session('notificationscount')}}</span>@endif</a>
+                            <a href="{{route('distributor.settings.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Settings</a>
                         @enduser
-                        <a href="{{route('report.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Reports</a>
-                        @user ('Retailer')
-                        <a href="/order/history" class="list-group-item list-group-item-action bg-dark text-white">Order History</a>
-                        @enduser
-                        <a href="{{route('notification.index')}}" class="list-group-item list-group-item-action bg-dark text-white">Notifications @if(session('notificationscount') > 0)<span class="badge badge-success">{{session('notificationscount')}}</span>@endif</a>
-                        <a href="/settings" class="list-group-item list-group-item-action bg-dark text-white">Settings</a>
                     @endauth
                   {{-- end --}}
                 </div>

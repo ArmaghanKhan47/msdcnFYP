@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Blade::if('user', function ($value) {
-            return Auth::user()->UserType == $value;
+            return Auth::user()->type == $value;
         });
     }
 }

@@ -7,7 +7,11 @@
         </div>
         <div class="p-2 col-md-2 d-flex align-items-middle justify-content-end">
             <span>
-                <a href="{{route('inventory.create')}}" class="btn btn-success">Add Item</a>
+                @user('retailer')
+                    <a href="{{route('retailer.inventory.create')}}" class="btn btn-success">Add Item</a>
+                @elseuser('distributor')
+                    <a href="{{route('distributor.inventory.create')}}" class="btn btn-success">Add Item</a>
+                @enduser
             </span>
         </div>
     </div>

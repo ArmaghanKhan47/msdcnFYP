@@ -19,7 +19,16 @@ Route::get('/test-components', TestController::class);
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
+
+Route::get('/login-redirect', function(){
+    $user_type = Auth::user()->type;
+    $home_routes = [
+        'distributor' => route('distributor.home'),
+        'retailer' => route('retailer.home')
+    ];
+    return redirect($home_routes[$user_type]);
+})->middleware('auth')->name('login-redirect');
 
 Auth::routes();
 

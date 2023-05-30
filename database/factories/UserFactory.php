@@ -51,7 +51,7 @@ class UserFactory extends Factory
         return $this->state(function($attributes){
             return [
                 'userable_id' => Retailer::factory(),
-                'userable_type' => 'App\Models\Distributor'
+                'userable_type' => 'App\Models\Retailer'
             ];
         });
     }

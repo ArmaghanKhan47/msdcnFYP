@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DistributorShop;
-use App\Models\InventoryDistributor;
-use App\Models\InventoryRetailer;
+use App\Models\Distributor;
+use App\Models\Inventory;
 use App\Models\Medicine;
 use Illuminate\Http\Request;
-use App\Models\RetailerShop;
+use App\Models\Retailer;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -35,14 +34,14 @@ class InventoryController extends Controller
     {
         //
         $medicines = Medicine::select(
-            'MedicineId',
-            'MedicineName',
-            'MedicineType',
-            'MedicineCompany',
-            'MedicineFormula')
-            ->orderBy('MedicineCompany', 'asc')->get()
-            ->mapToGroups(function($item, $key){
-                return [$item->MedicineCompany => $item];
+            'id',
+            'name',
+            'type',
+            'company',
+            'formula')
+            ->orderBy('company', 'asc')->get()
+            ->mapToGroups(function($medicine){
+                return [$medicine->company => $medicine];
             });
         return view('testingViews.inventoryadd')->with('medicines', $medicines);
     }
@@ -65,8 +64,8 @@ class InventoryController extends Controller
         switch(Auth::user()->UserType)
         {
             case 'Retailer':
-                $retailershopid = RetailerShop::select('RetailerShopId')
-                ->where('UserId', '=', Auth::id())->first()->RetailerShopId;
+                $retailershopid = Retailer::select('id')
+                ->where('userable_id', '=', Auth::id())->first()->RetailerShopId;
                 foreach($medicine_list as $key => $value)
                 {
                     //Check for ensuring the data type of variables

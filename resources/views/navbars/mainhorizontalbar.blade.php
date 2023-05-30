@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="{{ route('home') }}">
+        <a class="navbar-brand" href="{{ route('welcome') }}">
             {{ config('app.name', 'Laravel') }}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -12,20 +12,23 @@
             @auth
             <ul class="navbar-nav mr-auto d-block d-md-none">
                     @auth('web')
-                        <li class="nav-item"><a href="/home" class="nav-link">Dashboard</a></li>
-                        <li class="nav-item"><a href="/inventory" class="nav-link">Inventory</a></li>
-                        @user ('Retailer')
-                            <li class="nav-item"><a href="{{route('sales.index')}}" class="nav-link">Sales</a></li>
+                        @user('retailer')
+                            <li class="nav-item"><a href="{{route('retailer.home')}}" class="nav-link">Dashboard</a></li>
+                            <li class="nav-item"><a href="{{route('retailer.inventory.index')}}" class="nav-link">Inventory</a></li>
+                            <li class="nav-item"><a href="{{route('retailer.sales.index')}}" class="nav-link">Sales</a></li>
                             <li class="nav-item"><a href="/onlineorder" class="nav-link">Online Order</a></li>
-                        @elseuser('Distributor')
-                            <li class="nav-item"><a href="/order/history" class="nav-link">Orders</a></li>
-                        @enduser
-                        <li class="nav-item"><a href="{{route('report.index')}}" class="nav-link">Reports</a></li>
-                        @user('Retailer')
+                            <li class="nav-item"><a href="{{route('retailer.report.index')}}" class="nav-link">Reports</a></li>
+                            <li class="nav-item"><a href="{{route('retailer.notification.index')}}" class="nav-link">Notifications @if(session('notificationscount') > 0)<span class="badge badge-success">{{session('notificationscount')}}</span>@endif</a></li>
                             <li class="nav-item"><a href="/order/history" class="nav-link">Order History</a></li>
+                            <li class="nav-item"><a href="{{route('retailer.settings.index')}}" class="nav-link">Settings</a></li>
+                        @elseuser('distributor')
+                            <li class="nav-item"><a href="{{route('distributor.home')}}" class="nav-link">Dashboard</a></li>
+                            <li class="nav-item"><a href="{{route('distributor.inventory.index')}}" class="nav-link">Inventory</a></li>
+                            <li class="nav-item"><a href="/order/history" class="nav-link">Orders</a></li>
+                            <li class="nav-item"><a href="{{route('distributor.report.index')}}" class="nav-link">Reports</a></li>
+                            <li class="nav-item"><a href="{{route('distributor.notification.index')}}" class="nav-link">Notifications @if(session('notificationscount') > 0)<span class="badge badge-success">{{session('notificationscount')}}</span>@endif</a></li>
+                            <li class="nav-item"><a href="{{route('distributor.settings.index')}}" class="nav-link">Settings</a></li>
                         @enduser
-                        <li class="nav-item"><a href="{{route('notification.index')}}" class="nav-link">Notifications @if(session('notificationscount') > 0)<span class="badge badge-success">{{session('notificationscount')}}</span>@endif</a></li>
-                        <li class="nav-item"><a href="/settings" class="nav-link">Settings</a></li>
                     @endauth
             </ul>
             @endauth
